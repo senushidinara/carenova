@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NeuroAssess Pro — Honest Interactive</title>
+
+<!-- Icons + Chart.js + jsPDF -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<style>
+  :root{
+    --bg1:#0d1421; --bg2:#111827; --card:rgba(30,41,59,0.9);
+    --text:#e5e7eb; --muted:#9ca3af; --accent:#4f46e5; --success:#0e9f6e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  body{min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);padding:18px}
+  .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:18px}
+  header{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:rgba(17,24,39,0.9);border:1px solid rgba(79,70,229,0.08)}
+  .logo{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--success),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tag{color:var(--muted);font-size:0.95rem}
+  .actions{margin-left:auto;display:flex;gap:8px}
+  button.btn{background:linear-gradient(135deg,var(--accent),#7e3af2);border:none;color:white;padding:8px 12px;border-radius:9px;cursor:pointer}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+  main{display:grid;gap:12px}
+  .card{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(79,70,229,0.06)}
+  h2{color:var(--accent);margin-bottom:8px}
+  .small{color:var(--muted);font-size:0.9rem;margin-bottom:8px}
+  label{display:block;margin-top:8px;font-weight:600}
+  input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(17,24,39,0.6);color:var(--text)}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px}
+  .game-card{padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);text-align:center}
+  .center{text-align:center}
+  footer{grid-column:1/-1;margin-top:12px;color:var(--muted);font-size:0.9rem;text-align:center}
+  @media(max-width:980px){.wrap{grid-template-columns:1fr}; .actions{flex-wrap:wrap}}
+  .progress{height:8px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#1a56db);width:0%}
+  .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);margin-top:8px}
+  .breath-circle{width:120px;height:120px;border-radius:50%;margin:12px auto;background:radial-gradient(circle at 30% 30%, rgba(79,70,229,0.4), rgba(79,70,229,0.08));display:flex;align-items:center;justify-content:center;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="logo">NEUROASSESS PRO</div>
+      <div class="tag">Honest data only — computed from your inputs & interactions</div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="newBtn"><i class="fas fa-user-plus"></i> New Session</button>
+      <button class="ghost" id="saveBtn"><i class="fas fa-save"></i> Save Locally</button>
+      <button class="btn" id="pdfBtn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- LEFT: Inputs, games, EEG -->
+    <section class="card">
+      <h2>Daily Log & Truthful Data</h2>
+      <div class="small">Fill these honestly. Reports and feedback use only what you provided or recorded.</div>
+
+      <div class="grid-2">
+        <div>
+          <label>Date</label>
+          <input id="dateInput" type="date" />
+        </div>
+        <div>
+          <label>Time</label>
+          <input id="timeInput" type="time" />
+        </div>
+      </div>
+
+      <label>Mood (1-10)</label>
+      <input id="mood" type="number" min="0" max="10" placeholder="0 = very low, 10 = excellent">
+
+      <label>Sleep hours (last night)</label>
+      <input id="sleep" type="number" min="0" max="24" step="0.1" placeholder="e.g., 7.5">
+
+      <label>Memory clarity (0-10)</label>
+      <input id="memoryClarity" type="number" min="0" max="10">
+
+      <label>Focus level (0-10)</label>
+      <input id="focus" type="number" min="0" max="10">
+
+      <label>Notes / Medications</label>
+      <textarea id="notes" rows="3" placeholder="Optional: medication, caffeine, stressors..."></textarea>
+
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" id="logBtn"><i class="fas fa-check"></i> Log Entry</button>
+        <button class="ghost" id="exportCsvBtn"><i class="fas fa-file-csv"></i> Export Responses CSV</button>
+      </div>
+
+      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.04)">
+
+      <h2>Games & Exercises</h2>
+      <div class="small">Play the games — scores are real, used in your honest report.</div>
+
+      <div class="game-grid">
+        <!-- Sequence Memory -->
+        <div class="game-card">
+          <h3>Sequence Memory</h3>
+          <div id="seqDisplay" style="font-size:1.1rem;margin:8px 0">Press Start</div>
+          <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">
+            <button class="ghost" id="seqStart">Start</button>
+            <button class="btn" id="seqSubmit">Submit Answer</button>
+          </div>
+          <input id="seqAnswer" placeholder="Type sequence (e.g., ↑↓←→)" style="margin-top:8px">
+          <div class="small" id="seqResult"></div>
+        </div>
+
+        <!-- Word Recall -->
+        <div class="game-card">
+          <h3>Word Recall</h3>
+          <div id="wordList" style="min-height:46px;margin:8px 0" class="small">Press Start to see words.</div>
+          <div style="display:flex;gap:6px;justify-content:center">
+            <button class="ghost" id="wordStart">Start</button>
+            <button class="btn" id="wordSubmit">Submit</button>
+          </div>
+          <textarea id="wordAnswer" placeholder="Type the words you remember, separated by commas" rows="2" style="margin-top:8px"></textarea>
+          <div class="small" id="wordResult"></div>
+        </div>
+
+        <!-- Reaction Time -->
+        <div class="game-card">
+          <h3>Reaction Time</h3>
+          <div id="reactArea" style="height:70px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer">
+            <span id="reactLabel">Click to Start</span>
+          </div>
+          <div class="small" style="margin-top:6px">Best: <span id="bestReact">-</span> ms</div>
+          <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">
+            <button class="ghost" id="reactReset">Reset</button>
+          </div>
+        </div>
+
+        <!-- Mini N-back (1-back) -->
+        <div class="game-card">
+          <h3>1-back (short)</h3>
+          <div id="nbackDisplay" style="font-size:2rem;margin:8px 0">Press Start</div>
+          <div style="display:flex;gap:6px;justify-content:center">
+            <button class="ghost" id="nbackStart">Start</button>
+            <button class="btn" id="nbackStop">Stop</button>
+          </div>
+          <div class="small" id="nbackResult"></div>
+        </div>
+      </div>
+
+      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.04)">
+
+      <h2>Mindfulness</h2>
+      <div class="small">Short guided breathing & quick body-scan. Use when focus dips.</div>
+      <div class="center">
+        <div class="breath-circle" id="breathCircle">Breathe</div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+          <button class="ghost" id="breathStart">Start 1-min</button>
+          <button class="btn" id="breathStop">Stop</button>
+        </div>
+        <div class="small" id="breathStatus" style="margin-top:6px">Idle</div>
+      </div>
+
+      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.04)">
+
+      <h2>EEG Upload (optional)</h2>
+      <div class="small">CSV with two columns: time, amplitude. Plot is exploratory — no clinical preprocessing here.</div>
+      <input id="eegFile" type="file" accept=".csv" style="margin-top:8px">
+      <div style="margin-top:10px">
+        <canvas id="eegCanvas" height="120"></canvas>
+      </div>
+    </section>
+
+    <!-- RIGHT: Live report, charts, exports -->
+    <aside>
+      <div class="card">
+        <h2>Live Honest Report</h2>
+        <div class="small">All content below is computed only from your logged entries or game results.</div>
+
+        <div style="margin-top:10px">
+          <div><strong>Latest entry:</strong> <span id="latestEntry">No data</span></div>
+          <div style="margin-top:8px"><strong>Memory recall (last game):</strong> <span id="lastMemory">-</span></div>
+          <div style="margin-top:8px"><strong>Reaction best:</strong> <span id="lastReact">-</span> ms</div>
+        </div>
+
+        <div style="margin-top:12px">
+          <h3 style="margin-bottom:6px">Trends (7-day)</h3>
+          <canvas id="trendChart" height="240"></canvas>
+        </div>
+
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="downloadCsv">Download All CSV</button>
+          <button class="ghost" id="clearLocal">Clear Local Data</button>
+        </div>
+
+        <div style="margin-top:10px" class="small" id="honestNote">Note: This tool is not a diagnostic device. Use the data honestly and consult professionals for clinical decisions.</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    © 2025 NeuroAssess Pro — honest analytics only | Local-first (no servers). Deploy this `index.html` straight to Netlify.
+  </footer>
+</div>
+
+<script>
+/* ============================
+   State & Utilities
+   ============================ */
+const STATE_KEY = 'neuroassess_pro_v1';
+let state = {
+  entries: [], // array of daily logs & game scores
+  bestReaction: null
+};
+function saveState(){ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
+function loadState(){ const s = localStorage.getItem(STATE_KEY); if(s) state = JSON.parse(s); }
+function uid(n=6){ const s='abcdefghijklmnopqrstuvwxyz0123456789'; let o=''; for(let i=0;i<n;i++) o+=s[Math.floor(Math.random()*s.length)]; return Date.now().toString().slice(-5)+'-'+o; }
+
+/* ============================
+   UI refs
+   ============================ */
+const dateInput=document.getElementById('dateInput');
+const timeInput=document.getElementById('timeInput');
+const moodInput=document.getElementById('mood');
+const sleepInput=document.getElementById('sleep');
+const memClarityInput=document.getElementById('memoryClarity');
+const focusInput=document.getElementById('focus');
+const notesInput=document.getElementById('notes');
+const logBtn=document.getElementById('logBtn');
+const latestEntry=document.getElementById('latestEntry');
+const exportCsvBtn=document.getElementById('exportCsvBtn');
+const downloadCsv=document.getElementById('downloadCsv');
+const clearLocal=document.getElementById('clearLocal');
+const lastMemorySpan=document.getElementById('lastMemory');
+const lastReactSpan=document.getElementById('lastReact');
+const trendCtx = document.getElementById('trendChart').getContext('2d');
+let trendChart = null;
+
+/* ============================
+   Initialization
+   ============================ */
+(function init(){
+  loadState();
+  // set today's date/time default
+  const d = new Date();
+  dateInput.valueAsDate = d;
+  timeInput.value = d.toTimeString().slice(0,5);
+  renderLatest();
+  renderTrend();
+})();
+
+/* ============================
+   Logging entries
+   ============================ */
+logBtn.addEventListener('click', ()=>{
+  const entry = {
+    id: uid(),
+    datetime: (dateInput.value || '') + ' ' + (timeInput.value || ''),
+    mood: Number(moodInput.value || ''),
+    sleep: Number(sleepInput.value || ''),
+    memoryClarity: Number(memClarityInput.value || ''),
+    focus: Number(focusInput.value || ''),
+    notes: String(notesInput.value || ''),
+    games: {
+      sequence: lastSeqScore || null,
+      wordRecall: lastWordScore || null,
+      reactionBest: state.bestReaction || null,
+      nback: lastNbackScore || null
+    }
+  };
+  state.entries.push(entry);
+  saveState();
+  renderLatest();
+  renderTrend();
+  alert('Entry logged locally. Export to CSV or PDF to share.');
+});
+
+/* Export CSV of current responses only */
+exportCsvBtn.addEventListener('click', ()=> {
+  const rows = [['id','datetime','mood','sleep','memoryClarity','focus','notes','seqScore','wordScore','reactBest','nbackScore']];
+  for(const e of state.entries){
+    rows.push([e.id,e.datetime,e.mood,e.sleep,e.memoryClarity,e.focus,e.notes,
+                e.games.sequence,e.games.wordRecall,e.games.reactionBest,e.games.nback]);
+  }
+  const csv = rows.map(r=>r.map(c=>`"${String(c||'')}"`).join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'neuroassess_responses.csv'; a.click();
+});
+
+/* Download all CSV - same as export */
+downloadCsv.addEventListener('click', ()=> exportCsvBtn.click());
+
+clearLocal.addEventListener('click', ()=>{
+  if(!confirm('Clear all local data? This cannot be undone.')) return;
+  localStorage.removeItem(STATE_KEY); state = {entries:[], bestReaction:null}; saveState(); renderLatest(); renderTrend();
+  alert('Local data cleared.');
+});
+
+/* Render latest info */
+function renderLatest(){
+  if(state.entries.length===0){ latestEntry.innerText='No data yet'; }
+  else {
+    const e = state.entries[state.entries.length-1];
+    latestEntry.innerText = `${e.datetime} | mood ${e.mood || '-'} | mem ${e.memoryClarity || '-'} | focus ${e.focus || '-'}`;
+  }
+  lastMemorySpan.innerText = lastWordScore !== null ? `${lastWordScore.correct}/${lastWordScore.total}` : '-';
+  lastReactSpan.innerText = state.bestReaction !== null ? state.bestReaction : '-';
+}
+
+/* Render trend chart (7-day) */
+function renderTrend(){
+  const last7 = state.entries.slice(-14); // allow up to 14 days if less
+  const labels = last7.map(e => e.datetime.split(' ')[0]);
+  const memory = last7.map(e => e.memoryClarity || null);
+  const focus = last7.map(e => e.focus || null);
+  if(trendChart) trendChart.destroy();
+  trendChart = new Chart(trendCtx, {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'Memory clarity',data:memory,borderColor:'#4f46e5',fill:false,tension:0.3},
+        {label:'Focus',data:focus,borderColor:'#0e9f6e',fill:false,tension:0.3}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:10}}}
+  });
+}
+
+/* ============================
+   Sequence Memory Game
+   ============================ */
+const seqDisplay = document.getElementById('seqDisplay');
+const seqStart = document.getElementById('seqStart');
+const seqSubmit = document.getElementById('seqSubmit');
+const seqAnswer = document.getElementById('seqAnswer');
+const seqResult = document.getElementById('seqResult');
+let currentSeq = '';
+let lastSeqScore = null;
+
+function randomArrow(){ const a=['↑','↓','←','→']; return a[Math.floor(Math.random()*4)]; }
+seqStart.addEventListener('click', ()=>{
+  // make sequence length 4-7
+  const len = 4 + Math.floor(Math.random()*4);
+  currentSeq = Array.from({length:len}, randomArrow).join(' ');
+  seqDisplay.innerText = currentSeq;
+  seqAnswer.value = '';
+  seqResult.innerText = 'Memorize the sequence, then press Submit and type it exactly (with spaces).';
+});
+seqSubmit.addEventListener('click', ()=>{
+  const ans = seqAnswer.value.trim();
+  if(!currentSeq){ alert('Press Start first'); return; }
+  const correct = currentSeq.trim() === ans;
+  seqResult.innerText = correct ? 'Correct — well done!' : `Incorrect. Correct: ${currentSeq}`;
+  lastSeqScore = {correct: correct ? 1 : 0, length: currentSeq.split(' ').length};
+  // save short-term to last entry preview
+  renderLatest();
+});
+
+/* ============================
+   Word Recall Game
+   ============================ */
+const wordListDiv = document.getElementById('wordList');
+const wordStart = document.getElementById('wordStart');
+const wordSubmit = document.getElementById('wordSubmit');
+const wordAnswer = document.getElementById('wordAnswer');
+const wordResult = document.getElementById('wordResult');
+let currentWords = [];
+let lastWordScore = null;
+
+const SAMPLE_WORDS = ['apple','river','table','purple','planet','garden','teacher','window','coffee','mirror','piano','bridge'];
+
+wordStart.addEventListener('click', ()=>{
+  // pick 6 random words
+  currentWords = shuffleArray(SAMPLE_WORDS).slice(0,6);
+  wordListDiv.innerText = currentWords.join(' , ');
+  wordAnswer.value = '';
+  wordResult.innerText = 'Memorize these words. When ready, press Submit and type the words you recall.';
+  // fade out after 4 sec (simulate short display)
+  setTimeout(()=> wordListDiv.innerText = 'Words hidden — recall now', 4000);
+});
+wordSubmit.addEventListener('click', ()=>{
+  const typed = wordAnswer.value.toLowerCase().split(',').map(s=>s.trim()).filter(Boolean);
+  const correct = typed.filter(t => currentWords.includes(t));
+  lastWordScore = {correct: correct.length, total: currentWords.length, correctList: correct};
+  wordResult.innerText = `You recalled ${correct.length}/${currentWords.length}. Correct: ${correct.join(', ')}`;
+  renderLatest();
+});
+function shuffleArray(a){ return a.slice().sort(()=>Math.random()-0.5); }
+
+/* ============================
+   Reaction Time Test
+   ============================ */
+const reactArea = document.getElementById('reactArea');
+const reactLabel = document.getElementById('reactLabel');
+const bestReactSpan = document.getElementById('bestReact');
+const reactReset = document.getElementById('reactReset');
+let waitingForSignal = false;
+let startTime = null;
+let currentTimeout = null;
+
+reactArea.addEventListener('click', ()=>{
+  if(waitingForSignal){ // user clicked early -> false start
+    reactLabel.innerText = 'Too early! Click to start again.';
+    waitingForSignal = false;
+    clearTimeout(currentTimeout);
+    return;
+  }
+  // start round: wait 800-2200ms, then change color/text to "Click!"
+  reactLabel.innerText = 'Get ready...';
+  reactArea.style.background = 'rgba(255,255,255,0.03)';
+  const delay = 800 + Math.floor(Math.random()*1400);
+  waitingForSignal = true;
+  currentTimeout = setTimeout(()=> {
+    reactLabel.innerText = 'Click now!';
+    reactArea.style.background = 'linear-gradient(90deg,#4f46e5,#1a56db)';
+    startTime = performance.now();
+    // now next click will record
+    waitingForSignal = 'signal';
+  }, delay);
+});
+
+reactArea.addEventListener('click', () => {
+  if(waitingForSignal === 'signal' && startTime){
+    const rt = Math.round(performance.now() - startTime);
+    reactLabel.innerText = `Reaction: ${rt} ms`;
+    reactArea.style.background = 'rgba(255,255,255,0.02)';
+    if(state.bestReaction === null || rt < state.bestReaction) state.bestReaction = rt;
+    bestReactSpan.innerText = state.bestReaction;
+    waitingForSignal = false;
+    startTime = null;
+    saveState();
+    renderLatest();
+  }
+});
+
+reactReset.addEventListener('click', ()=>{
+  state.bestReaction = null; saveState(); renderLatest(); bestReactSpan.innerText='-';
+});
+
+/* ============================
+   Mini 1-back (visual letters)
+   ============================ */
+const nbackDisplay = document.getElementById('nbackDisplay');
+const nbackStart = document.getElementById('nbackStart');
+const nbackStop = document.getElementById('nbackStop');
+const nbackResult = document.getElementById('nbackResult');
+let nbackRunning=false, nbackSeq=[], nbackIndex=0, nbackCorrect=0, lastNbackScore=null;
+
+nbackStart.addEventListener('click', ()=>{
+  if(nbackRunning) return;
+  nbackSeq = []; nbackIndex=0; nbackCorrect=0;
+  nbackRunning = true;
+  nbackResult.innerText = 'Listening...';
+  const letters = 'ABCDEFGH';
+  const rounds = 12;
+  let i=0;
+  function step(){
+    if(!nbackRunning || i>=rounds){ endNback(); return; }
+    const letter = letters[Math.floor(Math.random()*letters.length)];
+    nbackSeq.push(letter);
+    nbackDisplay.innerText = letter;
+    // if i>0, check last
+    if(i>0){
+      // wait for user quick input via prompt (simple approach): user presses space to indicate match
+      // For simplicity: we will auto-evaluate by expecting no user input; instead compute hits randomly is not acceptable.
+      // So we'll simulate a passive 1-back where user clicks when current equals previous by pressing "space".
+    }
+    i++;
+    nbackIndex = i;
+    setTimeout(step, 900);
+  }
+  // capture space press
+  function onKey(e){
+    if(!nbackRunning) return;
+    if(e.code === 'Space'){
+      // check if current equals previous
+      const idx = nbackSeq.length-1;
+      if(idx >=1 && nbackSeq[idx] === nbackSeq[idx-1]) nbackCorrect++;
+    }
+  }
+  window.addEventListener('keydown', onKey);
+  step();
+  // stop handler stores listener
+  nbackStop.onclick = ()=> {
+    nbackRunning=false; window.removeEventListener('keydown', onKey); endNback();
+  };
+});
+
+function endNback(){
+  nbackRunning=false;
+  const rounds = nbackIndex || 0;
+  lastNbackScore = {correct: nbackCorrect, total: rounds};
+  nbackResult.innerText = `Result: ${lastNbackScore.correct}/${lastNbackScore.total} (press Space when current equals previous)`;
+  nbackDisplay.innerText = 'Done';
+  renderLatest();
+}
+
+/* ============================
+   Mindful Breathing (visual)
+   ============================ */
+const breathCircle = document.getElementById('breathCircle');
+const breathStart = document.getElementById('breathStart');
+const breathStop = document.getElementById('breathStop');
+const breathStatus = document.getElementById('breathStatus');
+let breathTimer = null;
+let breathPhase = 0; // 0 inhale,1 hold,2 exhale
+let breathCount=0;
+
+breathStart.addEventListener('click', ()=> {
+  if(breathTimer) return;
+  breathStatus.innerText='Starting 60s breathing';
+  breathCount = 0;
+  const totalCycles = 6; // ~10s per cycle = 60s
+  function cycle(){
+    if(breathCount >= totalCycles){ clearInterval(breathTimer); breathTimer=null; breathStatus.innerText='Finished'; breathCircle.style.transform='scale(1)'; return; }
+    // animate: inhale (3s) -> hold (2s) -> exhale (5s)
+    breathStatus.innerText = `Cycle ${breathCount+1} — inhale`;
+    breathCircle.style.transition='transform 3s linear';
+    breathCircle.style.transform='scale(1.2)';
+    setTimeout(()=> {
+      breathStatus.innerText = `Cycle ${breathCount+1} — hold`;
+      breathCircle.style.transition='transform 2s linear';
+      breathCircle.style.transform='scale(1.25)';
+    },3000);
+    setTimeout(()=> {
+      breathStatus.innerText = `Cycle ${breathCount+1} — exhale`;
+      breathCircle.style.transition='transform 5s linear';
+      breathCircle.style.transform='scale(0.85)';
+    },5000);
+    setTimeout(()=> {
+      breathCount++;
+      if(breathCount < totalCycles) cycle();
+      else { breathStatus.innerText='Finished'; breathCircle.style.transform='scale(1)'; breathTimer=null; }
+    },10000);
+  }
+  cycle();
+});
+
+breathStop.addEventListener('click', ()=> {
+  if(breathTimer){ clearInterval(breathTimer); breathTimer=null; }
+  breathStatus.innerText='Stopped';
+  breathCircle.style.transform='scale(1)';
+});
+
+/* ============================
+   EEG CSV upload & simple plot
+   ============================ */
+const eegFile = document.getElementById('eegFile');
+const eegCanvas = document.getElementById('eegCanvas');
+let eegChart = null;
+
+eegFile.addEventListener('change', (ev)=>{
+  const f = ev.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const text = reader.result;
+    const rows = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+    const parsed = [];
+    for(const r of rows){
+      const parts = r.split(',').map(p=>p.trim());
+      if(parts.length<2) continue;
+      const t = parseFloat(parts[0]), v = parseFloat(parts[1]);
+      if(!isNaN(t) && !isNaN(v)) parsed.push({t,v});
+    }
+    if(parsed.length===0){ alert('No numeric data found. Expect CSV: time,amplitude'); return; }
+    plotEEG(parsed);
+  };
+  reader.readAsText(f);
+});
+
+function plotEEG(parsed){
+  const labels = parsed.map(p=>p.t);
+  const values = parsed.map(p=>p.v);
+  if(eegChart) eegChart.destroy();
+  eegChart = new Chart(eegCanvas.getContext('2d'), {
+    type:'line',
+    data:{labels, datasets:[{label:'EEG amplitude', data:values, borderColor:'#4f46e5', tension:0.2, pointRadius:0}]},
+    options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{color:'#9ca3af'}},x:{ticks:{color:'#9ca3af'}}},plugins:{legend:{display:false}}}
+  });
+}
+
+/* ============================
+   PDF export (honest)
+   ============================ */
+const pdfBtn = document.getElementById('pdfBtn');
+pdfBtn.addEventListener('click', async ()=>{
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:'pt',format:'a4'});
+  let y=40; const margin=40;
+  doc.setFontSize(18); doc.text('NEUROASSESS PRO — Honest Report', margin, y); y+=26;
+  doc.setFontSize(10); doc.text('Note: All values in this report are derived only from user entries and game interactions. No simulated or prefilled scores.', margin, y); y+=18;
+  doc.setFontSize(12);
+  if(state.entries.length===0) { doc.text('No logged entries.', margin, y); doc.save('neuroassess_report.pdf'); return; }
+  const latest = state.entries[state.entries.length-1];
+  y+=6;
+  doc.text(`Latest entry timestamp: ${latest.datetime}`, margin, y); y+=14;
+  doc.text(`Mood: ${latest.mood} | Sleep: ${latest.sleep} | Memory clarity: ${latest.memoryClarity} | Focus: ${latest.focus}`, margin, y); y+=18;
+  doc.text('Game results (last):', margin, y); y+=12;
+  doc.text(`Sequence: ${latest.games.sequence ? JSON.stringify(latest.games.sequence) : '-'}`, margin, y); y+=12;
+  doc.text(`Word recall: ${latest.games.wordRecall ? (latest.games.wordRecall.correct + '/' + latest.games.wordRecall.total) : '-'}`, margin, y); y+=12;
+  doc.text(`Reaction best (ms): ${latest.games.reactionBest || '-'}`, margin, y); y+=12;
+  doc.text(`1-back: ${latest.games.nback ? (latest.games.nback.correct + '/' + latest.games.nback.total) : '-'}`, margin, y); y+=18;
+  doc.text('Trend summary (last entries):', margin, y); y+=12;
+  // simple averages
+  const n = state.entries.length;
+  const avgMem = (state.entries.reduce((a,b)=>a+(b.memoryClarity||0),0)/n).toFixed(2);
+  const avgFocus = (state.entries.reduce((a,b)=>a+(b.focus||0),0)/n).toFixed(2);
+  doc.text(`Avg memory clarity (all entries): ${avgMem}`, margin, y); y+=12;
+  doc.text(`Avg focus (all entries): ${avgFocus}`, margin, y); y+=18;
+  doc.save('neuroassess_report.pdf');
+});
+
+/* ============================
+   Helper rendering
+   ============================ */
+function updateLastScores(){
+  document.getElementById('lastMemory').innerText = lastWordScore ? `${lastWordScore.correct}/${lastWordScore.total}` : '-';
+  document.getElementById('lastReact').innerText = state.bestReaction || '-';
+}
+updateLastScores();
+
+/* Utility to compute simple weekly averages (truthful) */
+function computeWeeklyAverages(){
+  const arr = state.entries.slice(-7);
+  if(arr.length===0) return null;
+  const avg = {
+    memoryClarity: (arr.reduce((a,b)=>a+(b.memoryClarity||0),0)/arr.length).toFixed(2),
+    focus: (arr.reduce((a,b)=>a+(b.focus||0),0)/arr.length).toFixed(2),
+    mood: (arr.reduce((a,b)=>a+(b.mood||0),0)/arr.length).toFixed(2)
+  };
+  return avg;
+}
+
+/* ============================
+   Misc helpers & bindings
+   ============================ */
+// New session: simply starts fresh participant identity (local only)
+document.getElementById('newBtn').addEventListener('click', ()=>{
+  if(!confirm('Start a new local session? This will not erase existing saved entries but will clear inputs.')) return;
+  dateInput.valueAsDate = new Date();
+  timeInput.value = new Date().toTimeString().slice(0,5);
+  moodInput.value=''; sleepInput.value=''; memClarityInput.value=''; focusInput.value=''; notesInput.value='';
+});
+
+// save state on window unload
+window.addEventListener('beforeunload', ()=> saveState());
+
+/* update render functions that change frequently */
+function renderLatest(){ // refresh UI touches affected by games/state
+  // latest entry text
+  if(state.entries.length===0) latestEntry.innerText='No data yet';
+  else latestEntry.innerText = state.entries[state.entries.length-1].datetime + ' • mood ' + (state.entries[state.entries.length-1].mood||'-');
+  updateLastScores();
+  renderTrend();
+}
+
+/* ensure state saved after key interactions */
+setInterval(()=> saveState(), 5000);
+
+/* load saved best reaction */
+loadState();
+document.getElementById('bestReact').innerText = state.bestReaction || '-';
+renderLatest();
+renderTrend();
+
+</script>
+</body>
+</html>
