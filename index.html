@@ -111,11 +111,11 @@
 
   <!-- Bottom navigation -->
   <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:linear-gradient(90deg,rgba(255,255,255,0.9),rgba(255,255,255,0.85));padding:8px 14px;border-radius:40px;box-shadow:0 8px 20px rgba(12,20,40,0.08);display:flex;gap:10px;align-items:center;z-index:999">
-    <button onclick="window.scrollTo({top:0,behavior:'smooth'})" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Home</button>
-    <button onclick="showBookingModal()" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Appointments</button>
-    <button onclick="showToast('Open consult view')" style="background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:8px 12px;border-radius:10px;cursor:pointer;color:white;font-weight:700">Consult</button>
-    <button onclick="showToast('Open records')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Records</button>
-    <button onclick="showToast('Open profile')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Profile</button>
+    <button onclick="showView('home')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Home</button>
+    <button onclick="showView('appointments')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Appointments</button>
+    <button onclick="showView('consult')" style="background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:8px 12px;border-radius:10px;cursor:pointer;color:white;font-weight:700">Consult</button>
+    <button onclick="showView('records')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Records</button>
+    <button onclick="showView('profile')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Profile</button>
   </div>
 
   <!-- Payment modal (web stub) -->
