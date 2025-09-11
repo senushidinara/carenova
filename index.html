@@ -13,43 +13,42 @@
     :root{
       --bg1:#071028; --bg2:#0f1724;
       --card:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      --glass:rgba(255,255,255,0.03);
-      --muted:#98a6b3; --text:#e6eef8; --accent:#6b7bff; --accent-2:#2fd2a4;
-      --shadow: 0 10px 30px rgba(5,8,20,0.6);
+      --muted:#98a6b3; --text:#e6eef8; --accent:#6b7bff; --accent-2:#2fd2a4; --shadow: 0 10px 30px rgba(5,8,20,0.6);
     }
-
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     html,body{height:100%}
     body{min-height:100vh;background:radial-gradient(1200px 600px at 10% 10%, rgba(107,123,255,0.14), transparent), linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);padding:28px}
 
-    .app{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
+    .app{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start}
 
     header.app-header{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:18px;border-radius:14px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow)}
     .brand{display:flex;flex-direction:column}
     .brand-title{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--accent-2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
     .brand-sub{color:var(--muted);font-size:0.9rem}
-
     .header-actions{margin-left:auto;display:flex;gap:12px;align-items:center}
+
     .btn{background:linear-gradient(135deg,var(--accent),#7a6bff);border:none;color:white;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700;display:inline-flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(83,92,255,0.12);transition:transform .12s ease,box-shadow .12s ease}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:10px 12px}
     .btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(20,28,80,0.35)}
 
-    /* Sidebar */
     .sidebar{background:var(--card);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);height:calc(100vh - 120px);overflow:auto;box-shadow:var(--shadow)}
     .profile{display:flex;gap:12px;align-items:center}
-    .avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;color:#05102a;box-shadow:0 6px 18px rgba(47,210,164,0.08)}
+    .avatar{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;color:#05102a;box-shadow:0 6px 18px rgba(47,210,164,0.08)}
     .user-info{line-height:1}
     .user-name{font-weight:800}
     .user-role{color:var(--muted);font-size:0.85rem}
 
-    .nav{margin-top:16px;display:flex;flex-direction:column;gap:8px}
-    .nav button{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:transparent;border:none;color:var(--text);text-align:left;cursor:pointer;font-weight:600}
+    .nav{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+    .nav button{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:transparent;border:none;color:var(--text);text-align:left;cursor:pointer;font-weight:700}
     .nav button.active{background:linear-gradient(90deg,rgba(107,123,255,0.12),rgba(47,210,164,0.04));border:1px solid rgba(255,255,255,0.02)}
 
     .muted{color:var(--muted)}
 
-    /* Main content */
     .main-area{display:grid;grid-template-rows:auto 1fr;gap:16px}
+    .tabs{display:flex;gap:10px;align-items:center}
+    .tab{padding:10px 14px;border-radius:10px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer;font-weight:700}
+    .tab.active{background:linear-gradient(90deg,rgba(107,123,255,0.12),rgba(47,210,164,0.04));color:var(--text);border-color:rgba(255,255,255,0.02)}
+
     .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     .card{background:var(--card);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
 
@@ -57,7 +56,6 @@
     .doctor{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02);transition:transform .12s ease,box-shadow .12s ease}
     .doctor:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(10,12,30,0.6)}
     .doctor .meta{flex:1}
-    .chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-size:0.85rem;color:var(--muted)}
 
     label{font-weight:700;color:var(--muted);font-size:0.9rem}
     input,select,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);outline:none}
@@ -74,15 +72,13 @@
 
     .advice{padding:12px;border-radius:10px;background:linear-gradient(90deg,rgba(91,107,255,0.08),rgba(41,194,155,0.04));border:1px solid rgba(255,255,255,0.02);color:var(--text)}
 
-    /* micro helpers */
+    .file-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .file-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.01)}
+
     .mt-12{margin-top:12px}
     .mt-8{margin-top:8px}
 
-    @media(max-width:980px){
-      .app{grid-template-columns:1fr}
-      .sidebar{height:auto}
-      .cards{grid-template-columns:1fr}
-    }
+    @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{height:auto}.cards{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -101,10 +97,10 @@
 
     <aside class="sidebar">
       <div class="profile">
-        <div class="avatar">VK</div>
+        <div class="avatar" id="avatar">VK</div>
         <div class="user-info">
-          <div class="user-name">Patient</div>
-          <div class="user-role">Local-first prototype</div>
+          <div class="user-name" id="displayName">Patient</div>
+          <div class="user-role" id="displayRole"></div>
         </div>
       </div>
 
@@ -131,137 +127,154 @@
   </div>
 
 <script>
-/* Full app logic merged into polished UI */
-const STORAGE_KEY = 'vhc_app_v1';
-const DOCTORS = [
-  {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',avatar:'MC'},
-  {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',avatar:'AP'},
-  {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',avatar:'LG'}
-];
-let appState = { appointments: [], history: [] };
-function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) { try{ appState = JSON.parse(s); }catch(e){ appState={appointments:[],history:[]}; } } }
+/* App state and persistence */
+const STORAGE_KEY = 'vhc_app_v2';
+const DOCTORS = [ {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',avatar:'MC'}, {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',avatar:'AP'}, {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',avatar:'LG'} ];
+let appState = { profile:{name:'Patient', dob:'', gender:'', phone:'', email:'', address:''}, appointments:[], history:[], files:[] };
+function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) { try{ appState = JSON.parse(s); }catch(e){ console.error(e); } } }
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); }
 function uid(){ return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8); }
 
+/* UI refs */
 const doctorListDiv = document.getElementById('doctorList');
-function renderDoctors(){ doctorListDiv.innerHTML='';
-  DOCTORS.forEach(d=>{
-    const el = document.createElement('div'); el.className='doctor';
-    el.innerHTML = `<div class="avatar">${d.avatar}</div><div class="meta"><div style="font-weight:800">${d.name}</div><div class="muted">${d.specialty}</div></div><div><button class='btn ghost' data-doctor='${d.id}'>Book</button></div>`;
-    doctorListDiv.appendChild(el);
-  });
-  doctorListDiv.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=>{ showView('book'); preselectDoctor(b.dataset.doctor); }));
-}
+const avatarEl = document.getElementById('avatar');
+const displayName = document.getElementById('displayName');
+const displayRole = document.getElementById('displayRole');
 
-// Navigation
-document.getElementById('nav').addEventListener('click', (ev)=>{
-  const btn = ev.target.closest('button'); if(!btn) return;
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  showView(btn.dataset.view);
-});
+function renderProfileSummary(){ const p = appState.profile; displayName.innerText = p.name || 'Patient'; avatarEl.innerText = (p.name ? p.name.split(' ').map(s=>s[0]).slice(0,2).join('') : 'VK'); displayRole.innerText = p.email || ''; }
 
+/* Doctors */
+function renderDoctors(){ doctorListDiv.innerHTML=''; DOCTORS.forEach(d=>{ const el=document.createElement('div'); el.className='doctor'; el.innerHTML = `<div class='avatar'>${d.avatar}</div><div class='meta'><div style='font-weight:800'>${d.name}</div><div class='muted'>${d.specialty}</div></div><div><button class='btn ghost' data-doctor='${d.id}'>Book</button></div>`; doctorListDiv.appendChild(el); }); doctorListDiv.querySelectorAll('button').forEach(b=>b.addEventListener('click', ()=>{ showView('book'); preselectDoctor(b.dataset.doctor); })); }
+
+/* Navigation */
+document.getElementById('nav').addEventListener('click',(ev)=>{ const b=ev.target.closest('button'); if(!b) return; document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); showView(b.dataset.view); });
+
+/* Top tabs helper */
+function renderTabs(active){ const tabs = ['dashboard','book','history','telehealth','support']; const container = document.getElementById('contentTop'); container.innerHTML = `<div class='tabs'>${tabs.map(t=>`<button class='tab ${t===active?"active":""}' data-tab='${t}'>${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}</div>`; container.querySelectorAll('.tab').forEach(tb=> tb.addEventListener('click', ()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); tb.classList.add('active'); showView(tb.dataset.tab); })); }
+
+/* Views */
 const content = document.getElementById('content');
-const contentTop = document.getElementById('contentTop');
-function showView(view){ switch(view){ case 'dashboard': renderDashboard(); break; case 'book': renderBooking(); break; case 'history': renderHistory(); break; case 'telehealth': renderTelehealth(); break; case 'support': renderSupport(); break; default: renderDashboard(); } }
+function showView(v){ renderTabs(v); switch(v){ case 'dashboard': renderDashboard(); break; case 'book': renderBooking(); break; case 'history': renderHistory(); break; case 'telehealth': renderTelehealth(); break; case 'support': renderSupport(); break; default: renderDashboard(); } }
 
 // Dashboard
-function renderDashboard(){
-  contentTop.innerHTML = `<div class="cards"><div class="card"><h3>Upcoming</h3><div id='upcoming'></div></div><div class="card"><h3>Quick Actions</h3><div style='display:flex;flex-direction:column;gap:10px;margin-top:12px'><button id='newAppt' class='btn'>Book Appointment</button><button id='openHistory' class='btn ghost'>Add Medical Note</button><button id='startCall' class='btn'>Start Telehealth Call</button></div></div></div>`;
-  content.innerHTML = `<div class='card'><h3>Summary</h3><div style='display:flex;gap:18px;align-items:center;margin-top:12px'><div style='flex:1'><div class='muted'>Total appointments</div><div style='font-size:1.4rem;font-weight:800;margin-top:6px'>${appState.appointments.length}</div></div><div style='flex:1'><div class='muted'>History entries</div><div style='font-size:1.4rem;font-weight:800;margin-top:6px'>${appState.history.length}</div></div></div></div><div class='card mt-12'><h3>Appointments (latest)</h3><div id='apptList' class='appointments' style='margin-top:12px'></div></div>`;
-  document.getElementById('newAppt').addEventListener('click', ()=> showView('book'));
-  document.getElementById('openHistory').addEventListener('click', ()=> showView('history'));
-  document.getElementById('startCall').addEventListener('click', ()=> showView('telehealth'));
-  renderUpcoming(); renderApptList();
-}
-function renderUpcoming(){ const up = document.getElementById('upcoming'); up.innerHTML='';
-  const next = appState.appointments.slice().sort((a,b)=> new Date(a.when)-new Date(b.when)).slice(0,3);
-  if(next.length===0) up.innerHTML='<div class="muted">No upcoming appointments</div>';
-  next.forEach(a=>{ const el = document.createElement('div'); el.className='appt'; el.innerHTML = `<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted'>${new Date(a.when).toLocaleString()}</div></div><div><button class='btn ghost' data-id='${a.id}'>Cancel</button></div>`; up.appendChild(el); });
-  up.querySelectorAll('button').forEach(b=>b.addEventListener('click', ()=>{ cancelAppointment(b.dataset.id); }));
-}
-function renderApptList(){ const list = document.getElementById('apptList'); list.innerHTML='';
-  if(appState.appointments.length===0) list.innerHTML='<div class="muted">No appointments yet</div>';
-  appState.appointments.slice().reverse().forEach(a=>{
-    const el = document.createElement('div'); el.className='appt';
-    el.innerHTML = `<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted'>${new Date(a.when).toLocaleString()}</div><div style='margin-top:6px'>${a.reason}</div></div><div style='display:flex;flex-direction:column;gap:8px'><button class='btn' data-id='${a.id}'>Details</button><button class='btn ghost' data-cancel='${a.id}'>Cancel</button></div>`;
-    list.appendChild(el);
-  });
-  list.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click', ()=>{ alert('Appointment details:\n'+ JSON.stringify(appState.appointments.find(x=>x.id===b.dataset.id), null, 2)); }));
-  list.querySelectorAll('button[data-cancel]').forEach(b=>b.addEventListener('click', ()=>{ cancelAppointment(b.dataset.cancel); }));
-}
-function cancelAppointment(id){ if(!confirm('Cancel appointment?')) return; appState.appointments = appState.appointments.filter(a=>a.id!==id); save(); renderDashboard(); }
+function renderDashboard(){ content.innerHTML = `
+  <div class='cards'>
+    <div class='card'>
+      <h3>Profile</h3>
+      <div style='display:flex;gap:12px;align-items:center;margin-top:12px'>
+        <div style='flex:1'><div class='muted'>Name</div><div style='font-weight:800;margin-top:6px'>${appState.profile.name || '-'}</div></div>
+        <div style='flex:1'><div class='muted'>Contact</div><div style='font-weight:800;margin-top:6px'>${appState.profile.phone || appState.profile.email || '-'}</div></div>
+      </div>
+      <div class='mt-12'><button id='editProfile' class='btn ghost'>Edit Profile</button></div>
+    </div>
+    <div class='card'>
+      <h3>Quick Actions</h3>
+      <div style='display:flex;flex-direction:column;gap:10px;margin-top:12px'>
+        <button id='quickBook' class='btn'>Book Appointment</button>
+        <button id='quickNote' class='btn ghost'>Add Medical Note</button>
+        <button id='quickUpload' class='btn'>Upload Document</button>
+      </div>
+    </div>
+  </div>
+  <div class='card mt-12'>
+    <h3>Upcoming Appointments</h3>
+    <div id='upcomingList' class='appointments mt-8'></div>
+  </div>
+  <div class='card mt-12'>
+    <h3>Files & Documents</h3>
+    <div id='fileSection' class='mt-8'>
+      <input type='file' id='fileInput' />
+      <div class='file-list' id='fileList'></div>
+    </div>
+  </div>
+`;
+  document.getElementById('editProfile').addEventListener('click', ()=> showView('history'));
+  document.getElementById('quickBook').addEventListener('click', ()=> showView('book'));
+  document.getElementById('quickNote').addEventListener('click', ()=> showView('history'));
+  document.getElementById('quickUpload').addEventListener('click', ()=> document.getElementById('fileInput').click());
+  document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+  renderUpcoming(); renderFileList(); }
+
+function renderUpcoming(){ const node=document.getElementById('upcomingList'); node.innerHTML=''; const next = appState.appointments.slice().sort((a,b)=>new Date(a.when)-new Date(b.when)).slice(0,5); if(next.length===0) node.innerHTML='<div class="muted">No upcoming appointments</div>'; next.forEach(a=>{ const el=document.createElement('div'); el.className='appt'; el.innerHTML = `<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted'>${new Date(a.when).toLocaleString()}</div></div><div><button class='btn ghost' data-id='${a.id}'>Cancel</button></div>`; node.appendChild(el); }); node.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=> { cancelAppointment(b.dataset.id); })); }
 
 // Booking
-let preselectedDoctor = null;
-function preselectDoctor(id){ preselectedDoctor = id; }
-function renderBooking(){ contentTop.innerHTML = `<div class='card'><h3>Book a Quick Visit</h3></div>`;
-  content.innerHTML = `<div class='card'><label class='field'>Select doctor</label><select id='doctorSelect'></select><div class='field mt-8'><label>Date & Time</label><input id='when' type='datetime-local'></div><div class='field mt-8'><label>Reason</label><input id='reason' placeholder='e.g., sore throat, check-up'></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bookBtn' class='btn'>Book Appointment</button><button id='backDash' class='btn ghost'>Back</button></div></div>`;
-  const sel = document.getElementById('doctorSelect'); DOCTORS.forEach(d=>{ const opt = document.createElement('option'); opt.value=d.id; opt.textContent = `${d.name} — ${d.specialty}`; sel.appendChild(opt); });
-  if(preselectedDoctor) sel.value = preselectedDoctor;
-  document.getElementById('backDash').addEventListener('click', ()=> showView('dashboard'));
-  document.getElementById('bookBtn').addEventListener('click', ()=>{
-    const did = sel.value; const when = document.getElementById('when').value; const reason = document.getElementById('reason').value.trim();
-    if(!when || !reason){ alert('Please provide date/time and a brief reason'); return; }
-    const doc = DOCTORS.find(d=>d.id===did);
-    const appt = { id: uid(), doctorId: did, doctorName: doc.name, when, reason };
-    appState.appointments.push(appt); save(); alert('Appointment booked'); showView('dashboard');
-  });
-}
+let preselectedDoctor = null; function preselectDoctor(id){ preselectedDoctor = id; }
+function renderBooking(){ content.innerHTML = `
+  <div class='card'>
+    <h3>Book a Visit</h3>
+    <div class='mt-8'><label>Patient</label><input id='patName' value='${appState.profile.name.replace(/'/g,"\'")}'></div>
+    <div class='mt-8'><label>Select doctor</label><select id='doctorSelect'></select></div>
+    <div class='mt-8'><label>Date & time</label><input id='when' type='datetime-local'></div>
+    <div class='mt-8'><label>Reason</label><input id='reason'></div>
+    <div class='mt-12' style='display:flex;gap:8px'><button id='bookBtn' class='btn'>Book</button><button id='back' class='btn ghost'>Back</button></div>
+  </div>
+`;
+  const sel = document.getElementById('doctorSelect'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); if(preselectedDoctor) sel.value = preselectedDoctor;
+  document.getElementById('back').addEventListener('click', ()=> showView('dashboard'));
+  document.getElementById('bookBtn').addEventListener('click', ()=>{ const did=sel.value; const when=document.getElementById('when').value; const reason=document.getElementById('reason').value.trim(); if(!when||!reason){ alert('Please choose date/time and reason'); return; } const doc=DOCTORS.find(x=>x.id===did); appState.appointments.push({id:uid(),doctorId:did,doctorName:doc.name,when,reason}); save(); alert('Booked'); showView('dashboard'); }); }
 
-// History
-function renderHistory(){ contentTop.innerHTML = `<div class='card'><h3>Medical History</h3></div>`;
-  content.innerHTML = `<div class='card'><label class='field'>Date</label><input id='histDate' type='date'><div class='field mt-8'><label>Notes</label><textarea id='histNotes' rows='3' placeholder='Symptoms, meds, diagnosis'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='addHist' class='btn'>Add Entry</button><button id='exportJson' class='btn ghost'>Export JSON</button></div></div><div class='card mt-12'><h3>Entries</h3><div id='historyList' class='history-list mt-8'></div></div>`;
-  document.getElementById('addHist').addEventListener('click', ()=>{
-    const d = document.getElementById('histDate').value || new Date().toISOString().slice(0,10);
-    const notes = document.getElementById('histNotes').value.trim();
-    if(!notes){ alert('Please add some notes'); return; }
-    appState.history.push({id: uid(), date: d, notes}); save(); renderHistory();
-  });
-  document.getElementById('exportJson').addEventListener('click', ()=>{ const blob = new Blob([JSON.stringify(appState.history, null, 2)], {type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='medical_history.json'; a.click(); });
-  renderHistoryList();
-}
-function renderHistoryList(){ const node = document.getElementById('historyList'); node.innerHTML=''; if(appState.history.length===0) node.innerHTML='<div class="muted">No history entries</div>';
-  appState.history.slice().reverse().forEach(h=>{ const el = document.createElement('div'); el.className='history-item'; el.innerHTML = `<div style='font-weight:800'>${h.date}</div><div class='muted' style='margin-top:8px'>${h.notes}</div><div style='margin-top:10px'><button class='btn ghost' data-id='${h.id}'>Delete</button></div>`; node.appendChild(el); });
-  node.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click', ()=>{ if(!confirm('Delete entry?')) return; appState.history = appState.history.filter(x=>x.id!==b.dataset.id); save(); renderHistory(); }));
-}
+// History / Profile editor
+function renderHistory(){ content.innerHTML = `
+  <div class='card'>
+    <h3>Profile & Medical Notes</h3>
+    <div class='mt-8'><label>Full name</label><input id='p_name' value='${appState.profile.name.replace(/'/g,"\'")}'></div>
+    <div class='mt-8' style='display:flex;gap:8px'><div style='flex:1'><label>DOB</label><input id='p_dob' type='date' value='${appState.profile.dob}'></div><div style='flex:1'><label>Gender</label><select id='p_gender'><option value=''>-</option><option value='female'>Female</option><option value='male'>Male</option><option value='other'>Other</option></select></div></div>
+    <div class='mt-8'><label>Phone</label><input id='p_phone' value='${appState.profile.phone}'></div>
+    <div class='mt-8'><label>Email</label><input id='p_email' value='${appState.profile.email}'></div>
+    <div class='mt-8'><label>Address</label><input id='p_address' value='${appState.profile.address}'></div>
+    <div class='mt-12' style='display:flex;gap:8px'><button id='saveProfile' class='btn'>Save Profile</button><button id='addNote' class='btn ghost'>Add Medical Note</button></div>
+  </div>
+  <div class='card mt-12'><h3>Add Medical Note</h3>
+    <div class='mt-8'><label>Date</label><input id='noteDate' type='date' value='${new Date().toISOString().slice(0,10)}'></div>
+    <div class='mt-8'><label>Note</label><textarea id='noteText' rows='3'></textarea></div>
+    <div class='mt-12'><button id='saveNote' class='btn'>Save Note</button></div>
+  </div>
+  <div class='card mt-12'><h3>Medical History</h3><div id='historyList' class='history-list mt-8'></div></div>
+`;
+  // set gender select value
+  const gsel = document.getElementById('p_gender'); if(gsel) gsel.value = appState.profile.gender || '';
+  document.getElementById('saveProfile').addEventListener('click', ()=>{ appState.profile.name=document.getElementById('p_name').value.trim()||'Patient'; appState.profile.dob=document.getElementById('p_dob').value; appState.profile.gender=document.getElementById('p_gender').value; appState.profile.phone=document.getElementById('p_phone').value; appState.profile.email=document.getElementById('p_email').value; appState.profile.address=document.getElementById('p_address').value; save(); renderProfileSummary(); alert('Profile saved'); });
+  document.getElementById('saveNote').addEventListener('click', ()=>{ const d=document.getElementById('noteDate').value||new Date().toISOString().slice(0,10); const t=document.getElementById('noteText').value.trim(); if(!t){ alert('Add note text'); return; } appState.history.push({id:uid(),date:d,notes:t}); save(); renderHistory(); });
+  renderHistoryList(); }
+function renderHistoryList(){ const node=document.getElementById('historyList'); node.innerHTML=''; if(appState.history.length===0) node.innerHTML='<div class="muted">No history entries</div>'; appState.history.slice().reverse().forEach(h=>{ const el=document.createElement('div'); el.className='history-item'; el.innerHTML = `<div style='font-weight:800'>${h.date}</div><div class='muted' style='margin-top:8px'>${h.notes}</div><div style='margin-top:10px'><button class='btn ghost' data-id='${h.id}'>Delete</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=>{ if(!confirm('Delete entry?')) return; appState.history=appState.history.filter(x=>x.id!==b.dataset.id); save(); renderHistory(); })); }
 
-// Telehealth (local preview)
-let localStream = null;
-function renderTelehealth(){ contentTop.innerHTML = `<div class='card'><h3>Telehealth Call</h3></div>`;
-  content.innerHTML = `<div class='card'><div style='display:flex;gap:12px;flex-direction:column'><label class='field'>Select doctor</label><select id='callDoc'></select><div style='display:flex;gap:8px'><button id='startCallBtn' class='btn'>Start Call</button><button id='endCallBtn' class='btn ghost'>End Call</button></div><div class='video-stage mt-12'><video id='remote' autoplay playsinline muted style='width:65%;height:360px;background:#111;border:1px solid rgba(255,255,255,0.03)'></video><video id='local' autoplay playsinline muted style='width:32%;height:180px;border:1px solid rgba(255,255,255,0.03)'></video></div></div></div>`;
-  const sel = document.getElementById('callDoc'); DOCTORS.forEach(d=>{ const opt = document.createElement('option'); opt.value=d.id; opt.textContent = `${d.name} — ${d.specialty}`; sel.appendChild(opt); });
-  document.getElementById('startCallBtn').addEventListener('click', async ()=>{
-    try{
-      const video = document.getElementById('local');
-      localStream = await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:true});
-      video.srcObject = localStream;
-      document.getElementById('remote').srcObject = localStream;
-    }catch(err){ alert('Camera access failed: '+err.message); }
-  });
-  document.getElementById('endCallBtn').addEventListener('click', ()=>{ if(localStream){ localStream.getTracks().forEach(t=>t.stop()); localStream=null; document.getElementById('local').srcObject=null; document.getElementById('remote').srcObject=null; } });
-}
+// Telehealth
+let localStream=null; function renderTelehealth(){ content.innerHTML = `
+  <div class='card'>
+    <h3>Telehealth (Preview)</h3>
+    <div class='mt-8'><label>Select doctor</label><select id='callDoc'></select></div>
+    <div class='mt-12' style='display:flex;gap:8px'><button id='startCall' class='btn'>Start Call</button><button id='endCall' class='btn ghost'>End Call</button></div>
+    <div class='video-stage mt-12'><video id='remote' autoplay playsinline muted style='width:65%;height:360px;background:#111;border:1px solid rgba(255,255,255,0.03)'></video><video id='local' autoplay playsinline muted style='width:32%;height:180px;border:1px solid rgba(255,255,255,0.03)'></video></div>
+  </div>
+`; const sel=document.getElementById('callDoc'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); document.getElementById('startCall').addEventListener('click', async ()=>{ try{ const v=document.getElementById('local'); localStream = await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:true}); v.srcObject = localStream; document.getElementById('remote').srcObject = localStream; }catch(e){ alert('Camera failed: '+e.message); } }); document.getElementById('endCall').addEventListener('click', ()=>{ if(localStream){ localStream.getTracks().forEach(t=>t.stop()); localStream=null; document.getElementById('local').srcObject=null; document.getElementById('remote').srcObject=null; } }); }
 
-// Support: simple advice
-function renderSupport(){ contentTop.innerHTML = `<div class='card'><h3>Symptom Support</h3></div>`;
-  content.innerHTML = `<div class='card'><label class='field'>Describe your symptoms</label><textarea id='symptoms' rows='3'></textarea><div class='mt-12' style='display:flex;gap:8px'><button id='checkBtn' class='btn'>Get Advice</button><button id='askDoc' class='btn ghost'>Request Doctor</button></div><div id='advice' class='mt-12'></div></div>`;
-  document.getElementById('checkBtn').addEventListener('click', ()=>{
-    const txt = document.getElementById('symptoms').value.toLowerCase(); if(!txt){ alert('Please describe symptoms'); return; }
-    const adv = computeAdvice(txt); document.getElementById('advice').innerHTML = `<div class='advice'><strong>Advice:</strong><div style='margin-top:8px'>${adv}</div></div>`;
-  });
-  document.getElementById('askDoc').addEventListener('click', ()=>{ alert('A doctor will be notified (simulated). Please book an appointment for a real consult.'); });
-}
-function computeAdvice(text){ if(/fever|temperature|chills/.test(text) && /cough|sore throat|breath/.test(text)){ return 'You report fever + respiratory symptoms. For mild cases: rest, stay hydrated, monitor temperature. If breathing difficulty, persistent high fever, or chest pain, seek urgent care.'; } if(/headache|migraine/.test(text) && !/fever/.test(text)){ return 'Common headache — rest, hydrate, avoid screens, consider OTC analgesic per usual guidance. If severe or sudden onset, seek emergency care.'; } if(/stomach|nausea|diarrhea/.test(text)){ return 'Gut upset — hydrate with oral rehydration, avoid heavy meals, rest. If severe dehydration, bloody stools, or persistent vomiting, see a clinician.'; } if(/anxiety|sad|depress|sleep/.test(text)){ return 'Low mood or anxiety — try breathing exercises, scheduled routines, and consider reaching out to a mental health professional if symptoms persist. If you have urges of self-harm, call emergency services.'; } return 'For mild symptoms: rest, hydrate, monitor. If symptoms worsen or you are unsure, book an appointment with a clinician.'; }
+// Support
+function renderSupport(){ content.innerHTML = `
+  <div class='card'>
+    <h3>Symptom Support</h3>
+    <div class='mt-8'><label>Describe symptoms</label><textarea id='symptoms' rows='3'></textarea></div>
+    <div class='mt-12' style='display:flex;gap:8px'><button id='getAdvice' class='btn'>Get Advice</button><button id='reqDoc' class='btn ghost'>Request Doctor</button></div>
+    <div id='advice' class='mt-12'></div>
+  </div>
+`; document.getElementById('getAdvice').addEventListener('click', ()=>{ const txt=document.getElementById('symptoms').value.toLowerCase(); if(!txt) return alert('Please describe symptoms'); document.getElementById('advice').innerHTML=`<div class='advice'>${computeAdvice(txt)}</div>`; }); document.getElementById('reqDoc').addEventListener('click', ()=> alert('Doctor request recorded (simulated). Please book an appointment for a consult.')); }
+function computeAdvice(text){ if(/fever|chills|temperature/.test(text) && /cough|breath|sore throat/.test(text)) return 'Monitor closely; rest, fluids. If breathing issues or high fever, seek urgent care.'; if(/headache|migraine/.test(text)) return 'Rest, hydration, consider OTC analgesics. Seek care if severe or sudden.'; if(/nausea|diarrhea|vomit/.test(text)) return 'Hydrate and rest; if dehydrated or bloody stool seek care.'; if(/anxiety|sad|depress/.test(text)) return 'Try breathing exercises; seek mental health support if persistent.'; return 'For mild symptoms: rest, hydrate, monitor. Book appointment if unsure.'; }
 
-// Header buttons
-document.getElementById('exportHistory').addEventListener('click', ()=>{ const blob = new Blob([JSON.stringify(appState, null, 2)], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vhc_full_export.json'; a.click(); });
-document.getElementById('helpBtn').addEventListener('click', ()=>{ alert('Local prototype. Book appointments, add medical notes, and start a simulated telehealth call (camera required). All data is stored in your browser only.'); });
+// Files
+function handleFileUpload(ev){ const f = ev.target.files[0]; if(!f) return; const id=uid(); const url = URL.createObjectURL(f); appState.files.push({id,name:f.name,size:f.size,date: new Date().toISOString(),url}); save(); renderFileList(); alert('File added'); }
+function renderFileList(){ const node=document.getElementById('fileList'); if(!node) return; node.innerHTML=''; if(appState.files.length===0) node.innerHTML='<div class="muted">No documents uploaded</div>'; appState.files.slice().reverse().forEach(fi=>{ const el=document.createElement('div'); el.className='file-item'; el.innerHTML=`<div>${fi.name} <div class='muted' style='font-size:0.85rem'>${new Date(fi.date).toLocaleString()}</div></div><div style='display:flex;gap:8px'><a class='btn ghost' href='${fi.url}' download='${fi.name}'>Download</a><button class='btn' data-id='${fi.id}'>Delete</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=>{ if(!confirm('Delete file?')) return; appState.files=appState.files.filter(x=>x.id!==b.dataset.id); save(); renderFileList(); })); }
 
-// Initial load
-load(); renderDoctors(); showView('dashboard');
+// App actions
+function cancelAppointment(id){ if(!confirm('Cancel appointment?')) return; appState.appointments = appState.appointments.filter(a=>a.id!==id); save(); showView('dashboard'); }
 
-// expose for debugging
-window.vhc = { state: appState, load, save, renderDoctors, renderDashboard };
+// Header actions
+document.getElementById('exportHistory').addEventListener('click', ()=>{ const blob=new Blob([JSON.stringify(appState,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='vhc_export.json'; a.click(); });
+document.getElementById('helpBtn').addEventListener('click', ()=> alert('This is a local demo. Data is stored in your browser only.'));
+
+// Init
+load(); renderProfileSummary(); renderDoctors(); showView('dashboard'); renderFileList();
+
+// Expose for debug
+window.vhc={appState,save,load};
 </script>
 </body>
 </html>
