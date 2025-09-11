@@ -45,7 +45,18 @@
       <div style="margin-left:auto;color:var(--muted)">Welcome, Matilda</div>
     </header>
 
-    <!-- Appointment preview using user-provided reference images -->
+    <!-- Hero banner -->
+    <section class="panel" style="margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div style="flex:1;padding:18px">
+        <div style="font-weight:800;font-size:1.2rem;color:var(--accent)">Welcome back, Matilda</div>
+        <div style="color:var(--muted);margin-top:6px">Your care team and upcoming consults are below.</div>
+      </div>
+      <div style="width:420px;height:140px;border-radius:12px;overflow:hidden;background:#fff">
+        <div id="heroCarousel" style="width:100%;height:100%"></div>
+      </div>
+    </section>
+
+    <!-- Appointment preview -->
     <section class="appt-large" id="apptPreview">
       <h2>Upcoming Appointments Preview</h2>
       <div class="appt-time" id="apptCountdown">--:--</div>
