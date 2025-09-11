@@ -131,17 +131,137 @@
   </div>
 
 <script>
-// keep existing app logic intact — load previous state if present
-// tiny compatibility check: if vhc exists from prior run, reuse functions, else load local script
-(function(){
-  // if existing window.vhc loaded, re-run render to pick up new styles
-  if(window.vhc && typeof window.vhc.load === 'function'){ try{ window.vhc.load(); window.vhc.renderDoctors && window.vhc.renderDoctors(); }catch(e){} }
-  // Otherwise, load the embedded app (previous index.html script) by injecting it if missing
-  else {
-    // fetch the previous content stored in localStorage during prior builds (compat fallback)
-    // NOTE: the full app script is already in the file from prior edit — no-op here to keep backward compatibility.
-  }
-})();
+/* Full app logic merged into polished UI */
+const STORAGE_KEY = 'vhc_app_v1';
+const DOCTORS = [
+  {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',avatar:'MC'},
+  {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',avatar:'AP'},
+  {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',avatar:'LG'}
+];
+let appState = { appointments: [], history: [] };
+function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) { try{ appState = JSON.parse(s); }catch(e){ appState={appointments:[],history:[]}; } } }
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); }
+function uid(){ return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8); }
+
+const doctorListDiv = document.getElementById('doctorList');
+function renderDoctors(){ doctorListDiv.innerHTML='';
+  DOCTORS.forEach(d=>{
+    const el = document.createElement('div'); el.className='doctor';
+    el.innerHTML = `<div class="avatar">${d.avatar}</div><div class="meta"><div style="font-weight:800">${d.name}</div><div class="muted">${d.specialty}</div></div><div><button class='btn ghost' data-doctor='${d.id}'>Book</button></div>`;
+    doctorListDiv.appendChild(el);
+  });
+  doctorListDiv.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=>{ showView('book'); preselectDoctor(b.dataset.doctor); }));
+}
+
+// Navigation
+document.getElementById('nav').addEventListener('click', (ev)=>{
+  const btn = ev.target.closest('button'); if(!btn) return;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  showView(btn.dataset.view);
+});
+
+const content = document.getElementById('content');
+const contentTop = document.getElementById('contentTop');
+function showView(view){ switch(view){ case 'dashboard': renderDashboard(); break; case 'book': renderBooking(); break; case 'history': renderHistory(); break; case 'telehealth': renderTelehealth(); break; case 'support': renderSupport(); break; default: renderDashboard(); } }
+
+// Dashboard
+function renderDashboard(){
+  contentTop.innerHTML = `<div class="cards"><div class="card"><h3>Upcoming</h3><div id='upcoming'></div></div><div class="card"><h3>Quick Actions</h3><div style='display:flex;flex-direction:column;gap:10px;margin-top:12px'><button id='newAppt' class='btn'>Book Appointment</button><button id='openHistory' class='btn ghost'>Add Medical Note</button><button id='startCall' class='btn'>Start Telehealth Call</button></div></div></div>`;
+  content.innerHTML = `<div class='card'><h3>Summary</h3><div style='display:flex;gap:18px;align-items:center;margin-top:12px'><div style='flex:1'><div class='muted'>Total appointments</div><div style='font-size:1.4rem;font-weight:800;margin-top:6px'>${appState.appointments.length}</div></div><div style='flex:1'><div class='muted'>History entries</div><div style='font-size:1.4rem;font-weight:800;margin-top:6px'>${appState.history.length}</div></div></div></div><div class='card mt-12'><h3>Appointments (latest)</h3><div id='apptList' class='appointments' style='margin-top:12px'></div></div>`;
+  document.getElementById('newAppt').addEventListener('click', ()=> showView('book'));
+  document.getElementById('openHistory').addEventListener('click', ()=> showView('history'));
+  document.getElementById('startCall').addEventListener('click', ()=> showView('telehealth'));
+  renderUpcoming(); renderApptList();
+}
+function renderUpcoming(){ const up = document.getElementById('upcoming'); up.innerHTML='';
+  const next = appState.appointments.slice().sort((a,b)=> new Date(a.when)-new Date(b.when)).slice(0,3);
+  if(next.length===0) up.innerHTML='<div class="muted">No upcoming appointments</div>';
+  next.forEach(a=>{ const el = document.createElement('div'); el.className='appt'; el.innerHTML = `<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted'>${new Date(a.when).toLocaleString()}</div></div><div><button class='btn ghost' data-id='${a.id}'>Cancel</button></div>`; up.appendChild(el); });
+  up.querySelectorAll('button').forEach(b=>b.addEventListener('click', ()=>{ cancelAppointment(b.dataset.id); }));
+}
+function renderApptList(){ const list = document.getElementById('apptList'); list.innerHTML='';
+  if(appState.appointments.length===0) list.innerHTML='<div class="muted">No appointments yet</div>';
+  appState.appointments.slice().reverse().forEach(a=>{
+    const el = document.createElement('div'); el.className='appt';
+    el.innerHTML = `<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted'>${new Date(a.when).toLocaleString()}</div><div style='margin-top:6px'>${a.reason}</div></div><div style='display:flex;flex-direction:column;gap:8px'><button class='btn' data-id='${a.id}'>Details</button><button class='btn ghost' data-cancel='${a.id}'>Cancel</button></div>`;
+    list.appendChild(el);
+  });
+  list.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click', ()=>{ alert('Appointment details:\n'+ JSON.stringify(appState.appointments.find(x=>x.id===b.dataset.id), null, 2)); }));
+  list.querySelectorAll('button[data-cancel]').forEach(b=>b.addEventListener('click', ()=>{ cancelAppointment(b.dataset.cancel); }));
+}
+function cancelAppointment(id){ if(!confirm('Cancel appointment?')) return; appState.appointments = appState.appointments.filter(a=>a.id!==id); save(); renderDashboard(); }
+
+// Booking
+let preselectedDoctor = null;
+function preselectDoctor(id){ preselectedDoctor = id; }
+function renderBooking(){ contentTop.innerHTML = `<div class='card'><h3>Book a Quick Visit</h3></div>`;
+  content.innerHTML = `<div class='card'><label class='field'>Select doctor</label><select id='doctorSelect'></select><div class='field mt-8'><label>Date & Time</label><input id='when' type='datetime-local'></div><div class='field mt-8'><label>Reason</label><input id='reason' placeholder='e.g., sore throat, check-up'></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bookBtn' class='btn'>Book Appointment</button><button id='backDash' class='btn ghost'>Back</button></div></div>`;
+  const sel = document.getElementById('doctorSelect'); DOCTORS.forEach(d=>{ const opt = document.createElement('option'); opt.value=d.id; opt.textContent = `${d.name} — ${d.specialty}`; sel.appendChild(opt); });
+  if(preselectedDoctor) sel.value = preselectedDoctor;
+  document.getElementById('backDash').addEventListener('click', ()=> showView('dashboard'));
+  document.getElementById('bookBtn').addEventListener('click', ()=>{
+    const did = sel.value; const when = document.getElementById('when').value; const reason = document.getElementById('reason').value.trim();
+    if(!when || !reason){ alert('Please provide date/time and a brief reason'); return; }
+    const doc = DOCTORS.find(d=>d.id===did);
+    const appt = { id: uid(), doctorId: did, doctorName: doc.name, when, reason };
+    appState.appointments.push(appt); save(); alert('Appointment booked'); showView('dashboard');
+  });
+}
+
+// History
+function renderHistory(){ contentTop.innerHTML = `<div class='card'><h3>Medical History</h3></div>`;
+  content.innerHTML = `<div class='card'><label class='field'>Date</label><input id='histDate' type='date'><div class='field mt-8'><label>Notes</label><textarea id='histNotes' rows='3' placeholder='Symptoms, meds, diagnosis'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='addHist' class='btn'>Add Entry</button><button id='exportJson' class='btn ghost'>Export JSON</button></div></div><div class='card mt-12'><h3>Entries</h3><div id='historyList' class='history-list mt-8'></div></div>`;
+  document.getElementById('addHist').addEventListener('click', ()=>{
+    const d = document.getElementById('histDate').value || new Date().toISOString().slice(0,10);
+    const notes = document.getElementById('histNotes').value.trim();
+    if(!notes){ alert('Please add some notes'); return; }
+    appState.history.push({id: uid(), date: d, notes}); save(); renderHistory();
+  });
+  document.getElementById('exportJson').addEventListener('click', ()=>{ const blob = new Blob([JSON.stringify(appState.history, null, 2)], {type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='medical_history.json'; a.click(); });
+  renderHistoryList();
+}
+function renderHistoryList(){ const node = document.getElementById('historyList'); node.innerHTML=''; if(appState.history.length===0) node.innerHTML='<div class="muted">No history entries</div>';
+  appState.history.slice().reverse().forEach(h=>{ const el = document.createElement('div'); el.className='history-item'; el.innerHTML = `<div style='font-weight:800'>${h.date}</div><div class='muted' style='margin-top:8px'>${h.notes}</div><div style='margin-top:10px'><button class='btn ghost' data-id='${h.id}'>Delete</button></div>`; node.appendChild(el); });
+  node.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click', ()=>{ if(!confirm('Delete entry?')) return; appState.history = appState.history.filter(x=>x.id!==b.dataset.id); save(); renderHistory(); }));
+}
+
+// Telehealth (local preview)
+let localStream = null;
+function renderTelehealth(){ contentTop.innerHTML = `<div class='card'><h3>Telehealth Call</h3></div>`;
+  content.innerHTML = `<div class='card'><div style='display:flex;gap:12px;flex-direction:column'><label class='field'>Select doctor</label><select id='callDoc'></select><div style='display:flex;gap:8px'><button id='startCallBtn' class='btn'>Start Call</button><button id='endCallBtn' class='btn ghost'>End Call</button></div><div class='video-stage mt-12'><video id='remote' autoplay playsinline muted style='width:65%;height:360px;background:#111;border:1px solid rgba(255,255,255,0.03)'></video><video id='local' autoplay playsinline muted style='width:32%;height:180px;border:1px solid rgba(255,255,255,0.03)'></video></div></div></div>`;
+  const sel = document.getElementById('callDoc'); DOCTORS.forEach(d=>{ const opt = document.createElement('option'); opt.value=d.id; opt.textContent = `${d.name} — ${d.specialty}`; sel.appendChild(opt); });
+  document.getElementById('startCallBtn').addEventListener('click', async ()=>{
+    try{
+      const video = document.getElementById('local');
+      localStream = await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:true});
+      video.srcObject = localStream;
+      document.getElementById('remote').srcObject = localStream;
+    }catch(err){ alert('Camera access failed: '+err.message); }
+  });
+  document.getElementById('endCallBtn').addEventListener('click', ()=>{ if(localStream){ localStream.getTracks().forEach(t=>t.stop()); localStream=null; document.getElementById('local').srcObject=null; document.getElementById('remote').srcObject=null; } });
+}
+
+// Support: simple advice
+function renderSupport(){ contentTop.innerHTML = `<div class='card'><h3>Symptom Support</h3></div>`;
+  content.innerHTML = `<div class='card'><label class='field'>Describe your symptoms</label><textarea id='symptoms' rows='3'></textarea><div class='mt-12' style='display:flex;gap:8px'><button id='checkBtn' class='btn'>Get Advice</button><button id='askDoc' class='btn ghost'>Request Doctor</button></div><div id='advice' class='mt-12'></div></div>`;
+  document.getElementById('checkBtn').addEventListener('click', ()=>{
+    const txt = document.getElementById('symptoms').value.toLowerCase(); if(!txt){ alert('Please describe symptoms'); return; }
+    const adv = computeAdvice(txt); document.getElementById('advice').innerHTML = `<div class='advice'><strong>Advice:</strong><div style='margin-top:8px'>${adv}</div></div>`;
+  });
+  document.getElementById('askDoc').addEventListener('click', ()=>{ alert('A doctor will be notified (simulated). Please book an appointment for a real consult.'); });
+}
+function computeAdvice(text){ if(/fever|temperature|chills/.test(text) && /cough|sore throat|breath/.test(text)){ return 'You report fever + respiratory symptoms. For mild cases: rest, stay hydrated, monitor temperature. If breathing difficulty, persistent high fever, or chest pain, seek urgent care.'; } if(/headache|migraine/.test(text) && !/fever/.test(text)){ return 'Common headache — rest, hydrate, avoid screens, consider OTC analgesic per usual guidance. If severe or sudden onset, seek emergency care.'; } if(/stomach|nausea|diarrhea/.test(text)){ return 'Gut upset — hydrate with oral rehydration, avoid heavy meals, rest. If severe dehydration, bloody stools, or persistent vomiting, see a clinician.'; } if(/anxiety|sad|depress|sleep/.test(text)){ return 'Low mood or anxiety — try breathing exercises, scheduled routines, and consider reaching out to a mental health professional if symptoms persist. If you have urges of self-harm, call emergency services.'; } return 'For mild symptoms: rest, hydrate, monitor. If symptoms worsen or you are unsure, book an appointment with a clinician.'; }
+
+// Header buttons
+document.getElementById('exportHistory').addEventListener('click', ()=>{ const blob = new Blob([JSON.stringify(appState, null, 2)], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'vhc_full_export.json'; a.click(); });
+document.getElementById('helpBtn').addEventListener('click', ()=>{ alert('Local prototype. Book appointments, add medical notes, and start a simulated telehealth call (camera required). All data is stored in your browser only.'); });
+
+// Initial load
+load(); renderDoctors(); showView('dashboard');
+
+// expose for debugging
+window.vhc = { state: appState, load, save, renderDoctors, renderDashboard };
 </script>
 </body>
 </html>
