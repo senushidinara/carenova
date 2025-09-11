@@ -128,7 +128,20 @@ function renderAppointmentPreview(){ const countdownEl = document.getElementById
   function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Now'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } }
   updateCountdown(); setInterval(updateCountdown,10000);
   // timeline avatars
-  timelineRow.innerHTML=''; TIMELINE_ASSETS.forEach((src,i)=>{ const node = document.createElement('div'); node.className='timeline-avatar'; node.innerHTML = `<img src='${src}' alt='doc${i}' style='width:64px;height:64px;border-radius:50%;object-fit:cover' /><div style='margin-top:6px'>${['Doctors','Doers','Filldel'][i]||'Dr'}</div>`; timelineRow.appendChild(node); });
+  timelineRow.innerHTML='';
+  // display central appointment doctor plus nearby team initials (clean, no reference images)
+  const names = [appt.doctorName || 'Doctor', 'Dr. Arjun Patel', 'Dr. Leila Gomez'];
+  names.forEach((n,i)=>{
+    const node = document.createElement('div');
+    node.className='timeline-avatar';
+    const initials = n.split(' ').map(s=>s[0]).slice(0,2).join('');
+    // first (i===0) shows full name under the avatar; others show initials only for visual context
+    node.innerHTML = `
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px">${initials}</div>
+      <div style='margin-top:6px'>${i===0 ? n : ''}</div>
+    `;
+    timelineRow.appendChild(node);
+  });
   // wire actions
   document.getElementById('joinNowBtn').onclick = ()=> { state.selectedAppt = appt; openPaymentIfRequired(appt); };
   document.getElementById('rescheduleBtn').onclick = ()=> { const when = prompt('Pick new datetime (YYYY-MM-DDTHH:MM)', new Date().toISOString().slice(0,16)); if(when){ appt.when = new Date(when).toISOString(); save(); renderAppointmentPreview(); alert('Rescheduled'); } };
