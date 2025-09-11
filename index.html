@@ -121,24 +121,19 @@ function renderAppointmentPreview(){ const countdownEl = document.getElementById
   // countdown
   function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Due'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } }
   updateCountdown(); setInterval(updateCountdown,10000);
-  // timeline avatars
+  // timeline avatar: single clean avatar for primary doctor
   timelineRow.innerHTML='';
-  // display central appointment doctor plus nearby team initials (clean, no reference images)
-  const names = [appt.doctorName || 'Doctor', 'Dr. Arjun Patel', 'Dr. Leila Gomez'];
-  names.forEach((n,i)=>{
-    const node = document.createElement('div');
-    node.className='timeline-avatar';
-    const initials = n.split(' ').map(s=>s[0]).slice(0,2).join('');
-    // first (i===0) shows full name under the avatar; others show initials only for visual context
-    node.innerHTML = `
-      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px">${initials}</div>
-      <div style='margin-top:6px'>${i===0 ? n : ''}</div>
-    `;
-    timelineRow.appendChild(node);
-  });
+  const initials = (appt.doctorName||'Doctor').split(' ').map(s=>s[0]).slice(0,2).join('');
+  const node = document.createElement('div');
+  node.className = 'timeline-avatar';
+  node.innerHTML = `
+    <div class="avatar-circle" style="background:linear-gradient(90deg,var(--accent),var(--accent-2));width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px">${initials}</div>
+    <div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div>
+  `;
+  timelineRow.appendChild(node);
   // wire actions
   document.getElementById('joinNowBtn').onclick = ()=> { state.selectedAppt = appt; openPaymentIfRequired(appt); };
-  document.getElementById('rescheduleBtn').onclick = ()=> { const when = prompt('Pick new datetime (YYYY-MM-DDTHH:MM)', new Date().toISOString().slice(0,16)); if(when){ appt.when = new Date(when).toISOString(); save(); renderAppointmentPreview(); alert('Rescheduled'); } };
+  document.getElementById('rescheduleBtn').onclick = ()=> { showRescheduleModal(appt); };
 }
 
 // Payment flow: open payment modal (web stub). In real app, integrate RevenueCat or payment gateway.
@@ -153,23 +148,35 @@ function simulatePayment(appt){ // basic validation
   document.getElementById('confirmPay').innerText = 'Processing...';
   setTimeout(()=>{
     document.getElementById('confirmPay').innerText = 'Confirm Payment'; document.getElementById('paymentModal').style.display='none';
-    alert('Payment successful. Joining call...'); // simulate join
+    showToast('Payment successful — joining call');
     // mark appointment paid and 'joined'
     appt.paid = true; save();
-    // simulate opening telehealth view (here just alert)
-    alert('Joining telehealth for ' + appt.doctorName);
+    // in real app, navigate to telehealth session
   },1200);
 }
 
 // small metrics rendering
 function renderMetrics(){ const node = document.getElementById('metrics'); node.innerHTML=''; const metrics=[{label:'Sleep',val:'7.5h'},{label:'Stress',val:'Low'},{label:'Meds',val:'On track'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.style.flex='1'; el.innerHTML = `<div style='font-weight:700'>${m.val}</div><div style='color:var(--muted)'>${m.label}</div>`; node.appendChild(el); }); }
 
-function renderQuickButtons(){ document.getElementById('bookBtnSmall').onclick = ()=> openBookingFlow(); document.getElementById('consultBtnSmall').onclick = ()=> alert('Open consult flow (simulated)'); document.getElementById('uploadBtnSmall').onclick = ()=> alert('Open upload flow (simulated)'); document.getElementById('sosBtnSmall').onclick = ()=> alert('SOS: call emergency'); document.getElementById('payBtn').onclick = ()=> { if(state.appointments.length>0) openPaymentIfRequired(state.appointments[0]); else alert('No appointment to pay'); } }
+function renderQuickButtons(){ document.getElementById('bookBtnSmall').onclick = ()=> openBookingFlow(); document.getElementById('consultBtnSmall').onclick = ()=> showToast('Open consult flow'); document.getElementById('uploadBtnSmall').onclick = ()=> showToast('Open upload flow'); document.getElementById('sosBtnSmall').onclick = ()=> showToast('SOS: call emergency'); document.getElementById('payBtn').onclick = ()=> { if(state.appointments.length>0) openPaymentIfRequired(state.appointments[0]); else showToast('No appointment to pay'); } }
 
-function openBookingFlow(){ // simplified booking UI
-  const name = prompt('Your name', 'Matilda'); if(!name) return; const doc = prompt('Doctor name', 'Dr. Maya Chen'); const when = prompt('Date-time (YYYY-MM-DDTHH:MM)', new Date(Date.now()+3600000).toISOString().slice(0,16)); const amt = Number(prompt('Consultation fee', '25')); const appt = {id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:amt}; state.appointments.unshift(appt); save(); renderAppointmentPreview(); renderAppointmentPreview(); alert('Booked. Please Pay to confirm.'); }
+function openBookingFlow(){ // simplified booking UI using modal prompts
+  showBookingModal(); }
 
 function renderFileList(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; }
+
+// helper: modal and toast
+function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.style.position='fixed'; container.style.right='20px'; container.style.bottom='20px'; container.style.zIndex=9999; document.body.appendChild(container); }
+  const t = document.createElement('div'); t.style.background='linear-gradient(90deg,var(--accent),var(--accent-2))'; t.style.color='white'; t.style.padding='10px 14px'; t.style.borderRadius='10px'; t.style.marginTop='8px'; t.style.boxShadow='0 8px 20px rgba(12,20,40,0.2)'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout);
+}
+
+function showRescheduleModal(appt){ const root = document.getElementById('modalRoot') || document.body; const modal = document.createElement('div'); modal.className='modal'; modal.innerHTML = `<h3>Reschedule Appointment</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' style='width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef8' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`; (document.getElementById('modalRoot') || document.body).appendChild(modal);
+  document.getElementById('cancelResched').addEventListener('click', ()=> modal.remove());
+  document.getElementById('doResched').addEventListener('click', ()=>{ const when = document.getElementById('reschedWhen').value; if(!when){ showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); save(); renderAppointmentPreview(); modal.remove(); showToast('Rescheduled'); }); }
+
+function showBookingModal(){ const modal = document.createElement('div'); modal.className='modal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label>Name</label><input id='bkName' value='Matilda' style='width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8' /></div><div style='margin-top:8px'><label>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' style='width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8' /></div><div style='margin-top:8px'><label>Date & time</label><input id='bkWhen' type='datetime-local' style='width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`; document.body.appendChild(modal);
+  document.getElementById('bkCancel').addEventListener('click', ()=> modal.remove());
+  document.getElementById('bkSave').addEventListener('click', ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); save(); modal.remove(); renderAppointmentPreview(); showToast('Booked — please pay to confirm'); }); }
 
 // init
 load(); renderMetrics(); renderQuickButtons(); renderAppointmentPreview();
