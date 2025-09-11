@@ -146,11 +146,13 @@ function renderAppointmentPreview(){ const countdownEl = document.getElementById
   updateCountdown(); setInterval(updateCountdown,10000);
   // timeline avatar: single clean avatar for primary doctor
   timelineRow.innerHTML='';
-  const initials = (appt.doctorName||'Doctor').split(' ').map(s=>s[0]).slice(0,2).join('');
+  const imgSrc = DOCTOR_ASSETS[0];
   const node = document.createElement('div');
   node.className = 'timeline-avatar';
   node.innerHTML = `
-    <div class="avatar-circle" style="background:linear-gradient(90deg,var(--accent),var(--accent-2));width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px">${initials}</div>
+    <div class="avatar-circle" style="background:transparent;width:72px;height:72px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center">
+      <img src="${imgSrc}" alt="${appt.doctorName}" style="width:100%;height:100%;object-fit:cover" />
+    </div>
     <div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div>
   `;
   timelineRow.appendChild(node);
