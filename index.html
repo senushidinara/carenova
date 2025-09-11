@@ -170,7 +170,7 @@ function showToast(msg, timeout=2600){ let container = document.getElementById('
   const t = document.createElement('div'); t.style.background='linear-gradient(90deg,var(--accent),var(--accent-2))'; t.style.color='white'; t.style.padding='10px 14px'; t.style.borderRadius='10px'; t.style.marginTop='8px'; t.style.boxShadow='0 8px 20px rgba(12,20,40,0.2)'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout);
 }
 
-function ensureModalRoot(){ let root=document.getElementById('modalRoot'); if(!root){ root=document.createElement('div'); root.id='modalRoot'; root.style.position='fixed'; root.style.left=0; root.style.top=0; root.style.width='100%'; root.style.height='100%'; root.style.display='block'; root.style.zIndex=9998; document.body.appendChild(root); } return root; }
+function ensureModalRoot(){ let root=document.getElementById('modalRoot'); if(!root){ root=document.createElement('div'); root.id='modalRoot'; root.style.position='fixed'; root.style.left=0; root.style.top=0; root.style.width='100%'; root.style.height='100%'; root.style.display='block'; root.style.zIndex=9998; root.style.pointerEvents='none'; document.body.appendChild(root); } return root; }
 
 function showRescheduleModal(appt){ // create single modal with backdrop and ensure closable
   if(document.getElementById('rescheduleModal')) return; const root=ensureModalRoot(); const backdrop=document.createElement('div'); backdrop.id='backdrop_reschedule'; backdrop.style.position='absolute'; backdrop.style.inset='0'; backdrop.style.background='rgba(2,6,23,0.35)'; backdrop.style.backdropFilter='blur(2px)'; root.appendChild(backdrop);
