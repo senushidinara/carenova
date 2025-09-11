@@ -112,6 +112,18 @@
 const STORAGE_KEY = 'vhc_paid_v1';
 let state = { appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}], selectedAppt: null };
 
+// Hero and doctor assets (using provided images)
+const HERO_ASSETS = [
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F66e9aa98f57f4241aaf30f9e811b1ebc?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=1200'
+];
+const DOCTOR_ASSETS = [
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=400',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F25ef9274ba4d4fe98a499ac831aad674?format=webp&width=400',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=400'
+];
+
 function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); }
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
