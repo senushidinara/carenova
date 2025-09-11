@@ -214,8 +214,13 @@ function showBookingModal(){ if(document.getElementById('bookingModal')) return;
   document.getElementById('bkCancel').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
   document.getElementById('bkSave').addEventListener('click', ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); save(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); showToast('Booked — please pay to confirm'); }); }
 
+// render hero carousel
+function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover'; img.style.display = i===0 ? 'block' : 'none'; hero.appendChild(img); }); // simple auto-rotate
+  let idx=0; setInterval(()=>{ const imgs=hero.querySelectorAll('img'); imgs.forEach((im,i)=> im.style.display = (i===idx)?'block':'none'); idx=(idx+1)%imgs.length; },3500);
+}
+
 // init
-load(); renderMetrics(); renderQuickButtons(); renderAppointmentPreview();
+load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderAppointmentPreview();
 </script>
 </body>
 </html>
