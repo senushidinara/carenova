@@ -14,7 +14,9 @@
     body.noir{ --bg1:#050405; --bg2:#0b0b0b; --accent:#c4c3ff; --accent-2:#9be5c9 }
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     body{min-height:100vh;background:radial-gradient(900px 400px at 10% 12%, rgba(107,123,255,0.06), transparent), linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);padding:28px}
-    .app{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px}
+
+    /* Layout */
+    .app{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start}
     .app-header{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:18px;border-radius:var(--radius);backdrop-filter:blur(8px)}
     .brand-title{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--accent-2),var(--accent));-webkit-background-clip:text;color:transparent}
     .header-actions{margin-left:auto;display:flex;gap:12px}
@@ -27,45 +29,57 @@
     .nav button{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:transparent;border:none;color:var(--muted);text-align:left;cursor:pointer;font-weight:700}
     .nav button.active{background:linear-gradient(90deg,rgba(107,123,255,0.12),rgba(47,210,164,0.03));color:var(--text)}
 
-    /* Main area */
+    /* Main */
     .main-area{display:grid;grid-template-rows:auto 1fr;gap:18px}
-    .greet{display:flex;align-items:center;gap:18px;padding:16px;border-radius:12px;background:linear-gradient(90deg, rgba(107,123,255,0.06), rgba(47,210,164,0.02))}
+    .content-wrap{padding:12px}
+
+    /* Greeting */
+    .greet{display:flex;align-items:center;gap:18px;padding:16px;border-radius:12px;background:linear-gradient(90deg, rgba(107,123,255,0.06), rgba(47,210,164,0.02));border:1px solid rgba(255,255,255,0.02);backdrop-filter:blur(6px)}
     .wave{width:160px;height:56px;border-radius:10px;position:relative;overflow:hidden}
     .neural{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.06), transparent);opacity:.18;animation:wave 6s linear infinite}
     @keyframes wave{0%{transform:translateX(-30%)}50%{transform:translateX(30%)}100%{transform:translateX(-30%)}}
 
+    /* Cards grid */
     .cards{display:grid;grid-template-columns:2fr 1fr;gap:14px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px}
+    .card{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);backdrop-filter:blur(6px)}
 
-    /* Quick action cards */
+    /* Appointment preview - large top card */
+    .appt-preview{grid-column:1/-1;padding:20px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;align-items:center;gap:12px}
+    .timeline{display:flex;align-items:center;gap:18px;width:100%;max-width:920px;justify-content:center}
+    .timeline .dot{width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;background:#fff0}
+    .timeline .dot img{width:100%;height:100%;object-fit:cover}
+    .appt-actions{display:flex;gap:12px;margin-top:12px}
+
+    /* Hero carousel */
+    .hero-carousel{display:flex;gap:12px;align-items:center}
+    .hero-item{flex:1;border-radius:10px;overflow:hidden;height:140px;border:1px solid rgba(255,255,255,0.03)}
+    .hero-item img{width:100%;height:100%;object-fit:cover}
+
+    /* Quick actions */
     .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
-    .action-card{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;position:relative;overflow:hidden}
+    .action-card{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
     .action-card i{font-size:20px}
     .ripple{position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,0.12);animation:ripple .6s linear}
     @keyframes ripple{to{transform:scale(6);opacity:0}}
 
-    /* Health rings */
+    /* Rings */
     .rings{display:flex;gap:12px;align-items:center;margin-top:12px}
     .ring{width:120px;height:120px;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer}
     .ring svg{transform:rotate(-90deg)}
-    .ring .label{margin-top:8px;font-weight:700}
 
-    /* Insights */
     .insights{display:flex;overflow-x:auto;gap:12px;padding-bottom:8px;margin-top:12px}
     .insight{min-width:220px;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
 
-    /* Appointments */
     .appointments{display:flex;flex-direction:column;gap:10px;margin-top:12px}
     .appt{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.01)}
 
-    /* FAB & bottom nav */
+    .muted-small{color:var(--muted);font-size:0.85rem}
+
+    /* Bottom nav & FAB */
     .fab{position:fixed;left:50%;transform:translateX(-50%);bottom:86px;width:68px;height:68px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#031227;border:none}
     .bottom-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;height:72px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:40px;padding:10px 18px;display:flex;gap:18px;align-items:center}
 
-    /* Modal */
-    .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.4));padding:18px;border-radius:12px;z-index:90;min-width:320px}
-
-    @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{display:none}}
+    @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -108,8 +122,8 @@
     </aside>
 
     <main class="main-area">
-      <div id="contentTop"></div>
-      <div id="content"></div>
+      <div id="contentTop" class="content-wrap"></div>
+      <div id="content" class="content-wrap"></div>
     </main>
   </div>
 
@@ -125,28 +139,25 @@
   <div id="modalRoot"></div>
 
 <script>
-// assets
 const ASSETS=[
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fd4bb6da732db4c70afd61b2c287ccb32?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fb458e9cab3c84f5a933c3ed41994ac73?format=webp&width=800',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F66e9aa98f57f4241aaf30f9e811b1ebc?format=webp&width=800',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F0a3330fcb9664ab08c9b405defee7a75?format=webp&width=800',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fae1080b043854996a4d68ce99691e8ee?format=webp&width=800',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=800'
 ];
-
-// state
-const STORAGE_KEY='vhc_home_wire_v1';
+const STORAGE_KEY='vhc_home_fixed_v1';
 let appState={ profile:{name:'Matilda',mood:7,journal:[]}, appointments:[],history:[],files:[] };
 function load(){ const s=localStorage.getItem(STORAGE_KEY); if(s) try{ appState=JSON.parse(s); }catch(e){} }
 function save(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(appState)); }
 function uid(){ return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8); }
 
-// doctors
-const DOCTORS=[ {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',img:ASSETS[2]}, {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',img:ASSETS[1]}, {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',img:ASSETS[0]} ];
+const DOCTORS=[ {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',img:ASSETS[3]}, {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',img:ASSETS[1]}, {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',img:ASSETS[2]} ];
 
-// render helpers
 function renderDoctors(){ const el=document.getElementById('doctorList'); el.innerHTML=''; DOCTORS.forEach(d=>{ const card=document.createElement('div'); card.className='doctor'; card.innerHTML=`<div class='avatar'><img src='${d.img}' alt='${d.name}'/></div><div class='meta'><div class='name'>${d.name}</div><div class='spec'>${d.specialty}</div></div><div><button class='btn ghost' data-doctor='${d.id}'>Book</button></div>`; el.appendChild(card); }); document.querySelectorAll('#doctorList button').forEach(b=>b.addEventListener('click',()=>{ showView('book'); preselectDoctor(b.dataset.doctor); })); }
 
-// UI: greeting, mood, carousel
-function renderTop(active){ const top=document.getElementById('contentTop'); top.innerHTML=`
+function renderTopAndDashboard(){ renderTop(); renderAppointmentPreview(); renderDashboard(); renderDoctors(); renderFileList(); }
+
+function renderTop(){ const top=document.getElementById('contentTop'); top.innerHTML=`
   <div class='greet'>
     <div style='flex:1'>
       <div style='font-size:1.05rem;font-weight:800'>Hi ${appState.profile.name}, how’s your brain today?</div>
@@ -159,13 +170,23 @@ function renderTop(active){ const top=document.getElementById('contentTop'); top
     <div style='flex:1'><div class='hero-carousel' id='heroCarousel'></div></div>
     <div class='muted-small' style='margin-left:auto'>Personalize name: click avatar</div>
   </div>`;
-  const hero=document.getElementById('heroCarousel'); ASSETS.forEach(src=>{ const it=document.createElement('div'); it.className='hero-item'; it.innerHTML=`<img src='${src}'/>`; hero.appendChild(it); });
+  const hero=document.getElementById('heroCarousel'); hero.innerHTML=''; ASSETS.slice(0,3).forEach(src=>{ const it=document.createElement('div'); it.className='hero-item'; it.innerHTML=`<img src='${src}' alt='hero'/>`; hero.appendChild(it); });
   document.getElementById('moodRange').addEventListener('input',(e)=>{ const v=Number(e.target.value); appState.profile.mood=v; save(); updateMoodEmoji(v); if(v<=3) showJournalPrompt(); });
   updateMoodEmoji(appState.profile.mood);
 }
-function updateMoodEmoji(v){ const el=document.getElementById('moodEmoji'); if(!el) return; if(v<=2) el.innerText='😢'; else if(v<=4) el.innerText='😕'; else if(v<=6) el.innerText='🙂'; else if(v<=8) el.innerText='😀'; else el.innerText='🤩'; }
 
-// Dashboard
+function renderAppointmentPreview(){ const top=document.getElementById('contentTop'); // insert preview below greet
+  const previewExists = document.getElementById('apptPreview'); if(previewExists) previewExists.remove();
+  const preview = document.createElement('div'); preview.className='appt-preview'; preview.id='apptPreview';
+  // if there are appointments, render real timeline, else show sample timeline (design mock)
+  if(appState.appointments.length>0){ const next = appState.appointments[0]; const when = new Date(next.when); preview.innerHTML = `<div style='font-weight:800'>Upcoming: ${next.doctorName} • ${when.toLocaleString()}</div><div class='timeline' id='timelineReal'></div><div class='appt-actions'><button class='btn' data-join='${next.id}'>Join Now</button><button class='btn ghost' data-res='${next.id}'>Reschedule</button></div>`; } else { preview.innerHTML = `<div style='font-weight:800'>No upcoming consults — preview</div><div class='timeline' id='timelineSample'></div><div class='appt-actions'><button class='btn ghost' id='sampleRes'>Reschedule</button><button class='btn' id='sampleJoin'>Join Now</button></div>`; }
+  document.getElementById('contentTop').appendChild(preview);
+  // render sample or real timeline
+  const timelineEl = document.getElementById(appState.appointments.length>0? 'timelineReal' : 'timelineSample'); const avatars = DOCTORS.map(d=>d.img);
+  timelineEl.innerHTML=''; avatars.forEach((src,i)=>{ const d=document.createElement('div'); d.className='dot'; d.innerHTML=`<img src='${src}' alt='doc${i}' />`; timelineEl.appendChild(d); });
+  document.getElementById('sampleJoin')?.addEventListener('click', ()=> alert('Simulated join')); document.getElementById('sampleRes')?.addEventListener('click', ()=> alert('Simulated reschedule'));
+}
+
 function renderDashboard(){ const content=document.getElementById('content'); content.innerHTML=`
   <div class='cards'>
     <div class='card'>
@@ -186,9 +207,8 @@ function renderDashboard(){ const content=document.getElementById('content'); co
   </div>`;
   renderRings(); renderInsights(); renderQuickActions(); renderUpcoming(); }
 
-// Rings component
-function renderRings(){ const container=document.getElementById('rings'); container.innerHTML=''; const metrics=[{key:'sleep',label:'Sleep',value:72,color:'#34d6a6'},{key:'stress',label:'Stress',value:38,color:'#ffd166'},{key:'meds',label:'Meds',value:90,color:'#6b7bff'},{key:'consults',label:'Consults',value:40,color:'#ff8fab'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.className='ring'; el.innerHTML = ringHTML(m); el.addEventListener('click', ()=> showMetricModal(m)); container.appendChild(el); });}
-function ringHTML(m){ const pct=m.value; const r=52; const c=2*Math.PI*r; const dash=(1-(pct/100))*c; return `
+function renderRings(){ const container=document.getElementById('rings'); container.innerHTML=''; const metrics=[{key:'sleep',label:'Sleep',value:72,color:'#34d6a6'},{key:'stress',label:'Stress',value:38,color:'#ffd166'},{key:'meds',label:'Meds',value:90,color:'#6b7bff'},{key:'consults',label:'Consults',value:40,color:'#ff8fab'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.className='ring'; el.innerHTML = ringHTML(m); el.addEventListener('click', ()=> showMetricModal(m)); container.appendChild(el); }); }
+function ringHTML(m){ const pct=m.value; const r=52; const c=(2*Math.PI*r).toFixed(2); const dash=(1-(pct/100))*c; return `
   <svg width='120' height='120' viewBox='0 0 120 120'>
     <defs><linearGradient id='g${m.key}' x1='0' x2='1'><stop offset='0' stop-color='${m.color}' /><stop offset='1' stop-color='${m.color}' /></linearGradient></defs>
     <circle cx='60' cy='60' r='52' stroke='rgba(255,255,255,0.06)' stroke-width='12' fill='none' />
@@ -196,54 +216,46 @@ function ringHTML(m){ const pct=m.value; const r=52; const c=2*Math.PI*r; const 
     <text x='60' y='64' font-size='16' text-anchor='middle' fill='white' font-weight='700'>${m.value}%</text>
   </svg>
   <div class='label'>${m.label}</div>
-` }
+`; }
 function showMetricModal(m){ const root=document.getElementById('modalRoot'); root.innerHTML=`<div class='modal' id='metricModal'><h3>${m.label} details</h3><div style='margin-top:8px'>Current: ${m.value}%</div><div style='margin-top:12px'><button id='closeMetric' class='btn ghost'>Close</button></div></div>`; document.getElementById('closeMetric').addEventListener('click', ()=>{ document.getElementById('modalRoot').innerHTML=''; }); }
 
-// Insights
 function renderInsights(){ const node=document.getElementById('insights'); if(!node) return; const items=[ 'Your hydration is low — try a glass of water 💧', 'Cognitive twin suggests a focus boost exercise', 'You walked 2,000 steps today — nice!' ]; node.innerHTML=''; items.forEach(t=>{ const c=document.createElement('div'); c.className='insight'; c.innerHTML=`<div style='font-weight:700'>Quick Insight</div><div style='margin-top:8px'>${t}</div>`; node.appendChild(c); }); }
 
-// Quick action ripple
-function renderQuickActions(){ document.querySelectorAll('.action-card').forEach(card=>{ card.addEventListener('click',(e)=>{ const r=document.createElement('span'); r.className='ripple'; const rect=card.getBoundingClientRect(); const size=Math.max(rect.width,rect.height); r.style.width=r.style.height=size+'px'; r.style.left=(e.clientX-rect.left-size/2)+'px'; r.style.top=(e.clientY-rect.top-size/2)+'px'; card.appendChild(r); setTimeout(()=> r.remove(),600);
-    const action=card.dataset.action; if(action==='book') showView('book'); if(action==='consult') showView('telehealth'); if(action==='upload') document.getElementById('fileInputMain')?.click(); if(action==='sos') alert('SOS: Call emergency services.'); }); }); }
+function renderQuickActions(){ document.querySelectorAll('.action-card').forEach(card=>{ card.addEventListener('click',(e)=>{ const r=document.createElement('span'); r.className='ripple'; const rect=card.getBoundingClientRect(); const size=Math.max(rect.width,rect.height); r.style.width=r.style.height=size+'px'; r.style.left=(e.clientX-rect.left-size/2)+'px'; r.style.top=(e.clientY-rect.top-size/2)+'px'; card.appendChild(r); setTimeout(()=> r.remove(),600); const action=card.dataset.action; if(action==='book') showView('book'); if(action==='consult') showView('telehealth'); if(action==='upload') document.getElementById('fileInputMain')?.click(); if(action==='sos') alert('SOS: Call emergency services.'); }); }); }
 
-// Upcoming
-function renderUpcoming(){ const node=document.getElementById('upcoming'); if(!node) return; node.innerHTML=''; if(appState.appointments.length===0) node.innerHTML='<div class="muted">No upcoming appointments</div>'; appState.appointments.slice().forEach(a=>{ const el=document.createElement('div'); el.className='appt'; const when=new Date(a.when); const diff=(when - new Date())/60000; el.innerHTML=`<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted-small'>${when.toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn' data-join='${a.id}'>Join Now</button><button class='btn ghost' data-res='${a.id}'>Reschedule</button></div>`; node.appendChild(el); }); node.querySelectorAll('[data-join]').forEach(b=>b.addEventListener('click',()=> startCall(b.dataset.join))); node.querySelectorAll('[data-res]').forEach(b=>b.addEventListener('click',()=> reschedule(b.dataset.res))); }
+function renderUpcoming(){ const node=document.getElementById('upcoming'); if(!node) return; node.innerHTML=''; if(appState.appointments.length===0) node.innerHTML='<div class="muted">No upcoming appointments</div>'; appState.appointments.slice().forEach(a=>{ const el=document.createElement('div'); el.className='appt'; const when=new Date(a.when); el.innerHTML=`<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted-small'>${when.toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn' data-join='${a.id}'>Join Now</button><button class='btn ghost' data-res='${a.id}'>Reschedule</button></div>`; node.appendChild(el); }); node.querySelectorAll('[data-join]').forEach(b=>b.addEventListener('click',()=> startCall(b.dataset.join))); node.querySelectorAll('[data-res]').forEach(b=>b.addEventListener('click',()=> reschedule(b.dataset.res))); }
 function startCall(id){ alert('Starting simulated call for appointment '+id); showView('telehealth'); }
 function reschedule(id){ const when=prompt('Enter new date-time (YYYY-MM-DDTHH:MM)', new Date().toISOString().slice(0,16)); if(!when) return; const ap=appState.appointments.find(a=>a.id===id); if(ap){ ap.when=when; save(); renderUpcoming(); alert('Rescheduled'); } }
 
-// Files
 function handleFileUpload(ev){ const f=ev.target.files[0]; if(!f) return; const id=uid(); const url=URL.createObjectURL(f); appState.files.push({id,name:f.name,size:f.size,date:new Date().toISOString(),url}); save(); renderFileList(); alert('File uploaded'); }
 function renderFileList(){ const node=document.getElementById('fileList'); if(!node) return; node.innerHTML=''; if(appState.files.length===0) node.innerHTML='<div class="muted">No documents uploaded</div>'; appState.files.slice().reverse().forEach(fi=>{ const el=document.createElement('div'); el.className='file-item'; el.innerHTML=`<div class='meta'><div class='name'>${fi.name}</div><div class='size'>${(fi.size/1024).toFixed(1)} KB • ${new Date(fi.date).toLocaleString()}</div></div><div style='display:flex;gap:8px'><a class='btn ghost' href='${fi.url}' download='${fi.name}'>Download</a><button class='btn' data-id='${fi.id}'>Delete</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=>{ if(!confirm('Delete file?')) return; appState.files=appState.files.filter(x=>x.id!==b.dataset.id); save(); renderFileList(); })); }
 
-// Journal prompt
 function showJournalPrompt(){ const root=document.getElementById('modalRoot'); root.innerHTML=`<div class='modal'><h3>Quick Journal</h3><textarea id='quickJournal' rows='4' style='width:100%;margin-top:8px'></textarea><div style='margin-top:12px;display:flex;gap:8px'><button id='saveJournal' class='btn'>Save</button><button id='closeJournal' class='btn ghost'>Close</button></div></div>`; document.getElementById('saveJournal').addEventListener('click', ()=>{ const t=document.getElementById('quickJournal').value.trim(); if(t){ appState.profile.journal.push({id:uid(),text:t,date:new Date().toISOString()}); save(); alert('Journal saved'); } document.getElementById('modalRoot').innerHTML=''; }); document.getElementById('closeJournal').addEventListener('click', ()=> root.innerHTML=''); }
 
-// Navigation & UI wiring
-function renderTopAndDashboard(){ renderTop(); renderDashboard(); renderDoctors(); renderFileList(); }
-function showView(v){ if(v==='dashboard') renderTopAndDashboard(); else if(v==='book') renderBooking(); else if(v==='history') renderHistory(); else if(v==='telehealth') renderTelehealth(); else if(v==='support') renderSupport(); }
+function renderBooking(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Book a Visit</h3><div style='margin-top:12px'><label>Patient</label><input id='patName' value='${appState.profile.name}'></div><div style='margin-top:12px'><label>Select doctor</label><select id='doctorSelect'></select></div><div style='margin-top:12px'><label>Date & time</label><input id='when' type='datetime-local'></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bookBtn' class='btn'>Book</button><button id='back' class='btn ghost'>Back</button></div></div>`; const sel=document.getElementById('doctorSelect'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); document.getElementById('bookBtn').addEventListener('click',()=>{ const did=sel.value; const when=document.getElementById('when').value; const pat=document.getElementById('patName').value.trim()||appState.profile.name; if(!when){ alert('Choose time'); return; } const doc=DOCTORS.find(x=>x.id===did); appState.appointments.push({id:uid(),doctorId:did,doctorName:doc.name,when,patient:pat}); save(); alert('Booked'); renderTopAndDashboard(); }); document.getElementById('back').addEventListener('click', ()=> renderTopAndDashboard()); }
 
-// Basic other views (reused from earlier)
-function renderBooking(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Book a Visit</h3><div style='margin-top:12px'><label>Patient</label><input id='patName' value='${appState.profile.name}'></div><div style='margin-top:12px'><label>Select doctor</label><select id='doctorSelect'></select></div><div style='margin-top:12px'><label>Date & time</label><input id='when' type='datetime-local'></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bookBtn' class='btn'>Book</button><button id='back' class='btn ghost'>Back</button></div></div>`; const sel=document.getElementById('doctorSelect'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); document.getElementById('bookBtn').addEventListener('click',()=>{ const did=sel.value; const when=document.getElementById('when').value; const pat=document.getElementById('patName').value.trim()||appState.profile.name; if(!when){ alert('Choose time'); return; } const doc=DOCTORS.find(x=>x.id===did); appState.appointments.push({id:uid(),doctorId:did,doctorName:doc.name,when,patient:pat}); save(); alert('Booked'); showView('dashboard'); }); document.getElementById('back').addEventListener('click', ()=> showView('dashboard')); }
 function renderHistory(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Profile & Notes</h3><div style='margin-top:12px'><label>Full name</label><input id='p_name' value='${appState.profile.name}'></div><div style='margin-top:12px;display:flex;gap:8px'><button id='saveProfile' class='btn'>Save Profile</button><button id='viewJournal' class='btn ghost'>View Journal</button></div></div><div class='card mt-12'><h3>Medical History</h3><div id='historyList'></div></div>`; document.getElementById('saveProfile').addEventListener('click', ()=>{ appState.profile.name=document.getElementById('p_name').value.trim()||'Matilda'; save(); renderProfileSummary(); alert('Saved'); }); document.getElementById('viewJournal').addEventListener('click', ()=>{ alert(appState.profile.journal.map(j=>`${new Date(j.date).toLocaleString()} - ${j.text}`).join('\n\n')||'No entries'); }); renderHistoryList(); }
 function renderHistoryList(){ const node=document.getElementById('historyList'); node.innerHTML=''; if(appState.history.length===0) node.innerHTML='<div class="muted">No entries</div>'; appState.history.forEach(h=>{ const el=document.createElement('div'); el.className='history-item'; el.innerHTML=`<div style='font-weight:800'>${h.date}</div><div class='muted-small' style='margin-top:6px'>${h.notes}</div>`; node.appendChild(el); }); }
+
 function renderTelehealth(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Telehealth (Preview)</h3><div style='margin-top:12px'><label>Select doctor</label><select id='callDoc'></select></div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn'>Start Call</button><button id='endCall' class='btn ghost'>End Call</button></div><div class='video-stage mt-12'><video id='remote' autoplay playsinline muted style='width:65%;height:360px;background:#111'></video><video id='local' autoplay playsinline muted style='width:32%;height:180px;background:#111'></video></div></div>`; const sel=document.getElementById('callDoc'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); document.getElementById('startCall').addEventListener('click', async ()=>{ try{ const v=document.getElementById('local'); const s=await navigator.mediaDevices.getUserMedia({video:true,audio:true}); v.srcObject=s; document.getElementById('remote').srcObject=s; }catch(e){ alert('Camera failed: '+e.message); } }); document.getElementById('endCall').addEventListener('click', ()=>{ const v=document.getElementById('local'); if(v && v.srcObject){ v.srcObject.getTracks().forEach(t=>t.stop()); v.srcObject=null; document.getElementById('remote').srcObject=null; } }); }
+
 function renderSupport(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Symptom Support</h3><div style='margin-top:12px'><label>Describe symptoms</label><textarea id='symptoms' rows='3'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='getAdvice' class='btn'>Get Advice</button></div><div id='advice' class='mt-12'></div></div>`; document.getElementById('getAdvice').addEventListener('click', ()=>{ const txt=document.getElementById('symptoms').value; document.getElementById('advice').innerText = txt ? 'Advice: rest and hydrate (simulated)' : 'Please type symptoms'; }); }
 
-// profile summary
 function renderProfileSummary(){ document.getElementById('displayName').innerText = appState.profile.name || 'Matilda'; document.getElementById('avatar').innerText = (appState.profile.name||'Matilda').split(' ').map(s=>s[0]).slice(0,2).join(''); }
+function attachAvatarEdit(){ document.getElementById('avatar').addEventListener('click', ()=>{ const name=prompt('Enter display name', appState.profile.name||'Matilda'); if(name!==null){ appState.profile.name=name.trim()||'Matilda'; save(); renderProfileSummary(); renderTopAndDashboard(); } }); }
 
-// avatar click to change name
-function attachAvatarEdit(){ document.getElementById('avatar').addEventListener('click', ()=>{ const name=prompt('Enter display name', appState.profile.name||'Matilda'); if(name!==null){ appState.profile.name=name.trim()||'Matilda'; save(); renderProfileSummary(); showView('dashboard'); } }); }
+function showView(v){ if(v==='dashboard') renderTopAndDashboard(); else if(v==='book') renderBooking(); else if(v==='history') renderHistory(); else if(v==='telehealth') renderTelehealth(); else if(v==='support') renderSupport(); }
 
-// init
-load(); renderProfileSummary(); renderDoctors(); showView('dashboard'); attachAvatarEdit();
-
-// bottom nav wiring
+// bottom nav
 document.getElementById('bottomBar').addEventListener('click',(ev)=>{ const b=ev.target.closest('button'); if(!b) return; document.querySelectorAll('#bottomBar button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); const v=b.dataset.view; if(v==='consult') showView('telehealth'); else if(v==='records') showView('history'); else showView(v); });
 
 // fab
-document.getElementById('fab').addEventListener('click', ()=>{ showView('book'); });
+document.getElementById('fab').addEventListener('click', ()=> showView('book'));
 
+// init
+load(); renderProfileSummary(); renderTopAndDashboard(); renderDoctors(); attachAvatarEdit();
+
+window.vhc={appState,save,load};
 </script>
 </body>
 </html>
