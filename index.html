@@ -88,7 +88,7 @@
       </aside>
     </div>
 
-    <footer>Prototype — payments simulated. Android Purchases snippet created in android/MyApp.kt</footer>
+    <footer>Prototype — payments flow stub (web). Android Purchases snippet created in android/MyApp.kt</footer>
   </div>
 
   <!-- Payment modal (web stub) -->
@@ -107,12 +107,6 @@
   </div>
 
 <script>
-// Use the provided images for timeline/doctor avatars and appointment preview
-const TIMELINE_ASSETS = [
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F66e9aa98f57f4241aaf30f9e811b1ebc?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F0a3330fcb9664ab08c9b405defee7a75?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fae1080b043854996a4d68ce99691e8ee?format=webp&width=800'
-];
 
 // App state (local-only prototype)
 const STORAGE_KEY = 'vhc_paid_v1';
@@ -125,7 +119,7 @@ function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 function renderAppointmentPreview(){ const countdownEl = document.getElementById('apptCountdown'); const timelineRow = document.getElementById('timelineRow'); const appt = state.appointments[0]; if(!appt){ countdownEl.innerText='No appointments'; timelineRow.innerHTML=''; return; }
   document.getElementById('apptDetails').innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`;
   // countdown
-  function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Now'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } }
+  function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Due'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } }
   updateCountdown(); setInterval(updateCountdown,10000);
   // timeline avatars
   timelineRow.innerHTML='';
@@ -163,7 +157,7 @@ function simulatePayment(appt){ // basic validation
     // mark appointment paid and 'joined'
     appt.paid = true; save();
     // simulate opening telehealth view (here just alert)
-    alert('Simulated telehealth join for ' + appt.doctorName);
+    alert('Joining telehealth for ' + appt.doctorName);
   },1200);
 }
 
