@@ -75,13 +75,20 @@
           <div id="metrics" style="display:flex;gap:12px;margin-top:12px"></div>
         </div>
 
-        <div class="panel" style="margin-top:14px">
-          <h3>Quick Actions</h3>
-          <div style="display:flex;gap:12px;margin-top:12px">
-            <button class="btn-outline" id="bookBtnSmall">Book a Doctor</button>
-            <button class="btn-outline" id="consultBtnSmall">Start a Consult</button>
-            <button class="btn-outline" id="uploadBtnSmall">Upload Report</button>
-            <button class="btn-outline" id="sosBtnSmall">Emergency</button>
+        <div style="display:grid;grid-template-columns:1fr 240px;gap:12px">
+          <div class="panel">
+            <h3>Quick Actions</h3>
+            <div style="display:flex;gap:12px;margin-top:12px">
+              <button class="btn-outline" id="bookBtnSmall">Book a Doctor</button>
+              <button class="btn-outline" id="consultBtnSmall">Start a Consult</button>
+              <button class="btn-outline" id="uploadBtnSmall">Upload Report</button>
+              <button class="btn-outline" id="sosBtnSmall">Emergency</button>
+            </div>
+          </div>
+
+          <div class="panel" id="doctorsPanel" style="min-width:200px">
+            <h3>Care Team</h3>
+            <div id="doctorsList" style="display:flex;flex-direction:column;gap:10px;margin-top:12px"></div>
           </div>
         </div>
       </div>
