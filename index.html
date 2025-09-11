@@ -142,6 +142,17 @@ const DOCTOR_ASSETS = [
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=400'
 ];
 
+// render list of doctors in the Care Team panel
+function renderDoctorsTiles(){ const list = document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [
+  {name:'Dr. Maya Chen',img:DOCTOR_ASSETS[0],spec:'General'},
+  {name:'Dr. Arjun Patel',img:DOCTOR_ASSETS[1],spec:'Pediatrics'},
+  {name:'Dr. Leila Gomez',img:DOCTOR_ASSETS[2],spec:'Psychiatry'}
+]; docs.forEach(d=>{ const row=document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='10px'; row.innerHTML = `<div style='width:56px;height:56px;border-radius:10px;overflow:hidden'><img src='${d.img}' style='width:100%;height:100%;object-fit:cover' /></div><div style='flex:1'><div style='font-weight:700'>${d.name}</div><div style='color:var(--muted);font-size:12px'>${d.spec}</div></div><div><button class='btn-outline' data-doc='${d.name}'>Book</button></div>`; list.appendChild(row); });
+  list.querySelectorAll('button[data-doc]').forEach(b=> b.addEventListener('click', ()=> showBookingModalWithDoctor(b.dataset.doc)));
+}
+
+function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }
+
 function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); }
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
