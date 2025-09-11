@@ -10,91 +10,62 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    :root{
-      --bg1:#04060b; --bg2:#0b1220;
-      --card-bg: rgba(255,255,255,0.04);
-      --glass-bg: rgba(255,255,255,0.06);
-      --muted:#9aa6b3; --text:#e6eef8; --accent:#6b7bff; --accent-2:#34d6a6;
-      --radius:14px; --shadow-lg: 0 20px 50px rgba(4,6,15,0.7);
-    }
-
-    body.noir{ --bg1:#050405; --bg2:#0b0b0b; --accent:#c4c3ff; --accent-2:#9be5c9; --muted:#bfcad6; }
-
+    :root{ --bg1:#04060b; --bg2:#0b1220; --muted:#9aa6b3; --text:#e6eef8; --accent:#6b7bff; --accent-2:#34d6a6; --radius:14px }
+    body.noir{ --bg1:#050405; --bg2:#0b0b0b; --accent:#c4c3ff; --accent-2:#9be5c9 }
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    body{min-height:100vh;background:radial-gradient(900px 400px at 10% 12%, rgba(107,123,255,0.06), transparent), linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);padding:28px;transition:background .25s ease,color .2s}
-
-    .app{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
-
-    /* Glass header */
-    header.app-header{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:18px;border-radius:var(--radius);background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(8px) saturate(120%);box-shadow:var(--shadow-lg)}
-    .brand-title{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--accent-2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .brand-sub{color:var(--muted);font-size:0.9rem}
-
-    .header-actions{margin-left:auto;display:flex;gap:12px;align-items:center}
-    .btn{background:linear-gradient(135deg,var(--accent),#7a6bff);border:none;color:white;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700;display:inline-flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(83,92,255,0.12);transition:transform .12s ease,box-shadow .12s ease}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:10px 12px}
+    body{min-height:100vh;background:radial-gradient(900px 400px at 10% 12%, rgba(107,123,255,0.06), transparent), linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);padding:28px}
+    .app{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px}
+    .app-header{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:18px;border-radius:var(--radius);backdrop-filter:blur(8px)}
+    .brand-title{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--accent-2),var(--accent));-webkit-background-clip:text;color:transparent}
+    .header-actions{margin-left:auto;display:flex;gap:12px}
 
     /* Sidebar */
-    .sidebar{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03);height:calc(100vh - 160px);overflow:auto;backdrop-filter: blur(6px)}
+    .sidebar{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:var(--radius);height:calc(100vh - 160px);overflow:auto}
     .profile{display:flex;gap:14px;align-items:center}
-    .avatar{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#081026}
-    .user-name{font-weight:800;font-size:1rem}
-
+    .avatar{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#081026}
     .nav{margin-top:18px;display:flex;flex-direction:column;gap:8px}
     .nav button{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:transparent;border:none;color:var(--muted);text-align:left;cursor:pointer;font-weight:700}
-    .nav button i{width:20px;text-align:center;color:var(--accent-2)}
-    .nav button.active{background:linear-gradient(90deg,rgba(107,123,255,0.12),rgba(47,210,164,0.03));border:1px solid rgba(255,255,255,0.02);color:var(--text)}
+    .nav button.active{background:linear-gradient(90deg,rgba(107,123,255,0.12),rgba(47,210,164,0.03));color:var(--text)}
 
-    /* Main */
+    /* Main area */
     .main-area{display:grid;grid-template-rows:auto 1fr;gap:18px}
-    .tabs{display:flex;gap:8px;align-items:center}
-
-    /* Colorful pill tabs */
-    .tab{padding:10px 14px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer;font-weight:700}
-    .tab[data-tab='dashboard'].active{background:linear-gradient(90deg,#5b7bff22,#2fd6a622);color:var(--text)}
-    .tab[data-tab='book'].active{background:linear-gradient(90deg,#ffb86b22,#ff6b6b22);color:var(--text)}
-    .tab[data-tab='history'].active{background:linear-gradient(90deg,#9be5c922,#6bffd522);color:var(--text)}
-    .tab[data-tab='telehealth'].active{background:linear-gradient(90deg,#9fc7ff22,#b38bff22);color:var(--text)}
-    .tab[data-tab='support'].active{background:linear-gradient(90deg,#ffd6f022,#ff9ab522);color:var(--text)}
-
-    .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-    .card{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);backdrop-filter: blur(6px);}
-    h3{margin:0;font-size:1.05rem;color:var(--text)}
-
-    /* Doctors grid with images */
-    .doctor-list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
-    .doctor{display:flex;gap:12px;align-items:center;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));border:1px solid rgba(255,255,255,0.02);transition:transform .12s ease}
-    .doctor:hover{transform:translateY(-6px)}
-    .doctor .avatar{width:72px;height:72px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center}
-    .doctor .avatar img{width:100%;height:100%;object-fit:cover}
-
-    /* Greeting */
-    .greet{display:flex;align-items:center;gap:18px;padding:16px;border-radius:12px;background:linear-gradient(90deg, rgba(107,123,255,0.06), rgba(47,210,164,0.02));border:1px solid rgba(255,255,255,0.02);backdrop-filter: blur(6px)}
-    .wave{width:180px;height:56px;border-radius:10px;position:relative;overflow:hidden;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005))}
+    .greet{display:flex;align-items:center;gap:18px;padding:16px;border-radius:12px;background:linear-gradient(90deg, rgba(107,123,255,0.06), rgba(47,210,164,0.02))}
+    .wave{width:160px;height:56px;border-radius:10px;position:relative;overflow:hidden}
     .neural{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.06), transparent);opacity:.18;animation:wave 6s linear infinite}
     @keyframes wave{0%{transform:translateX(-30%)}50%{transform:translateX(30%)}100%{transform:translateX(-30%)}}
 
-    .mood{display:flex;align-items:center;gap:10px}
-    .mood .emoji{font-size:1.8rem}
+    .cards{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px}
 
-    /* Image carousel */
-    .hero-carousel{display:flex;gap:12px;align-items:center}
-    .hero-item{flex:1;border-radius:10px;overflow:hidden;height:140px;border:1px solid rgba(255,255,255,0.03)}
-    .hero-item img{width:100%;height:100%;object-fit:cover}
+    /* Quick action cards */
+    .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+    .action-card{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);text-align:center;cursor:pointer;position:relative;overflow:hidden}
+    .action-card i{font-size:20px}
+    .ripple{position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,0.12);animation:ripple .6s linear}
+    @keyframes ripple{to{transform:scale(6);opacity:0}}
 
-    /* File list */
-    .file-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-    .file-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
+    /* Health rings */
+    .rings{display:flex;gap:12px;align-items:center;margin-top:12px}
+    .ring{width:120px;height:120px;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer}
+    .ring svg{transform:rotate(-90deg)}
+    .ring .label{margin-top:8px;font-weight:700}
 
-    /* Bottom nav + FAB */
-    .bottom-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;height:72px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:40px;padding:10px 18px;display:flex;gap:18px;align-items:center;box-shadow:0 20px 50px rgba(4,6,15,0.6);z-index:60}
-    .bottom-bar button{background:transparent;border:none;color:var(--muted);font-size:18px;padding:8px;cursor:pointer}
-    .bottom-bar button.active{color:var(--accent-2)}
-    .fab{position:fixed;left:50%;transform:translateX(-50%);bottom:86px;width:68px;height:68px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#031227;border:none;box-shadow:0 18px 40px rgba(20,28,80,0.5);z-index:70;cursor:pointer}
-    .fab-menu{position:fixed;left:50%;transform:translateX(-50%);bottom:164px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:69}
-    .fab-item{background:linear-gradient(90deg,#fff,rgba(255,255,255,0.9));color:#031227;padding:8px 12px;border-radius:999px;box-shadow:0 12px 30px rgba(0,0,0,0.4)}
+    /* Insights */
+    .insights{display:flex;overflow-x:auto;gap:12px;padding-bottom:8px;margin-top:12px}
+    .insight{min-width:220px;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
 
-    @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{display:none}.bottom-bar{left:16px;transform:none;border-radius:12px;width:calc(100% - 32px)}.fab{left:auto;right:22px;transform:none}}
+    /* Appointments */
+    .appointments{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .appt{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.01)}
+
+    /* FAB & bottom nav */
+    .fab{position:fixed;left:50%;transform:translateX(-50%);bottom:86px;width:68px;height:68px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#031227;border:none}
+    .bottom-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;height:72px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:40px;padding:10px 18px;display:flex;gap:18px;align-items:center}
+
+    /* Modal */
+    .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.4));padding:18px;border-radius:12px;z-index:90;min-width:320px}
+
+    @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{display:none}}
   </style>
 </head>
 <body>
@@ -104,7 +75,6 @@
         <div class="brand-title">Virtual HealthCare</div>
         <div class="brand-sub">Seamless care, better outcomes</div>
       </div>
-
       <div class="header-actions">
         <button id="toggleNoir" class="btn ghost"><i class="fa-solid fa-moon"></i> Noir</button>
         <button id="exportHistory" class="btn"><i class="fa-solid fa-file-export"></i> Export</button>
@@ -139,17 +109,11 @@
 
     <main class="main-area">
       <div id="contentTop"></div>
-      <div id="content" style="min-height:460px"></div>
+      <div id="content"></div>
     </main>
   </div>
 
   <div class="fab" id="fab" title="Quick actions">+</div>
-  <div class="fab-menu" id="fabMenu" style="display:none">
-    <button class="fab-item" data-action="book">Book consult</button>
-    <button class="fab-item" data-action="upload">Upload report</button>
-    <button class="fab-item" data-action="sos">SOS</button>
-  </div>
-
   <div class="bottom-bar" id="bottomBar">
     <button data-view="dashboard" class="active"><i class="fa-solid fa-house"></i></button>
     <button data-view="book"><i class="fa-solid fa-calendar-days"></i></button>
@@ -158,204 +122,128 @@
     <button data-view="profile"><i class="fa-solid fa-user"></i></button>
   </div>
 
+  <div id="modalRoot"></div>
+
 <script>
-// Image assets provided by user
-const ASSETS = [
+// assets
+const ASSETS=[
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fd4bb6da732db4c70afd61b2c287ccb32?format=webp&width=800',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fb458e9cab3c84f5a933c3ed41994ac73?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F55dab1fc989d4c3da980c2c7ed0c6102?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F25ef9274ba4d4fe98a499ac831aad674?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F2dd46570c5b940f5b412a90283bdd99e?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fb4d79c2d069d4cf39c9589924a69030e?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F8babb93a6bde430b97a004436d0a6ead?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F49804b84ade345d396b30d64df4982cc?format=webp&width=800',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=800'
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=800'
 ];
 
-/* App state and persistence */
-const STORAGE_KEY = 'vhc_app_v4_images';
-const DOCTORS = [ {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',avatarUrl:ASSETS[2]}, {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',avatarUrl:ASSETS[3]}, {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',avatarUrl:ASSETS[9]} ];
-let appState = { profile:{name:'Matilda', dob:'', gender:'', phone:'', email:'', address:'', mood:7}, appointments:[], history:[], files:[] };
-function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) { try{ appState = JSON.parse(s); }catch(e){ console.error(e); } } }
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); }
+// state
+const STORAGE_KEY='vhc_home_wire_v1';
+let appState={ profile:{name:'Matilda',mood:7,journal:[]}, appointments:[],history:[],files:[] };
+function load(){ const s=localStorage.getItem(STORAGE_KEY); if(s) try{ appState=JSON.parse(s); }catch(e){} }
+function save(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(appState)); }
 function uid(){ return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8); }
 
-/* UI refs */
-const doctorListDiv = document.getElementById('doctorList');
-const avatarEl = document.getElementById('avatar');
-const displayName = document.getElementById('displayName');
+// doctors
+const DOCTORS=[ {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',img:ASSETS[2]}, {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',img:ASSETS[1]}, {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',img:ASSETS[0]} ];
 
-function renderProfileSummary(){ const p = appState.profile; displayName.innerText = p.name || 'Matilda'; avatarEl.innerText = (p.name ? p.name.split(' ').map(s=>s[0]).slice(0,2).join('') : 'M'); }
+// render helpers
+function renderDoctors(){ const el=document.getElementById('doctorList'); el.innerHTML=''; DOCTORS.forEach(d=>{ const card=document.createElement('div'); card.className='doctor'; card.innerHTML=`<div class='avatar'><img src='${d.img}' alt='${d.name}'/></div><div class='meta'><div class='name'>${d.name}</div><div class='spec'>${d.specialty}</div></div><div><button class='btn ghost' data-doctor='${d.id}'>Book</button></div>`; el.appendChild(card); }); document.querySelectorAll('#doctorList button').forEach(b=>b.addEventListener('click',()=>{ showView('book'); preselectDoctor(b.dataset.doctor); })); }
 
-/* Render doctors with image tiles */
-function renderDoctors(){ doctorListDiv.innerHTML=''; DOCTORS.forEach(d=>{ const el=document.createElement('div'); el.className='doctor'; el.innerHTML = `<div class='avatar'><img src='${d.avatarUrl}' alt='${d.name}' /></div><div class='meta'><div class='name'>${d.name}</div><div class='spec'>${d.specialty}</div></div><div><button class='btn ghost' data-doctor='${d.id}'>Book</button></div>`; doctorListDiv.appendChild(el); }); doctorListDiv.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=>{ showView('book'); preselectDoctor(b.dataset.doctor); })); }
-
-/* Navigation */
-document.getElementById('nav').addEventListener('click',(ev)=>{ const b=ev.target.closest('button'); if(!b) return; document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); showView(b.dataset.view); });
-
-/* Bottom bar */
-document.getElementById('bottomBar').addEventListener('click',(ev)=>{ const b=ev.target.closest('button'); if(!b) return; document.querySelectorAll('#bottomBar button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); const view = b.dataset.view; if(view==='consult') showView('telehealth'); else if(view==='records') showView('history'); else if(view==='profile') showView('history'); else showView(view); });
-
-/* FAB behavior */
-const fab = document.getElementById('fab'); const fabMenu = document.getElementById('fabMenu'); fab.addEventListener('click', ()=>{ fabMenu.style.display = fabMenu.style.display === 'none' ? 'flex' : 'none'; }); fabMenu.addEventListener('click',(ev)=>{ const btn = ev.target.closest('button'); if(!btn) return; const a = btn.dataset.action; if(a==='book') showView('book'); if(a==='upload'){ document.getElementById('fileInputMain')?.click(); } if(a==='sos') alert('SOS: Call emergency services or notify your caregiver.'); fabMenu.style.display='none'; });
-
-/* Tabs rendering with hero images */
-function renderTabs(active){ const container=document.getElementById('contentTop'); container.innerHTML = `
-  <div style='display:flex;flex-direction:column;gap:12px'>
-    <div class='greet'>
-      <div style='flex:1'>
-        <div style='font-size:1.05rem;font-weight:800'>Hi ${appState.profile.name || 'Matilda'}, how’s your brain today?</div>
-        <div class='muted-small' style='margin-top:6px'>Quick actions and insights just for you</div>
-      </div>
-      <div class='wave'><div class='neural'></div></div>
+// UI: greeting, mood, carousel
+function renderTop(active){ const top=document.getElementById('contentTop'); top.innerHTML=`
+  <div class='greet'>
+    <div style='flex:1'>
+      <div style='font-size:1.05rem;font-weight:800'>Hi ${appState.profile.name}, how’s your brain today?</div>
+      <div class='muted-small' style='margin-top:6px'>Quick actions and insights just for you</div>
     </div>
-
-    <div style='display:flex;align-items:center;gap:18px'>
-      <div class='mood'><div class='emoji' id='moodEmoji'>🙂</div><input id='moodRange' type='range' min='0' max='10' value='${appState.profile.mood || 7}'></div>
-      <div style='flex:1'>
-        <div class='hero-carousel' id='heroCarousel'></div>
-      </div>
-      <div class='muted-small' style='margin-left:auto'>Personalize name: click avatar</div>
-    </div>
+    <div class='wave'><div class='neural'></div></div>
+  </div>
+  <div style='display:flex;align-items:center;gap:18px;margin-top:12px'>
+    <div class='mood'><div class='emoji' id='moodEmoji'>🙂</div><input id='moodRange' type='range' min='0' max='10' value='${appState.profile.mood}'></div>
+    <div style='flex:1'><div class='hero-carousel' id='heroCarousel'></div></div>
+    <div class='muted-small' style='margin-left:auto'>Personalize name: click avatar</div>
   </div>`;
-
-  // populate carousel
-  const hero = document.getElementById('heroCarousel'); ASSETS.slice(0,4).forEach(src=>{ const it=document.createElement('div'); it.className='hero-item'; it.innerHTML = `<img src='${src}' alt='hero'>`; hero.appendChild(it); });
-  document.getElementById('moodRange').addEventListener('input',(e)=>{ const v = Number(e.target.value); appState.profile.mood = v; save(); updateMoodEmoji(v); });
+  const hero=document.getElementById('heroCarousel'); ASSETS.forEach(src=>{ const it=document.createElement('div'); it.className='hero-item'; it.innerHTML=`<img src='${src}'/>`; hero.appendChild(it); });
+  document.getElementById('moodRange').addEventListener('input',(e)=>{ const v=Number(e.target.value); appState.profile.mood=v; save(); updateMoodEmoji(v); if(v<=3) showJournalPrompt(); });
+  updateMoodEmoji(appState.profile.mood);
 }
 function updateMoodEmoji(v){ const el=document.getElementById('moodEmoji'); if(!el) return; if(v<=2) el.innerText='😢'; else if(v<=4) el.innerText='😕'; else if(v<=6) el.innerText='🙂'; else if(v<=8) el.innerText='😀'; else el.innerText='🤩'; }
 
-/* Views */
-const content = document.getElementById('content');
-function showView(v){ renderTabs(v); switch(v){ case 'dashboard': renderDashboard(); break; case 'book': renderBooking(); break; case 'history': renderHistory(); break; case 'telehealth': renderTelehealth(); break; case 'support': renderSupport(); break; default: renderDashboard(); } }
-
-function renderDashboard(){ content.innerHTML = `
+// Dashboard
+function renderDashboard(){ const content=document.getElementById('content'); content.innerHTML=`
   <div class='cards'>
     <div class='card'>
-      <h3>Profile</h3>
-      <div style='display:flex;gap:12px;align-items:center;margin-top:12px'>
-        <div style='flex:1'><div class='muted-small'>Name</div><div style='font-weight:800;margin-top:6px'>${appState.profile.name || '-'}</div></div>
-        <div style='flex:1'><div class='muted-small'>Contact</div><div style='font-weight:800;margin-top:6px'>${appState.profile.phone || appState.profile.email || '-'}</div></div>
-      </div>
-      <div class='mt-12'><button id='editProfile' class='btn ghost'>Edit Profile</button></div>
+      <h3>Health Pulse</h3>
+      <div class='rings' id='rings'></div>
+      <div class='insights' id='insights'></div>
     </div>
     <div class='card'>
       <h3>Quick Actions</h3>
-      <div style='display:flex;flex-direction:column;gap:10px;margin-top:12px'>
-        <button id='quickBook' class='btn'>Book Appointment</button>
-        <button id='quickNote' class='btn ghost'>Add Medical Note</button>
-        <button id='quickUpload' class='btn'>Upload Document</button>
+      <div class='quick-actions'>
+        <div class='action-card' data-action='book'><i class='fa-solid fa-user-doctor'></i><div class='label'>Book</div></div>
+        <div class='action-card' data-action='consult'><i class='fa-solid fa-video'></i><div class='label'>Consult</div></div>
+        <div class='action-card' data-action='upload'><i class='fa-solid fa-file-upload'></i><div class='label'>Upload</div></div>
+        <div class='action-card' data-action='sos'><i class='fa-solid fa-bell'></i><div class='label'>SOS</div></div>
       </div>
+      <div style='margin-top:16px'><h3>Upcoming</h3><div id='upcoming' class='appointments'></div></div>
     </div>
-  </div>
-  <div class='card mt-12'>
-    <h3>Upcoming Appointments</h3>
-    <div id='upcomingList' class='appointments mt-8'></div>
-  </div>
-  <div class='card mt-12'>
-    <h3>Files & Documents</h3>
-    <div id='fileSection' class='mt-8'>
-      <div style='display:flex;gap:8px;align-items:center'><input type='file' id='fileInputMain' style='display:none' /><button id='addFileBtn' class='btn ghost'>Upload Document</button><div class='muted-small' style='margin-left:auto'>${appState.files.length} files</div></div>
-      <div class='file-list' id='fileList'></div>
-    </div>
-  </div>
-`;
-  document.getElementById('editProfile').addEventListener('click', ()=> showView('history'));
-  document.getElementById('quickBook').addEventListener('click', ()=> showView('book'));
-  document.getElementById('quickNote').addEventListener('click', ()=> showView('history'));
-  document.getElementById('quickUpload').addEventListener('click', ()=> document.getElementById('fileInputMain').click());
-  document.getElementById('addFileBtn').addEventListener('click', ()=> document.getElementById('fileInputMain').click());
-  document.getElementById('fileInputMain').addEventListener('change', handleFileUpload);
-  renderUpcoming(); renderFileList(); updateMoodEmoji(appState.profile.mood || 7);
-}
+  </div>`;
+  renderRings(); renderInsights(); renderQuickActions(); renderUpcoming(); }
 
-function renderUpcoming(){ const node=document.getElementById('upcomingList'); if(!node) return; node.innerHTML=''; const next = appState.appointments.slice().sort((a,b)=>new Date(a.when)-new Date(b.when)).slice(0,5); if(next.length===0) node.innerHTML='<div class="muted">No upcoming appointments</div>'; next.forEach(a=>{ const el=document.createElement('div'); el.className='appt'; el.innerHTML = `<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted-small'>${new Date(a.when).toLocaleString()}</div></div><div><button class='btn ghost' data-id='${a.id}'>Cancel</button></div>`; node.appendChild(el); }); node.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=> cancelAppointment(b.dataset.id))); }
+// Rings component
+function renderRings(){ const container=document.getElementById('rings'); container.innerHTML=''; const metrics=[{key:'sleep',label:'Sleep',value:72,color:'#34d6a6'},{key:'stress',label:'Stress',value:38,color:'#ffd166'},{key:'meds',label:'Meds',value:90,color:'#6b7bff'},{key:'consults',label:'Consults',value:40,color:'#ff8fab'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.className='ring'; el.innerHTML = ringHTML(m); el.addEventListener('click', ()=> showMetricModal(m)); container.appendChild(el); });}
+function ringHTML(m){ const pct=m.value; const r=52; const c=2*Math.PI*r; const dash=(1-(pct/100))*c; return `
+  <svg width='120' height='120' viewBox='0 0 120 120'>
+    <defs><linearGradient id='g${m.key}' x1='0' x2='1'><stop offset='0' stop-color='${m.color}' /><stop offset='1' stop-color='${m.color}' /></linearGradient></defs>
+    <circle cx='60' cy='60' r='52' stroke='rgba(255,255,255,0.06)' stroke-width='12' fill='none' />
+    <circle cx='60' cy='60' r='52' stroke='url(#g${m.key})' stroke-width='12' fill='none' stroke-dasharray='${c}' stroke-dashoffset='${dash}' stroke-linecap='round' />
+    <text x='60' y='64' font-size='16' text-anchor='middle' fill='white' font-weight='700'>${m.value}%</text>
+  </svg>
+  <div class='label'>${m.label}</div>
+` }
+function showMetricModal(m){ const root=document.getElementById('modalRoot'); root.innerHTML=`<div class='modal' id='metricModal'><h3>${m.label} details</h3><div style='margin-top:8px'>Current: ${m.value}%</div><div style='margin-top:12px'><button id='closeMetric' class='btn ghost'>Close</button></div></div>`; document.getElementById('closeMetric').addEventListener('click', ()=>{ document.getElementById('modalRoot').innerHTML=''; }); }
 
-let preselectedDoctor=null; function preselectDoctor(id){ preselectedDoctor=id; }
-function renderBooking(){ content.innerHTML = `
-  <div class='card'>
-    <h3>Book a Visit</h3>
-    <div class='mt-8'><label>Patient</label><input id='patName' value='${(appState.profile.name||'').replace(/'/g,"\\'")}'></div>
-    <div class='mt-8'><label>Select doctor</label><select id='doctorSelect'></select></div>
-    <div class='mt-8'><label>Date & time</label><input id='when' type='datetime-local'></div>
-    <div class='mt-8'><label>Reason</label><input id='reason'></div>
-    <div class='mt-12' style='display:flex;gap:8px'><button id='bookBtn' class='btn'>Book</button><button id='back' class='btn ghost'>Back</button></div>
-  </div>
-`;
-  const sel = document.getElementById('doctorSelect'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); if(preselectedDoctor) sel.value = preselectedDoctor;
-  document.getElementById('back').addEventListener('click', ()=> showView('dashboard'));
-  document.getElementById('bookBtn').addEventListener('click', ()=>{ const did=sel.value; const when=document.getElementById('when').value; const reason=document.getElementById('reason').value.trim(); if(!when||!reason){ alert('Please choose date/time and a reason'); return; } const doc=DOCTORS.find(x=>x.id===did); appState.appointments.push({id:uid(),doctorId:did,doctorName:doc.name,when,reason}); save(); alert('Booked'); showView('dashboard'); }); }
+// Insights
+function renderInsights(){ const node=document.getElementById('insights'); if(!node) return; const items=[ 'Your hydration is low — try a glass of water 💧', 'Cognitive twin suggests a focus boost exercise', 'You walked 2,000 steps today — nice!' ]; node.innerHTML=''; items.forEach(t=>{ const c=document.createElement('div'); c.className='insight'; c.innerHTML=`<div style='font-weight:700'>Quick Insight</div><div style='margin-top:8px'>${t}</div>`; node.appendChild(c); }); }
 
-function renderHistory(){ content.innerHTML = `
-  <div class='card'>
-    <h3>Profile</h3>
-    <div class='mt-8'><label>Full name</label><input id='p_name' value='${(appState.profile.name||'').replace(/'/g,"\\'")}'></div>
-    <div class='mt-8' style='display:flex;gap:8px'><div style='flex:1'><label>DOB</label><input id='p_dob' type='date' value='${appState.profile.dob}'></div><div style='flex:1'><label>Gender</label><select id='p_gender'><option value=''>-</option><option value='female'>Female</option><option value='male'>Male</option><option value='other'>Other</option></select></div></div>
-    <div class='mt-8'><label>Phone</label><input id='p_phone' value='${appState.profile.phone}'></div>
-    <div class='mt-8'><label>Email</label><input id='p_email' value='${appState.profile.email}'></div>
-    <div class='mt-8'><label>Address</label><input id='p_address' value='${appState.profile.address}'></div>
-    <div class='mt-12' style='display:flex;gap:8px'><button id='saveProfile' class='btn'>Save Profile</button><button id='addNote' class='btn ghost'>Add Medical Note</button></div>
-  </div>
-  <div class='card mt-12'><h3>Add Medical Note</h3>
-    <div class='mt-8'><label>Date</label><input id='noteDate' type='date' value='${new Date().toISOString().slice(0,10)}'></div>
-    <div class='mt-8'><label>Note</label><textarea id='noteText' rows='3'></textarea></div>
-    <div class='mt-12'><button id='saveNote' class='btn'>Save Note</button></div>
-  </div>
-  <div class='card mt-12'><h3>Medical History</h3><div id='historyList' class='history-list mt-8'></div></div>
-`;
-  document.getElementById('p_gender').value = appState.profile.gender || '';
-  document.getElementById('saveProfile').addEventListener('click', ()=>{ appState.profile.name=document.getElementById('p_name').value.trim()||'Matilda'; appState.profile.dob=document.getElementById('p_dob').value; appState.profile.gender=document.getElementById('p_gender').value; appState.profile.phone=document.getElementById('p_phone').value; appState.profile.email=document.getElementById('p_email').value; appState.profile.address=document.getElementById('p_address').value; save(); renderProfileSummary(); alert('Profile saved'); });
-  document.getElementById('saveNote').addEventListener('click', ()=>{ const d=document.getElementById('noteDate').value||new Date().toISOString().slice(0,10); const t=document.getElementById('noteText').value.trim(); if(!t){ alert('Add note text'); return; } appState.history.push({id:uid(),date:d,notes:t}); save(); renderHistory(); });
-  renderHistoryList(); }
+// Quick action ripple
+function renderQuickActions(){ document.querySelectorAll('.action-card').forEach(card=>{ card.addEventListener('click',(e)=>{ const r=document.createElement('span'); r.className='ripple'; const rect=card.getBoundingClientRect(); const size=Math.max(rect.width,rect.height); r.style.width=r.style.height=size+'px'; r.style.left=(e.clientX-rect.left-size/2)+'px'; r.style.top=(e.clientY-rect.top-size/2)+'px'; card.appendChild(r); setTimeout(()=> r.remove(),600);
+    const action=card.dataset.action; if(action==='book') showView('book'); if(action==='consult') showView('telehealth'); if(action==='upload') document.getElementById('fileInputMain')?.click(); if(action==='sos') alert('SOS: Call emergency services.'); }); }); }
 
-function renderHistoryList(){ const node=document.getElementById('historyList'); node.innerHTML=''; if(appState.history.length===0) node.innerHTML='<div class="muted">No history entries</div>'; appState.history.slice().reverse().forEach(h=>{ const el=document.createElement('div'); el.className='history-item'; el.innerHTML = `<div style='display:flex;justify-content:space-between;align-items:center'><div style='font-weight:800'>${h.date}</div><div class='muted-small' style='font-size:0.85rem'>${h.notes.length>40? h.notes.slice(0,40)+'…':h.notes}</div></div><div style='margin-top:8px;display:flex;gap:8px'><button class='btn' data-view='details' data-id='${h.id}'>View</button><button class='btn ghost' data-id='${h.id}'>Delete</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=>{ const id=b.dataset.id; if(b.innerText.trim()==='Delete'){ if(!confirm('Delete entry?')) return; appState.history=appState.history.filter(x=>x.id!==id); save(); renderHistory(); } })); node.querySelectorAll('button[data-view]').forEach(b=> b.addEventListener('click', ()=>{ const item=appState.history.find(x=>x.id===b.dataset.id); if(item) alert(item.date+'\n\n'+item.notes); })); }
-
-// Telehealth preview
-let localStream=null; function renderTelehealth(){ content.innerHTML = `
-  <div class='card'>
-    <h3>Telehealth (Preview)</h3>
-    <div class='mt-8'><label>Select doctor</label><select id='callDoc'></select></div>
-    <div class='mt-12' style='display:flex;gap:8px'><button id='startCall' class='btn'>Start Call</button><button id='endCall' class='btn ghost'>End Call</button></div>
-    <div class='video-stage mt-12'><video id='remote' autoplay playsinline muted style='width:65%;height:360px;background:#111;border:1px solid rgba(255,255,255,0.03)'></video><video id='local' autoplay playsinline muted style='width:32%;height:180px;border:1px solid rgba(255,255,255,0.03)'></video></div>
-  </div>
-`;
-  const sel=document.getElementById('callDoc'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); document.getElementById('startCall').addEventListener('click', async ()=>{ try{ const v=document.getElementById('local'); localStream = await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:true}); v.srcObject = localStream; document.getElementById('remote').srcObject = localStream; }catch(e){ alert('Camera failed: '+e.message); } }); document.getElementById('endCall').addEventListener('click', ()=>{ if(localStream){ localStream.getTracks().forEach(t=>t.stop()); localStream=null; document.getElementById('local').srcObject=null; document.getElementById('remote').srcObject=null; } }); }
-
-// Support
-function renderSupport(){ content.innerHTML = `
-  <div class='card'>
-    <h3>Symptom Support</h3>
-    <div class='mt-8'><label>Describe symptoms</label><textarea id='symptoms' rows='3'></textarea></div>
-    <div class='mt-12' style='display:flex;gap:8px'><button id='getAdvice' class='btn'>Get Advice</button><button id='reqDoc' class='btn ghost'>Request Doctor</button></div>
-    <div id='advice' class='mt-12'></div>
-  </div>
-`;
-  document.getElementById('getAdvice').addEventListener('click', ()=>{ const txt=document.getElementById('symptoms').value.toLowerCase(); if(!txt) return alert('Please describe symptoms'); document.getElementById('advice').innerHTML=`<div class='advice'>${computeAdvice(txt)}</div>`; }); document.getElementById('reqDoc').addEventListener('click', ()=> alert('Doctor request recorded (simulated). Please book an appointment for a consult.')); }
-function computeAdvice(text){ if(/fever|chills|temperature/.test(text) && /cough|breath|sore throat/.test(text)) return 'Monitor closely; rest, fluids. If breathing issues or high fever, seek urgent care.'; if(/headache|migraine/.test(text)) return 'Rest, hydration, consider OTC analgesics. Seek care if severe or sudden.'; if(/nausea|diarrhea|vomit/.test(text)) return 'Hydrate and rest; if dehydrated or bloody stool seek care.'; if(/anxiety|sad|depress/.test(text)) return 'Try breathing exercises; seek mental health support if persistent.'; return 'For mild symptoms: rest, hydrate, monitor. Book appointment if unsure.'; }
+// Upcoming
+function renderUpcoming(){ const node=document.getElementById('upcoming'); if(!node) return; node.innerHTML=''; if(appState.appointments.length===0) node.innerHTML='<div class="muted">No upcoming appointments</div>'; appState.appointments.slice().forEach(a=>{ const el=document.createElement('div'); el.className='appt'; const when=new Date(a.when); const diff=(when - new Date())/60000; el.innerHTML=`<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted-small'>${when.toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn' data-join='${a.id}'>Join Now</button><button class='btn ghost' data-res='${a.id}'>Reschedule</button></div>`; node.appendChild(el); }); node.querySelectorAll('[data-join]').forEach(b=>b.addEventListener('click',()=> startCall(b.dataset.join))); node.querySelectorAll('[data-res]').forEach(b=>b.addEventListener('click',()=> reschedule(b.dataset.res))); }
+function startCall(id){ alert('Starting simulated call for appointment '+id); showView('telehealth'); }
+function reschedule(id){ const when=prompt('Enter new date-time (YYYY-MM-DDTHH:MM)', new Date().toISOString().slice(0,16)); if(!when) return; const ap=appState.appointments.find(a=>a.id===id); if(ap){ ap.when=when; save(); renderUpcoming(); alert('Rescheduled'); } }
 
 // Files
 function handleFileUpload(ev){ const f=ev.target.files[0]; if(!f) return; const id=uid(); const url=URL.createObjectURL(f); appState.files.push({id,name:f.name,size:f.size,date:new Date().toISOString(),url}); save(); renderFileList(); alert('File uploaded'); }
 function renderFileList(){ const node=document.getElementById('fileList'); if(!node) return; node.innerHTML=''; if(appState.files.length===0) node.innerHTML='<div class="muted">No documents uploaded</div>'; appState.files.slice().reverse().forEach(fi=>{ const el=document.createElement('div'); el.className='file-item'; el.innerHTML=`<div class='meta'><div class='name'>${fi.name}</div><div class='size'>${(fi.size/1024).toFixed(1)} KB • ${new Date(fi.date).toLocaleString()}</div></div><div style='display:flex;gap:8px'><a class='btn ghost' href='${fi.url}' download='${fi.name}'>Download</a><button class='btn' data-id='${fi.id}'>Delete</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=>{ if(!confirm('Delete file?')) return; appState.files=appState.files.filter(x=>x.id!==b.dataset.id); save(); renderFileList(); })); }
 
-// Appointment cancel
-function cancelAppointment(id){ if(!confirm('Cancel appointment?')) return; appState.appointments = appState.appointments.filter(a=>a.id!==id); save(); showView('dashboard'); }
+// Journal prompt
+function showJournalPrompt(){ const root=document.getElementById('modalRoot'); root.innerHTML=`<div class='modal'><h3>Quick Journal</h3><textarea id='quickJournal' rows='4' style='width:100%;margin-top:8px'></textarea><div style='margin-top:12px;display:flex;gap:8px'><button id='saveJournal' class='btn'>Save</button><button id='closeJournal' class='btn ghost'>Close</button></div></div>`; document.getElementById('saveJournal').addEventListener('click', ()=>{ const t=document.getElementById('quickJournal').value.trim(); if(t){ appState.profile.journal.push({id:uid(),text:t,date:new Date().toISOString()}); save(); alert('Journal saved'); } document.getElementById('modalRoot').innerHTML=''; }); document.getElementById('closeJournal').addEventListener('click', ()=> root.innerHTML=''); }
 
-// Avatar edit name
-avatarEl.addEventListener('click', ()=>{ const name = prompt('Enter display name', appState.profile.name||'Matilda'); if(name!==null){ appState.profile.name = name.trim()||'Matilda'; save(); renderProfileSummary(); showView('dashboard'); } });
+// Navigation & UI wiring
+function renderTopAndDashboard(){ renderTop(); renderDashboard(); renderDoctors(); renderFileList(); }
+function showView(v){ if(v==='dashboard') renderTopAndDashboard(); else if(v==='book') renderBooking(); else if(v==='history') renderHistory(); else if(v==='telehealth') renderTelehealth(); else if(v==='support') renderSupport(); }
 
-// Noir toggle
-document.getElementById('toggleNoir').addEventListener('click', ()=>{ document.body.classList.toggle('noir'); const on = document.body.classList.contains('noir'); document.getElementById('toggleNoir').innerHTML = on ? "<i class='fa-solid fa-sun'></i> Noir" : "<i class='fa-solid fa-moon'></i> Noir"; });
+// Basic other views (reused from earlier)
+function renderBooking(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Book a Visit</h3><div style='margin-top:12px'><label>Patient</label><input id='patName' value='${appState.profile.name}'></div><div style='margin-top:12px'><label>Select doctor</label><select id='doctorSelect'></select></div><div style='margin-top:12px'><label>Date & time</label><input id='when' type='datetime-local'></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bookBtn' class='btn'>Book</button><button id='back' class='btn ghost'>Back</button></div></div>`; const sel=document.getElementById('doctorSelect'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); document.getElementById('bookBtn').addEventListener('click',()=>{ const did=sel.value; const when=document.getElementById('when').value; const pat=document.getElementById('patName').value.trim()||appState.profile.name; if(!when){ alert('Choose time'); return; } const doc=DOCTORS.find(x=>x.id===did); appState.appointments.push({id:uid(),doctorId:did,doctorName:doc.name,when,patient:pat}); save(); alert('Booked'); showView('dashboard'); }); document.getElementById('back').addEventListener('click', ()=> showView('dashboard')); }
+function renderHistory(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Profile & Notes</h3><div style='margin-top:12px'><label>Full name</label><input id='p_name' value='${appState.profile.name}'></div><div style='margin-top:12px;display:flex;gap:8px'><button id='saveProfile' class='btn'>Save Profile</button><button id='viewJournal' class='btn ghost'>View Journal</button></div></div><div class='card mt-12'><h3>Medical History</h3><div id='historyList'></div></div>`; document.getElementById('saveProfile').addEventListener('click', ()=>{ appState.profile.name=document.getElementById('p_name').value.trim()||'Matilda'; save(); renderProfileSummary(); alert('Saved'); }); document.getElementById('viewJournal').addEventListener('click', ()=>{ alert(appState.profile.journal.map(j=>`${new Date(j.date).toLocaleString()} - ${j.text}`).join('\n\n')||'No entries'); }); renderHistoryList(); }
+function renderHistoryList(){ const node=document.getElementById('historyList'); node.innerHTML=''; if(appState.history.length===0) node.innerHTML='<div class="muted">No entries</div>'; appState.history.forEach(h=>{ const el=document.createElement('div'); el.className='history-item'; el.innerHTML=`<div style='font-weight:800'>${h.date}</div><div class='muted-small' style='margin-top:6px'>${h.notes}</div>`; node.appendChild(el); }); }
+function renderTelehealth(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Telehealth (Preview)</h3><div style='margin-top:12px'><label>Select doctor</label><select id='callDoc'></select></div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn'>Start Call</button><button id='endCall' class='btn ghost'>End Call</button></div><div class='video-stage mt-12'><video id='remote' autoplay playsinline muted style='width:65%;height:360px;background:#111'></video><video id='local' autoplay playsinline muted style='width:32%;height:180px;background:#111'></video></div></div>`; const sel=document.getElementById('callDoc'); DOCTORS.forEach(d=>{ const opt=document.createElement('option'); opt.value=d.id; opt.textContent=`${d.name} — ${d.specialty}`; sel.appendChild(opt); }); document.getElementById('startCall').addEventListener('click', async ()=>{ try{ const v=document.getElementById('local'); const s=await navigator.mediaDevices.getUserMedia({video:true,audio:true}); v.srcObject=s; document.getElementById('remote').srcObject=s; }catch(e){ alert('Camera failed: '+e.message); } }); document.getElementById('endCall').addEventListener('click', ()=>{ const v=document.getElementById('local'); if(v && v.srcObject){ v.srcObject.getTracks().forEach(t=>t.stop()); v.srcObject=null; document.getElementById('remote').srcObject=null; } }); }
+function renderSupport(){ const content=document.getElementById('content'); content.innerHTML=`<div class='card'><h3>Symptom Support</h3><div style='margin-top:12px'><label>Describe symptoms</label><textarea id='symptoms' rows='3'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='getAdvice' class='btn'>Get Advice</button></div><div id='advice' class='mt-12'></div></div>`; document.getElementById('getAdvice').addEventListener('click', ()=>{ const txt=document.getElementById('symptoms').value; document.getElementById('advice').innerText = txt ? 'Advice: rest and hydrate (simulated)' : 'Please type symptoms'; }); }
 
-// Header actions
-document.getElementById('exportHistory').addEventListener('click', ()=>{ const blob=new Blob([JSON.stringify(appState,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='vhc_export.json'; a.click(); });
-document.getElementById('helpBtn').addEventListener('click', ()=> alert('Polished prototype. Use the tabs to navigate. Data stays in your browser.'));
+// profile summary
+function renderProfileSummary(){ document.getElementById('displayName').innerText = appState.profile.name || 'Matilda'; document.getElementById('avatar').innerText = (appState.profile.name||'Matilda').split(' ').map(s=>s[0]).slice(0,2).join(''); }
 
-// Init
-load(); renderProfileSummary(); renderDoctors(); showView('dashboard'); renderFileList();
+// avatar click to change name
+function attachAvatarEdit(){ document.getElementById('avatar').addEventListener('click', ()=>{ const name=prompt('Enter display name', appState.profile.name||'Matilda'); if(name!==null){ appState.profile.name=name.trim()||'Matilda'; save(); renderProfileSummary(); showView('dashboard'); } }); }
 
-// debugging helper
-window.vhc = {appState,save,load};
+// init
+load(); renderProfileSummary(); renderDoctors(); showView('dashboard'); attachAvatarEdit();
+
+// bottom nav wiring
+document.getElementById('bottomBar').addEventListener('click',(ev)=>{ const b=ev.target.closest('button'); if(!b) return; document.querySelectorAll('#bottomBar button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); const v=b.dataset.view; if(v==='consult') showView('telehealth'); else if(v==='records') showView('history'); else showView(v); });
+
+// fab
+document.getElementById('fab').addEventListener('click', ()=>{ showView('book'); });
+
 </script>
 </body>
 </html>
