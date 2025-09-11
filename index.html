@@ -18,9 +18,9 @@
       --radius:14px;
       --shadow-lg: 0 20px 50px rgba(4,6,15,0.7);
       --shadow-sm: 0 6px 18px rgba(4,6,15,0.5);
+      --bottom-height:72px;
     }
 
-    /* Noir mode variables will invert/adjust colors for high-contrast cinematic look */
     body.noir{ --bg1:#050405; --bg2:#0b0b0b; --accent:#c4c3ff; --accent-2:#9be5c9; --muted:#bfcad6; --card:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.004)); }
 
     *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
@@ -28,37 +28,30 @@
     body{min-height:100vh;background:radial-gradient(900px 400px at 10% 12%, rgba(107,123,255,0.06), transparent), linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);padding:28px;transition:background .25s ease,color .2s ease}
 
     .app{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
-
     header.app-header{grid-column:1/-1;display:flex;align-items:center;gap:18px;padding:18px;border-radius:var(--radius);background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow-lg)}
-    .brand{display:flex;flex-direction:column}
-    .brand-title{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--accent-2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:0.2px}
+    .brand-title{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--accent-2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
     .brand-sub{color:var(--muted);font-size:0.9rem}
-
     .header-actions{margin-left:auto;display:flex;gap:12px;align-items:center}
+
     .btn{background:linear-gradient(135deg,var(--accent),#7a6bff);border:none;color:white;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700;display:inline-flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(83,92,255,0.12);transition:transform .12s ease,box-shadow .12s ease}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:10px 12px}
-    .btn.secondary{background:linear-gradient(90deg,var(--accent-2),rgba(107,123,255,0.12));color:#041026}
     .btn:hover{transform:translateY(-3px)}
 
-    /* Sidebar with clearer hierarchy */
-    .sidebar{background:var(--card);padding:20px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03);height:calc(100vh - 120px);overflow:auto;box-shadow:var(--shadow-sm)}
+    .sidebar{background:var(--card);padding:20px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03);height:calc(100vh - 160px);overflow:auto;box-shadow:var(--shadow-sm)}
     .profile{display:flex;gap:14px;align-items:center}
-    .avatar{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#081026;box-shadow:0 8px 24px rgba(47,210,164,0.06)}
+    .avatar{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#081026}
     .user-info{line-height:1}
     .user-name{font-weight:800;font-size:1rem}
     .user-role{color:var(--muted);font-size:0.85rem}
 
     .nav{margin-top:18px;display:flex;flex-direction:column;gap:8px}
-    .nav button{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:transparent;border:none;color:var(--muted);text-align:left;cursor:pointer;font-weight:700;transition:all .12s ease}
+    .nav button{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:transparent;border:none;color:var(--muted);text-align:left;cursor:pointer;font-weight:700}
     .nav button i{width:20px;text-align:center;color:var(--accent-2)}
     .nav button.active{background:linear-gradient(90deg,rgba(107,123,255,0.12),rgba(47,210,164,0.03));border:1px solid rgba(255,255,255,0.02);color:var(--text)}
 
-    /* main area */
     .main-area{display:grid;grid-template-rows:auto 1fr;gap:18px}
-
-    /* Tabs (pills) */
     .tabs{display:flex;gap:8px;align-items:center}
-    .tab{padding:10px 14px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer;font-weight:700;transition:all .12s}
+    .tab{padding:10px 14px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer;font-weight:700}
     .tab.active{background:linear-gradient(90deg,rgba(107,123,255,0.12),rgba(47,210,164,0.04));color:var(--text);border-color:rgba(255,255,255,0.02)}
 
     .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -72,14 +65,12 @@
     .doctor .meta .name{font-weight:800}
     .doctor .meta .spec{color:var(--muted);font-size:0.9rem}
 
-    /* File list */
     .file-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
     .file-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
     .file-item .meta{display:flex;flex-direction:column}
     .file-item .name{font-weight:700}
     .file-item .size{color:var(--muted);font-size:0.85rem}
 
-    /* Inputs */
     label{font-weight:700;color:var(--muted);font-size:0.9rem}
     input,select,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);outline:none}
     input:focus,select:focus,textarea:focus{box-shadow:0 8px 24px rgba(83,92,255,0.06);border-color:rgba(107,123,255,0.22)}
@@ -95,13 +86,31 @@
 
     .muted-small{color:var(--muted);font-size:0.85rem}
 
-    @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{height:auto}.cards{grid-template-columns:1fr}}
+    /* Greeting banner */
+    .greet{display:flex;align-items:center;gap:18px;padding:16px;border-radius:12px;background:linear-gradient(90deg, rgba(107,123,255,0.06), rgba(47,210,164,0.02));border:1px solid rgba(255,255,255,0.02)}
+    .greet .wave{width:160px;height:56px;background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));border-radius:10px;position:relative;overflow:hidden}
+    .neural{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.06), transparent);opacity:.18;animation:wave 6s linear infinite}
+    @keyframes wave{0%{transform:translateX(-30%)}50%{transform:translateX(30%)}100%{transform:translateX(-30%)}}
+
+    .mood{display:flex;align-items:center;gap:10px}
+    .mood .emoji{font-size:1.8rem}
+    .mood input[type=range]{accent-color:var(--accent-2)}
+
+    /* Bottom navigation + FAB */
+    .bottom-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;height:var(--bottom-height);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:40px;padding:10px 18px;display:flex;gap:18px;align-items:center;box-shadow:0 20px 50px rgba(4,6,15,0.6);z-index:60}
+    .bottom-bar button{background:transparent;border:none;color:var(--muted);font-size:18px;padding:8px;cursor:pointer}
+    .bottom-bar button.active{color:var(--accent-2)}
+    .fab{position:fixed;left:50%;transform:translateX(-50%);bottom:var(--bottom-height);width:68px;height:68px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#031227;border:none;box-shadow:0 18px 40px rgba(20,28,80,0.5);z-index:70;cursor:pointer}
+    .fab-menu{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--bottom-height) + 80px);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:69}
+    .fab-item{background:linear-gradient(90deg,#fff,rgba(255,255,255,0.9));color:#031227;padding:8px 12px;border-radius:999px;box-shadow:0 12px 30px rgba(0,0,0,0.4)}
+
+    @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{display:none}.bottom-bar{left:16px;transform:none;border-radius:12px;width:calc(100% - 32px)}.fab{left:auto;right:22px;transform:none}}
   </style>
 </head>
 <body>
   <div class="app">
     <header class="app-header">
-      <div class="brand">
+      <div>
         <div class="brand-title">Virtual HealthCare</div>
         <div class="brand-sub">Seamless care, better outcomes</div>
       </div>
@@ -115,9 +124,9 @@
 
     <aside class="sidebar">
       <div class="profile">
-        <div class="avatar" id="avatar">P</div>
+        <div class="avatar" id="avatar">M</div>
         <div class="user-info">
-          <div class="user-name" id="displayName">Patient</div>
+          <div class="user-name" id="displayName">Matilda</div>
           <div class="user-role" id="displayRole"></div>
         </div>
       </div>
@@ -144,33 +153,57 @@
     </main>
   </div>
 
+  <div class="fab" id="fab" title="Quick actions">+</div>
+  <div class="fab-menu" id="fabMenu" style="display:none">
+    <button class="fab-item" data-action="book">Book consult</button>
+    <button class="fab-item" data-action="upload">Upload report</button>
+    <button class="fab-item" data-action="sos">SOS</button>
+  </div>
+
+  <div class="bottom-bar" id="bottomBar">
+    <button data-view="dashboard" class="active"><i class="fa-solid fa-house"></i></button>
+    <button data-view="book"><i class="fa-solid fa-calendar-days"></i></button>
+    <button data-view="consult"><i class="fa-solid fa-comment-medical"></i></button>
+    <button data-view="records"><i class="fa-solid fa-folder"></i></button>
+    <button data-view="profile"><i class="fa-solid fa-user"></i></button>
+  </div>
+
 <script>
-/* App state and persistence with improved profile and files */
-const STORAGE_KEY = 'vhc_app_v3';
+/* App state and persistence */
+const STORAGE_KEY = 'vhc_app_v4';
 const DOCTORS = [ {id:'d1',name:'Dr. Maya Chen',specialty:'General Physician',avatar:'MC'}, {id:'d2',name:'Dr. Arjun Patel',specialty:'Pediatrics',avatar:'AP'}, {id:'d3',name:'Dr. Leila Gomez',specialty:'Psychiatry',avatar:'LG'} ];
-let appState = { profile:{name:'Patient', dob:'', gender:'', phone:'', email:'', address:''}, appointments:[], history:[], files:[] };
+let appState = { profile:{name:'Matilda', dob:'', gender:'', phone:'', email:'', address:'', mood:5}, appointments:[], history:[], files:[] };
 function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) { try{ appState = JSON.parse(s); }catch(e){ console.error(e); } } }
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); }
 function uid(){ return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8); }
 
-/* UI helpers */
+/* UI refs */
 const doctorListDiv = document.getElementById('doctorList');
 const avatarEl = document.getElementById('avatar');
 const displayName = document.getElementById('displayName');
 const displayRole = document.getElementById('displayRole');
 
-function renderProfileSummary(){ const p = appState.profile; displayName.innerText = p.name || 'Patient'; avatarEl.innerText = (p.name ? p.name.split(' ').map(s=>s[0]).slice(0,2).join('') : 'P'); displayRole.innerText = p.email ? p.email : ''; }
+function renderProfileSummary(){ const p = appState.profile; displayName.innerText = p.name || 'Matilda'; avatarEl.innerText = (p.name ? p.name.split(' ').map(s=>s[0]).slice(0,2).join('') : 'M'); displayRole.innerText = p.email ? p.email : ''; }
 
-/* Render doctors as nicer cards */
+/* Doctors */
 function renderDoctors(){ doctorListDiv.innerHTML=''; DOCTORS.forEach(d=>{ const el=document.createElement('div'); el.className='doctor'; el.innerHTML = `<div class='avatar' style='width:56px;height:56px;border-radius:10px;font-weight:700'>${d.avatar}</div><div class='meta'><div class='name'>${d.name}</div><div class='spec'>${d.specialty}</div></div><div><button class='btn ghost' data-doctor='${d.id}'>Book</button></div>`; doctorListDiv.appendChild(el); }); doctorListDiv.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=>{ showView('book'); preselectDoctor(b.dataset.doctor); })); }
 
 /* Navigation */
 document.getElementById('nav').addEventListener('click',(ev)=>{ const b=ev.target.closest('button'); if(!b) return; document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); showView(b.dataset.view); });
 
-/* Tabs */
-function renderTabs(active){ const tabs=['dashboard','book','history','telehealth','support']; const container=document.getElementById('contentTop'); container.innerHTML = `<div class='tabs'>${tabs.map(t=>`<button class='tab ${t===active?"active":""}' data-tab='${t}'>${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}</div>`; container.querySelectorAll('.tab').forEach(tb=> tb.addEventListener('click', ()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); tb.classList.add('active'); showView(tb.dataset.tab); })); }
+/* Bottom bar */
+document.getElementById('bottomBar').addEventListener('click',(ev)=>{ const b=ev.target.closest('button'); if(!b) return; document.querySelectorAll('.bottom-bar button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); const view = b.dataset.view; if(view==='consult') showView('telehealth'); else if(view==='records') showView('history'); else if(view==='profile') showView('history'); else showView(view); });
 
-/* Views and interactive features (files, appointments, profile) */
+/* FAB */
+const fab = document.getElementById('fab'); const fabMenu = document.getElementById('fabMenu'); fab.addEventListener('click', ()=>{ fabMenu.style.display = fabMenu.style.display === 'none' ? 'flex' : 'none'; }); fabMenu.addEventListener('click',(ev)=>{ const btn = ev.target.closest('button'); if(!btn) return; const a = btn.dataset.action; if(a==='book') showView('book'); if(a==='upload'){ document.getElementById('fileInputMain')?.click(); } if(a==='sos') alert('SOS: Call emergency services or notify your caregiver.'); fabMenu.style.display='none'; });
+
+/* Tabs */
+function renderTabs(active){ const tabs=['dashboard','book','history','telehealth','support']; const container=document.getElementById('contentTop'); container.innerHTML = `<div class='tabs'><div class='greet' style='width:100%'><div style='flex:1'><div style='font-size:1.05rem;font-weight:800'>Hi ${appState.profile.name || 'Matilda'}, how’s your brain today?</div><div class='muted-small' style='margin-top:6px'>Quick actions and insights just for you</div></div><div class='wave'><div class='neural'></div></div></div><div style='margin-top:12px;display:flex;align-items:center;gap:18px'><div class='mood'><div class='emoji' id='moodEmoji'>🙂</div><input id='moodRange' type='range' min='0' max='10' value='${appState.profile.mood || 5}'></div><div class='muted-small' style='margin-left:auto'>Personalize your name by clicking the avatar</div></div></div>`;
+  document.getElementById('moodRange').addEventListener('input',(e)=>{ const v = Number(e.target.value); appState.profile.mood = v; save(); updateMoodEmoji(v); });
+}
+function updateMoodEmoji(v){ const el=document.getElementById('moodEmoji'); if(!el) return; if(v<=2) el.innerText='😢'; else if(v<=4) el.innerText='😕'; else if(v<=6) el.innerText='🙂'; else if(v<=8) el.innerText='😀'; else el.innerText='🤩'; }
+
+/* Views */
 const content = document.getElementById('content');
 function showView(v){ renderTabs(v); switch(v){ case 'dashboard': renderDashboard(); break; case 'book': renderBooking(); break; case 'history': renderHistory(); break; case 'telehealth': renderTelehealth(); break; case 'support': renderSupport(); break; default: renderDashboard(); } }
 
@@ -200,7 +233,7 @@ function renderDashboard(){ content.innerHTML = `
   <div class='card mt-12'>
     <h3>Files & Documents</h3>
     <div id='fileSection' class='mt-8'>
-      <div style='display:flex;gap:8px;align-items:center'><input type='file' id='fileInput' style='display:none' /><button id='addFileBtn' class='btn ghost'>Upload Document</button><div class='muted-small' style='margin-left:auto'>${appState.files.length} files</div></div>
+      <div style='display:flex;gap:8px;align-items:center'><input type='file' id='fileInputMain' style='display:none' /><button id='addFileBtn' class='btn ghost'>Upload Document</button><div class='muted-small' style='margin-left:auto'>${appState.files.length} files</div></div>
       <div class='file-list' id='fileList'></div>
     </div>
   </div>
@@ -208,10 +241,11 @@ function renderDashboard(){ content.innerHTML = `
   document.getElementById('editProfile').addEventListener('click', ()=> showView('history'));
   document.getElementById('quickBook').addEventListener('click', ()=> showView('book'));
   document.getElementById('quickNote').addEventListener('click', ()=> showView('history'));
-  document.getElementById('quickUpload').addEventListener('click', ()=> document.getElementById('fileInput').click());
-  document.getElementById('addFileBtn').addEventListener('click', ()=> document.getElementById('fileInput').click());
-  document.getElementById('fileInput').addEventListener('change', handleFileUpload);
-  renderUpcoming(); renderFileList(); }
+  document.getElementById('quickUpload').addEventListener('click', ()=> document.getElementById('fileInputMain').click());
+  document.getElementById('addFileBtn').addEventListener('click', ()=> document.getElementById('fileInputMain').click());
+  document.getElementById('fileInputMain').addEventListener('change', handleFileUpload);
+  renderUpcoming(); renderFileList(); updateMoodEmoji(appState.profile.mood || 5);
+}
 
 function renderUpcoming(){ const node=document.getElementById('upcomingList'); if(!node) return; node.innerHTML=''; const next = appState.appointments.slice().sort((a,b)=>new Date(a.when)-new Date(b.when)).slice(0,5); if(next.length===0) node.innerHTML='<div class="muted">No upcoming appointments</div>'; next.forEach(a=>{ const el=document.createElement('div'); el.className='appt'; el.innerHTML = `<div><div style='font-weight:800'>${a.doctorName}</div><div class='muted-small'>${new Date(a.when).toLocaleString()}</div></div><div><button class='btn ghost' data-id='${a.id}'>Cancel</button></div>`; node.appendChild(el); }); node.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=> cancelAppointment(b.dataset.id))); }
 
@@ -248,7 +282,7 @@ function renderHistory(){ content.innerHTML = `
   <div class='card mt-12'><h3>Medical History</h3><div id='historyList' class='history-list mt-8'></div></div>
 `;
   document.getElementById('p_gender').value = appState.profile.gender || '';
-  document.getElementById('saveProfile').addEventListener('click', ()=>{ appState.profile.name=document.getElementById('p_name').value.trim()||'Patient'; appState.profile.dob=document.getElementById('p_dob').value; appState.profile.gender=document.getElementById('p_gender').value; appState.profile.phone=document.getElementById('p_phone').value; appState.profile.email=document.getElementById('p_email').value; appState.profile.address=document.getElementById('p_address').value; save(); renderProfileSummary(); alert('Profile saved'); });
+  document.getElementById('saveProfile').addEventListener('click', ()=>{ appState.profile.name=document.getElementById('p_name').value.trim()||'Matilda'; appState.profile.dob=document.getElementById('p_dob').value; appState.profile.gender=document.getElementById('p_gender').value; appState.profile.phone=document.getElementById('p_phone').value; appState.profile.email=document.getElementById('p_email').value; appState.profile.address=document.getElementById('p_address').value; save(); renderProfileSummary(); alert('Profile saved'); });
   document.getElementById('saveNote').addEventListener('click', ()=>{ const d=document.getElementById('noteDate').value||new Date().toISOString().slice(0,10); const t=document.getElementById('noteText').value.trim(); if(!t){ alert('Add note text'); return; } appState.history.push({id:uid(),date:d,notes:t}); save(); renderHistory(); });
   renderHistoryList(); }
 function renderHistoryList(){ const node=document.getElementById('historyList'); node.innerHTML=''; if(appState.history.length===0) node.innerHTML='<div class="muted">No history entries</div>'; appState.history.slice().reverse().forEach(h=>{ const el=document.createElement('div'); el.className='history-item'; el.innerHTML = `<div style='display:flex;justify-content:space-between;align-items:center'><div style='font-weight:800'>${h.date}</div><div class='muted-small' style='font-size:0.85rem'>${h.notes.length>40? h.notes.slice(0,40)+'…':h.notes}</div></div><div style='margin-top:8px;display:flex;gap:8px'><button class='btn' data-view='details' data-id='${h.id}'>View</button><button class='btn ghost' data-id='${h.id}'>Delete</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=>{ const id=b.dataset.id; if(b.innerText.trim()==='Delete'){ if(!confirm('Delete entry?')) return; appState.history=appState.history.filter(x=>x.id!==id); save(); renderHistory(); } })); node.querySelectorAll('button[data-view]').forEach(b=> b.addEventListener('click', ()=>{ const item=appState.history.find(x=>x.id===b.dataset.id); if(item) alert(item.date+'\n\n'+item.notes); })); }
@@ -282,6 +316,9 @@ function renderFileList(){ const node=document.getElementById('fileList'); if(!n
 
 // Appointment cancel
 function cancelAppointment(id){ if(!confirm('Cancel appointment?')) return; appState.appointments = appState.appointments.filter(a=>a.id!==id); save(); showView('dashboard'); }
+
+// Avatar click to edit name
+avatarEl.addEventListener('click', ()=>{ const name = prompt('Enter display name', appState.profile.name||'Matilda'); if(name!==null){ appState.profile.name = name.trim()||'Matilda'; save(); renderProfileSummary(); showView('dashboard'); } });
 
 // Noir toggle
 document.getElementById('toggleNoir').addEventListener('click', ()=>{ document.body.classList.toggle('noir'); const on = document.body.classList.contains('noir'); document.getElementById('toggleNoir').innerHTML = on ? "<i class='fa-solid fa-sun'></i> Noir" : "<i class='fa-solid fa-moon'></i> Noir"; });
