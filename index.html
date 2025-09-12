@@ -11,8 +11,25 @@
     :root{ --bg1:#edf2ff; --panel:rgba(255,255,255,0.82); --muted:#6b7280; --text:#0f172a; --accent:#3f51b5; --accent-2:#7c3aed; --radius:14px }
     body{min-height:100vh;background:linear-gradient(180deg,#eef4ff,#f6fbff);color:var(--text);padding:28px;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     .container{max-width:1200px;margin:0 auto}
-    header{display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px}
+
+    header.app-header{display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px}
     .brand-title{font-weight:800;font-size:1.25rem;color:var(--accent)}
+    .greeting{margin-left:auto;color:var(--muted)}
+
+    /* Hero & panels */
+    .hero-panel{margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--panel);backdrop-filter:blur(6px);padding:12px;border-radius:12px}
+    .hero-content{flex:1;padding:18px}
+    .hero-title{font-weight:800;font-size:1.2rem;color:var(--accent)}
+    .hero-sub{color:var(--muted);margin-top:6px}
+    .hero-image-wrap{width:420px;height:140px;border-radius:12px;overflow:hidden;background:#fff;flex-shrink:0}
+    .hero-image-wrap .hero-carousel{width:100%;height:100%;position:relative}
+    .hero-carousel img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+    .hero-pager{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
+    .hero-dot{width:10px;height:10px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.6)}
+    .hero-dot.active{background:var(--accent)}
+    .hero-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.32);color:white;border:none;width:34px;height:34px;border-radius:8px;cursor:pointer}
+    .hero-arrow.left{left:8px}
+    .hero-arrow.right{right:8px}
 
     /* Upcoming appointment preview styled like references (glass) */
     .appt-large{background:var(--panel);backdrop-filter:blur(8px);border-radius:16px;padding:36px;box-shadow:0 18px 40px rgba(16,24,40,0.08);text-align:center;margin-bottom:18px;border:1px solid rgba(15,23,42,0.04)}
@@ -20,39 +37,62 @@
     .appt-time{font-weight:900;font-size:56px;margin:12px 0;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
     .timeline-row{display:flex;align-items:center;gap:22px;justify-content:center;margin-top:18px}
     .timeline-avatar{display:flex;flex-direction:column;align-items:center;font-size:13px;color:var(--muted)}
-    .timeline-avatar .avatar-circle{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+    .avatar-circle{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;overflow:hidden}
     .appt-actions{display:flex;gap:12px;justify-content:center;margin-top:20px}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
-    .btn-outline{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:10px 18px;border-radius:12px;cursor:pointer}
 
     .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
     .panel{background:var(--panel);backdrop-filter:blur(6px);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(16,24,40,0.04);border:1px solid rgba(15,23,42,0.03)}
 
-    /* payment modal */
+    .controls-row{display:flex;gap:12px;margin-top:12px}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+    .btn-outline{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:10px 18px;border-radius:12px;cursor:pointer}
+
+    .quick-actions{display:flex;gap:12px;margin-top:12px}
+    .doctor-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .doctor-row{display:flex;align-items:center;gap:10px}
+    .doctor-avatar{width:56px;height:56px;border-radius:10px;overflow:hidden}
+    .doctor-meta{flex:1}
+    .doctor-name{font-weight:700}
+    .doctor-special{color:var(--muted);font-size:12px}
+
+    /* modal & backdrop */
     .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;box-shadow:0 20px 50px rgba(2,6,23,0.2);z-index:120;width:420px}
-    .modal h3{margin:0}
     .modal .row{display:flex;gap:8px;margin-top:12px}
+    .backdrop-fixed{position:fixed;inset:0;background:rgba(2,6,23,0.35);backdrop-filter:blur(2px);z-index:110}
+    .input-field{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8}
+    .label{display:block;margin-bottom:6px}
 
-    footer{margin-top:18px;text-align:center;color:transparent}
+    /* bottom nav */
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:linear-gradient(90deg,rgba(255,255,255,0.9),rgba(255,255,255,0.85));padding:8px 14px;border-radius:40px;box-shadow:0 8px 20px rgba(12,20,40,0.08);display:flex;gap:10px;align-items:center;z-index:999}
+    .nav-btn{background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)}
+    .nav-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
+    .nav-btn.active{box-shadow:0 6px 18px rgba(63,81,181,0.12)}
 
-    @media(max-width:980px){ .grid{grid-template-columns:1fr} }
+    /* toast */
+    .toast-root{position:fixed;right:20px;bottom:20px;z-index:9999}
+    .toast-item{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:10px 14px;border-radius:10px;margin-top:8px;box-shadow:0 8px 20px rgba(12,20,40,0.2)}
+
+    /* responsive
+    Keep original breakpoint
+    */
+    @media(max-width:980px){ .grid{grid-template-columns:1fr} .hero-image-wrap{display:none} }
   </style>
 </head>
 <body>
   <div class="container">
-    <header>
+    <header class="app-header">
       <div class="brand-title">Virtual HealthCare</div>
-      <div style="margin-left:auto;color:var(--muted)">Welcome, Matilda</div>
+      <div class="greeting">Welcome, Matilda</div>
     </header>
 
     <!-- Hero banner -->
-    <section class="panel" style="margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:16px">
-      <div style="flex:1;padding:18px">
-        <div style="font-weight:800;font-size:1.2rem;color:var(--accent)">Welcome back, Matilda</div>
-        <div style="color:var(--muted);margin-top:6px">Your care team and upcoming consults are below.</div>
+    <section class="hero-panel">
+      <div class="hero-content">
+        <div class="hero-title">Welcome back, Matilda</div>
+        <div class="hero-sub">Your care team and upcoming consults are below.</div>
       </div>
-      <div style="width:420px;height:140px;border-radius:12px;overflow:hidden;background:#fff">
-        <div id="heroCarousel" style="width:100%;height:100%"></div>
+      <div class="hero-image-wrap">
+        <div id="heroCarousel" class="hero-carousel"></div>
       </div>
     </section>
 
@@ -69,7 +109,7 @@
 
     <div class="grid">
       <div>
-        <div class="panel">
+        <div class="panel" id="homePanel">
           <h3>Health Snapshot</h3>
           <p style="color:var(--muted)">Quick glance at recent metrics</p>
           <div id="metrics" style="display:flex;gap:12px;margin-top:12px"></div>
@@ -78,7 +118,7 @@
         <div style="display:grid;grid-template-columns:1fr 240px;gap:12px">
           <div class="panel">
             <h3>Quick Actions</h3>
-            <div style="display:flex;gap:12px;margin-top:12px">
+            <div class="quick-actions">
               <button class="btn-outline" id="bookBtnSmall">Book a Doctor</button>
               <button class="btn-outline" id="consultBtnSmall">Start a Consult</button>
               <button class="btn-outline" id="uploadBtnSmall">Upload Report</button>
@@ -86,9 +126,9 @@
             </div>
           </div>
 
-          <div class="panel" id="doctorsPanel" style="min-width:200px">
+          <div class="panel" id="doctorsPanel">
             <h3>Care Team</h3>
-            <div id="doctorsList" style="display:flex;flex-direction:column;gap:10px;margin-top:12px"></div>
+            <div id="doctorsList" class="doctor-list"></div>
           </div>
         </div>
       </div>
@@ -97,7 +137,7 @@
         <div class="panel">
           <h3>Appointment Details</h3>
           <div id="apptDetails" style="margin-top:8px;color:var(--muted)">No appointment selected</div>
-          <div style="margin-top:12px;display:flex;gap:8px">
+          <div class="controls-row" style="margin-top:12px">
             <button class="btn-primary" id="payBtn">Pay & Confirm</button>
             <button class="btn-outline" id="saveDraft">Save Draft</button>
           </div>
@@ -110,12 +150,12 @@
   </div>
 
   <!-- Bottom navigation -->
-  <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:linear-gradient(90deg,rgba(255,255,255,0.9),rgba(255,255,255,0.85));padding:8px 14px;border-radius:40px;box-shadow:0 8px 20px rgba(12,20,40,0.08);display:flex;gap:10px;align-items:center;z-index:999">
-    <button onclick="showView('home')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Home</button>
-    <button onclick="showView('appointments')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Appointments</button>
-    <button onclick="showView('consult')" style="background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:8px 12px;border-radius:10px;cursor:pointer;color:white;font-weight:700">Consult</button>
-    <button onclick="showView('records')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Records</button>
-    <button onclick="showView('profile')" style="background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)">Profile</button>
+  <div class="bottom-nav" id="bottomNav">
+    <button class="nav-btn" data-view="home">Home</button>
+    <button class="nav-btn" data-view="appointments">Appointments</button>
+    <button class="nav-btn primary" data-view="consult">Consult</button>
+    <button class="nav-btn" data-view="records">Records</button>
+    <button class="nav-btn" data-view="profile">Profile</button>
   </div>
 
   <!-- Payment modal (web stub) -->
@@ -124,17 +164,16 @@
     <div style="color:var(--muted);margin-top:8px">Provider: <span id="pmProvider">-</span></div>
     <div style="margin-top:12px">Amount: <strong id="pmAmount">$25.00</strong></div>
     <div class="row" style="margin-top:12px">
-      <input id="cardNumber" placeholder="Card number" style="flex:1;padding:8px;border-radius:8px;border:1px solid #e6eef8" />
+      <input id="cardNumber" placeholder="Card number" class="input-field" />
     </div>
     <div class="row">
-      <input id="cardExp" placeholder="MM/YY" style="padding:8px;border-radius:8px;border:1px solid #e6eef8" />
-      <input id="cardCvv" placeholder="CVV" style="padding:8px;border-radius:8px;border:1px solid #e6eef8" />
+      <input id="cardExp" placeholder="MM/YY" class="input-field" />
+      <input id="cardCvv" placeholder="CVV" class="input-field" />
     </div>
     <div style="margin-top:12px;display:flex;gap:8px"><button id="confirmPay" class="btn-primary">Confirm Payment</button><button id="cancelPay" class="btn-outline">Cancel</button></div>
   </div>
 
 <script>
-
 // App state (local-only prototype)
 const STORAGE_KEY = 'vhc_paid_v1';
 let state = { appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}], selectedAppt: null };
@@ -151,121 +190,121 @@ const DOCTOR_ASSETS = [
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=400'
 ];
 
+// Utility: unique id
+function uid(){ return Math.random().toString(36).slice(2,9); }
+
+// persist
+function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); }
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+// Toasts
+function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.className='toast-root'; document.body.appendChild(container); }
+  const t = document.createElement('div'); t.className='toast-item'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout);
+}
+
+// Modal root helpers
+function ensureModalRoot(){ // remove any leftover modalRoot created earlier
+  const existing = document.getElementById('modalRoot'); if(existing) existing.remove();
+  return document.body;
+}
+
+function createBackdrop(id){ const b = document.createElement('div'); b.id = id; b.className = 'backdrop-fixed'; return b; }
+
+// Booking modal
+function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_booking'); root.appendChild(backdrop);
+  const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='Matilda' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
+  root.appendChild(modal);
+  document.getElementById('bkCancel').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
+  document.getElementById('bkSave').addEventListener('click', ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); save(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); showToast('Booked — please pay to confirm'); });
+}
+
+// Reschedule modal
+function showRescheduleModal(appt){ if(document.getElementById('rescheduleModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_reschedule'); root.appendChild(backdrop);
+  const modal = document.createElement('div'); modal.className='modal'; modal.id='rescheduleModal'; modal.innerHTML = `<h3>Reschedule Appointment</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' class='input-field' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`;
+  root.appendChild(modal);
+  document.getElementById('cancelResched').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
+  document.getElementById('doResched').addEventListener('click', ()=>{ const when = document.getElementById('reschedWhen').value; if(!when){ showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); save(); renderAppointmentPreview(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); });
+}
+
+// Payment flow
+function openPaymentIfRequired(appt){ const modal = document.getElementById('paymentModal'); document.getElementById('pmProvider').innerText = appt.doctorName; document.getElementById('pmAmount').innerText = `$${appt.amount.toFixed(2)}`; modal.style.display = 'block'; const backdrop = createBackdrop('backdrop_payment'); document.body.appendChild(backdrop);
+  document.getElementById('cancelPay').onclick = ()=>{ modal.style.display='none'; backdrop.remove(); };
+  document.getElementById('confirmPay').onclick = ()=> simulatePayment(appt);
+}
+function simulatePayment(appt){ const num = document.getElementById('cardNumber').value.trim(); if(num.length<12){ showToast('Enter a valid card number'); return; } document.getElementById('confirmPay').innerText = 'Processing...'; setTimeout(()=>{ document.getElementById('confirmPay').innerText = 'Confirm Payment'; document.getElementById('paymentModal').style.display='none'; const bp=document.getElementById('backdrop_payment'); if(bp) bp.remove(); showToast('Payment successful — joining call'); appt.paid = true; save(); },1200); }
+
 // render list of doctors in the Care Team panel
 function renderDoctorsTiles(){ const list = document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [
   {name:'Dr. Maya Chen',img:DOCTOR_ASSETS[0],spec:'General'},
   {name:'Dr. Arjun Patel',img:DOCTOR_ASSETS[1],spec:'Pediatrics'},
   {name:'Dr. Leila Gomez',img:DOCTOR_ASSETS[2],spec:'Psychiatry'}
-]; docs.forEach(d=>{ const row=document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='10px'; row.innerHTML = `<div style='width:56px;height:56px;border-radius:10px;overflow:hidden'><img src='${d.img}' style='width:100%;height:100%;object-fit:cover' /></div><div style='flex:1'><div style='font-weight:700'>${d.name}</div><div style='color:var(--muted);font-size:12px'>${d.spec}</div></div><div><button class='btn-outline' data-doc='${d.name}'>Book</button></div>`; list.appendChild(row); });
+]; docs.forEach(d=>{ const row=document.createElement('div'); row.className='doctor-row'; row.innerHTML = `<div class='doctor-avatar'><img src='${d.img}' alt='${d.name}' style='width:100%;height:100%;object-fit:cover' /></div><div class='doctor-meta'><div class='doctor-name'>${d.name}</div><div class='doctor-special'>${d.spec}</div></div><div><button class='btn-outline' data-doc='${d.name}'>Book</button></div>`; list.appendChild(row); });
   list.querySelectorAll('button[data-doc]').forEach(b=> b.addEventListener('click', ()=> showBookingModalWithDoctor(b.dataset.doc)));
 }
-
 function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }
 
-function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); }
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-
-// build appointment preview
+// render appointment preview
 function renderAppointmentPreview(){ const countdownEl = document.getElementById('apptCountdown'); const timelineRow = document.getElementById('timelineRow'); const appt = state.appointments[0]; if(!appt){ countdownEl.innerText='No appointments'; timelineRow.innerHTML=''; return; }
   document.getElementById('apptDetails').innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`;
-  // countdown
   function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Due'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } }
-  updateCountdown(); setInterval(updateCountdown,10000);
-  // timeline avatar: single clean avatar for primary doctor
-  timelineRow.innerHTML='';
-  const imgSrc = DOCTOR_ASSETS[0];
-  const node = document.createElement('div');
-  node.className = 'timeline-avatar';
-  node.innerHTML = `
-    <div class="avatar-circle" style="background:transparent;width:72px;height:72px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center">
-      <img src="${imgSrc}" alt="${appt.doctorName}" style="width:100%;height:100%;object-fit:cover" />
-    </div>
-    <div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div>
-  `;
-  timelineRow.appendChild(node);
-  // wire actions
+  updateCountdown(); if(window.__apptTimer) clearInterval(window.__apptTimer); window.__apptTimer = setInterval(updateCountdown,10000);
+  timelineRow.innerHTML=''; const imgSrc = DOCTOR_ASSETS[0]; const node = document.createElement('div'); node.className = 'timeline-avatar'; node.innerHTML = `\n    <div class="avatar-circle">\n      <img src="${imgSrc}" alt="${appt.doctorName}" style="width:100%;height:100%;object-fit:cover" />\n    </div>\n    <div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div>\n  `; timelineRow.appendChild(node);
   document.getElementById('joinNowBtn').onclick = ()=> { state.selectedAppt = appt; openPaymentIfRequired(appt); };
   document.getElementById('rescheduleBtn').onclick = ()=> { showRescheduleModal(appt); };
-}
-
-// Payment flow: open payment modal (web stub). In real app, integrate RevenueCat or payment gateway.
-function openPaymentIfRequired(appt){ // in this prototype, always require payment before join
-  const modal = document.getElementById('paymentModal'); document.getElementById('pmProvider').innerText = appt.doctorName; document.getElementById('pmAmount').innerText = `$${appt.amount.toFixed(2)}`; modal.style.display = 'block';
-  document.getElementById('cancelPay').onclick = ()=> modal.style.display='none';
-  document.getElementById('confirmPay').onclick = ()=> simulatePayment(appt);
-}
-function simulatePayment(appt){ // basic validation
-  const num = document.getElementById('cardNumber').value.trim(); if(num.length<12){ showToast('Enter a valid card number'); return; }
-  // mock processing
-  document.getElementById('confirmPay').innerText = 'Processing...';
-  setTimeout(()=>{
-    document.getElementById('confirmPay').innerText = 'Confirm Payment'; document.getElementById('paymentModal').style.display='none';
-    showToast('Payment successful — joining call');
-    // mark appointment paid and 'joined'
-    appt.paid = true; save();
-    // in real app, navigate to telehealth session
-  },1200);
 }
 
 // small metrics rendering
 function renderMetrics(){ const node = document.getElementById('metrics'); node.innerHTML=''; const metrics=[{label:'Sleep',val:'7.5h'},{label:'Stress',val:'Low'},{label:'Meds',val:'On track'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.style.flex='1'; el.innerHTML = `<div style='font-weight:700'>${m.val}</div><div style='color:var(--muted)'>${m.label}</div>`; node.appendChild(el); }); }
 
-function renderQuickButtons(){ document.getElementById('bookBtnSmall').onclick = ()=> openBookingFlow(); document.getElementById('consultBtnSmall').onclick = ()=> showToast('Open consult flow'); document.getElementById('uploadBtnSmall').onclick = ()=> showToast('Open upload flow'); document.getElementById('sosBtnSmall').onclick = ()=> showToast('SOS: call emergency'); document.getElementById('payBtn').onclick = ()=> { if(state.appointments.length>0) openPaymentIfRequired(state.appointments[0]); else showToast('No appointment to pay'); } }
+function renderQuickButtons(){ document.getElementById('bookBtnSmall').onclick = ()=> openBookingFlow(); document.getElementById('consultBtnSmall').onclick = ()=> showView('consult'); document.getElementById('uploadBtnSmall').onclick = ()=> showView('records'); document.getElementById('sosBtnSmall').onclick = ()=> showToast('SOS: call emergency'); document.getElementById('payBtn').onclick = ()=> { if(state.appointments.length>0) openPaymentIfRequired(state.appointments[0]); else showToast('No appointment to pay'); } }
+function openBookingFlow(){ showBookingModal(); }
 
-function openBookingFlow(){ // simplified booking UI using modal prompts
-  showBookingModal(); }
-
-function renderFileList(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; }
-
-// helper: modal and toast
-function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.style.position='fixed'; container.style.right='20px'; container.style.bottom='20px'; container.style.zIndex=9999; document.body.appendChild(container); }
-  const t = document.createElement('div'); t.style.background='linear-gradient(90deg,var(--accent),var(--accent-2))'; t.style.color='white'; t.style.padding='10px 14px'; t.style.borderRadius='10px'; t.style.marginTop='8px'; t.style.boxShadow='0 8px 20px rgba(12,20,40,0.2)'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout);
-}
-
-function ensureModalRoot(){ // attach modals directly to body to avoid blocking underlying UI
-  // remove any leftover modalRoot created earlier
-  const existing = document.getElementById('modalRoot'); if(existing) existing.remove();
-  return document.body;
-}
-
-function showRescheduleModal(appt){ // create single modal with backdrop and ensure closable
-  if(document.getElementById('rescheduleModal')) return; const root=ensureModalRoot(); const backdrop=document.createElement('div'); backdrop.id='backdrop_reschedule'; backdrop.style.position='absolute'; backdrop.style.inset='0'; backdrop.style.background='rgba(2,6,23,0.35)'; backdrop.style.backdropFilter='blur(2px)'; backdrop.style.pointerEvents='auto'; root.appendChild(backdrop);
-  const modal = document.createElement('div'); modal.className='modal'; modal.id='rescheduleModal'; modal.style.zIndex=9999; modal.style.pointerEvents='auto'; modal.innerHTML = `<h3>Reschedule Appointment</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' style='width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef8' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`;
-  root.appendChild(modal);
-  document.getElementById('cancelResched').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
-  document.getElementById('doResched').addEventListener('click', ()=>{ const when = document.getElementById('reschedWhen').value; if(!when){ showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); save(); renderAppointmentPreview(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); }); }
-
-function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root = ensureModalRoot(); const backdrop = document.createElement('div'); backdrop.id='backdrop_booking'; backdrop.style.position='absolute'; backdrop.style.inset='0'; backdrop.style.background='rgba(2,6,23,0.35)'; backdrop.style.backdropFilter='blur(2px)'; backdrop.style.pointerEvents='auto'; root.appendChild(backdrop);
-  const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.style.zIndex=9999; modal.style.pointerEvents='auto'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label>Name</label><input id='bkName' value='Matilda' style='width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8' /></div><div style='margin-top:8px'><label>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' style='width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8' /></div><div style='margin-top:8px'><label>Date & time</label><input id='bkWhen' type='datetime-local' style='width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
-  root.appendChild(modal);
-  document.getElementById('bkCancel').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
-  document.getElementById('bkSave').addEventListener('click', ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); save(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); showToast('Booked — please pay to confirm'); }); }
-
-// render hero (static first slide with manual controls)
-function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover'; img.style.objectPosition='50% 45%'; img.dataset.index = i; img.style.display = i===0 ? 'block' : 'none'; hero.appendChild(img); });
+// Hero: static with manual controls (no auto-rotate)
+function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.style.display = i===0 ? 'block' : 'none'; hero.appendChild(img); });
+  // arrows
+  const left=document.createElement('button'); left.className='hero-arrow left'; left.innerHTML='\u2039'; left.addEventListener('click', ()=> changeHero(-1));
+  const right=document.createElement('button'); right.className='hero-arrow right'; right.innerHTML='\u203a'; right.addEventListener('click', ()=> changeHero(1));
+  hero.appendChild(left); hero.appendChild(right);
   // pager
-  const pager=document.createElement('div'); pager.style.position='absolute'; pager.style.right='10px'; pager.style.bottom='10px'; pager.style.display='flex'; pager.style.gap='6px'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.style.width='10px'; dot.style.height='10px'; dot.style.borderRadius='50%'; dot.style.border='none'; dot.style.background = i===0 ? 'var(--accent)' : 'rgba(255,255,255,0.6)'; dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.style.position='relative'; hero.appendChild(pager);
+  const pager=document.createElement('div'); pager.className='hero-pager'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.className='hero-dot' + (i===0? ' active':'' ); dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.appendChild(pager);
 }
+function getCurrentHeroIndex(){ const hero=document.getElementById('heroCarousel'); const imgs = hero.querySelectorAll('img'); let idx=0; imgs.forEach((im,i)=>{ if(im.style.display!=='none') idx=i; }); return idx; }
+function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!hero) return; const imgs = hero.querySelectorAll('img'); imgs.forEach((im,idx)=> im.style.display = idx===i ? 'block' : 'none'); const dots = hero.querySelectorAll('.hero-dot'); dots.forEach((d,idx)=> d.classList.toggle('active', idx===i)); }
+function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
-function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!hero) return; const imgs = hero.querySelectorAll('img'); imgs.forEach((im,idx)=>{ im.style.display = idx===i ? 'block' : 'none'; }); // update pager colors
-  const pager = hero.querySelectorAll('div > button'); if(pager) pager.forEach((b,idx)=> b.style.background = idx===i ? 'var(--accent)' : 'rgba(255,255,255,0.6)'); }
-
-// simple view switcher (home, appointments, consult, records, profile)
-function showView(view){ // update hero mapping per view
-  const mapping = { home:0, appointments:1, consult:2, records:0, profile:1 };
+// View switcher: show/hide sections and update hero image and nav active state
+function showView(view){ const mapping = { home:0, appointments:1, consult:2, records:0, profile:1 };
   setHero(mapping[view]||0);
-  // show or hide appointment preview for appointments/ home
+  // appt preview visibility
   document.getElementById('apptPreview').style.display = (view==='appointments' || view==='home') ? 'block' : 'none';
-  // adjust panels: metrics & doctors visible mostly on home
-  document.querySelectorAll('.panel').forEach(p=> p.style.display = 'block');
-  if(view==='profile'){
-    document.getElementById('doctorsPanel') && (document.getElementById('doctorsPanel').style.display='none');
+  // doctors panel visible only on home
+  document.getElementById('doctorsPanel').style.display = (view==='home') ? 'block' : 'none';
+  // home panel content toggles (simple prototype): show appointment details on appointments view
+  document.getElementById('homePanel').style.display = (view==='home') ? 'block' : 'none';
+  // show simple records view by replacing appointment details with list when records
+  if(view==='records'){
+    document.getElementById('apptDetails').innerText = 'Medical records: No files yet';
+  } else if(view==='appointments'){
+    document.getElementById('apptDetails').innerText = state.appointments.length ? `${state.appointments[0].doctorName} — ${new Date(state.appointments[0].when).toLocaleString()}` : 'No appointment selected';
   }
+  if(view==='profile'){
+    // show a quick inline editable profile block inside the aside area
+    const apptDetails = document.getElementById('apptDetails'); apptDetails.innerHTML = `<div style='font-weight:700'>Matilda</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='Matilda' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ document.getElementById('saveProfile').onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v) document.querySelector('.greeting').innerText = `Welcome, ${v}`; showToast('Profile updated'); } },50);
+  }
+
+  // nav active state
+  document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.classList.toggle('active', b.dataset.view===view));
   showToast('Switched to '+view);
 }
 
-// init
+// initialization
 load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDoctorsTiles(); renderAppointmentPreview();
+
+// wire bottom nav
+document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view)));
+// default view
+showView('home');
+
 </script>
 </body>
 </html>
