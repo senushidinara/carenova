@@ -285,6 +285,13 @@ function composeMessage(to='Care Team'){ if(document.getElementById('composeModa
 
 // Prescriptions
 function renderPrescriptions(){ const node = document.getElementById('rxList'); node.innerHTML=''; (state.prescriptions||[]).forEach(r=>{ const el=document.createElement('div'); el.className='rx-item'; el.innerHTML = `<div><div style='font-weight:700'>${r.name}</div><div style='color:var(--muted);font-size:13px'>${r.sig} • Refills left: ${r.refills}</div></div><div><button class='btn-primary' data-id='${r.id}'>Refill</button></div>`; node.appendChild(el); }); node.querySelectorAll('.rx-item button').forEach(b=> b.addEventListener('click', ()=> refillPrescription(b.dataset.id))); }
+
+// small metrics rendering
+function renderMetrics(){ const node = document.getElementById('metrics'); if(!node) return; node.innerHTML=''; const metrics=[{label:'Sleep',val:'7.5h'},{label:'Stress',val:'Low'},{label:'Meds',val:'On track'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.style.flex='1'; el.innerHTML = `<div style='font-weight:700'>${m.val}</div><div style='color:var(--muted)'>${m.label}</div>`; node.appendChild(el); }); }
+
+// quick buttons wiring
+function renderQuickButtons(){ try{ document.getElementById('qa-book') && (document.getElementById('qa-book').onclick = ()=> openBookingFlow()); document.getElementById('qa-consult') && (document.getElementById('qa-consult').onclick = ()=> showConsultModal()); document.getElementById('qa-upload') && (document.getElementById('qa-upload').onclick = ()=> document.getElementById('fileInput') && document.getElementById('fileInput').click()); document.getElementById('qa-sos') && (document.getElementById('qa-sos').onclick = ()=> showToast('SOS: emergency services will be contacted')); document.getElementById('uploadFileBtn') && (document.getElementById('uploadFileBtn').onclick = ()=> document.getElementById('fileInput') && document.getElementById('fileInput').click()); // compose handled elsewhere
+  }catch(e){ console.error('renderQuickButtons error', e); } }
 function refillPrescription(id){ const rx = state.prescriptions.find(r=>r.id===id); if(!rx) return; if(rx.refills>0){ rx.refills--; save(); renderPrescriptions(); showToast('Refill requested — available at pharmacy'); } else { showToast('No refills left — request new prescription'); } }
 
 // Billing
