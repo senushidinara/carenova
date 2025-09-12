@@ -8,8 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root{ --bg1:#edf2ff; --panel:rgba(255,255,255,0.82); --muted:#6b7280; --text:#0f172a; --accent:#3f51b5; --accent-2:#7c3aed; --radius:14px }
-    body{min-height:100vh;background:linear-gradient(180deg,#eef4ff,#f6fbff);color:var(--text);padding:28px;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    :root{ --bg1:#edf2ff; --panel:rgba(255,255,255,0.92); --muted:#6b7280; --text:#0f172a; --accent:#3f51b5; --accent-2:#7c3aed; --radius:14px }
+    body{min-height:100vh;background:linear-gradient(180deg,#eef4ff,#f6fbff);color:var(--text);padding:28px;padding-bottom:140px;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     .container{max-width:1200px;margin:0 auto}
 
     header.app-header{display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px}
@@ -23,11 +23,11 @@
     .hero-sub{color:var(--muted);margin-top:6px}
     .hero-image-wrap{width:420px;height:140px;border-radius:12px;overflow:hidden;background:#fff;flex-shrink:0}
     .hero-image-wrap .hero-carousel{width:100%;height:100%;position:relative}
-    .hero-carousel img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+    .hero-carousel img{width:100%;height:100%;object-fit:cover;display:block}
     .hero-pager{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
     .hero-dot{width:10px;height:10px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.6)}
     .hero-dot.active{background:var(--accent)}
-    .hero-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.32);color:white;border:none;width:34px;height:34px;border-radius:8px;cursor:pointer}
+    .hero-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.28);color:white;border:none;width:34px;height:34px;border-radius:8px;cursor:pointer}
     .hero-arrow.left{left:8px}
     .hero-arrow.right{right:8px}
 
@@ -48,12 +48,23 @@
     .btn-outline{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:10px 18px;border-radius:12px;cursor:pointer}
 
     .quick-actions{display:flex;gap:12px;margin-top:12px}
+    .quick-action{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.4));border:1px solid rgba(15,23,42,0.03);cursor:pointer}
+    .quick-action i{font-size:18px;color:var(--accent)}
+
     .doctor-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
     .doctor-row{display:flex;align-items:center;gap:10px}
     .doctor-avatar{width:56px;height:56px;border-radius:10px;overflow:hidden}
     .doctor-meta{flex:1}
     .doctor-name{font-weight:700}
     .doctor-special{color:var(--muted);font-size:12px}
+
+    /* appointments list */
+    .appt-list{display:flex;flex-direction:column;gap:10px}
+    .appt-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.03)}
+
+    /* records */
+    .file-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .file-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.03)}
 
     /* modal & backdrop */
     .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;box-shadow:0 20px 50px rgba(2,6,23,0.2);z-index:120;width:420px}
@@ -72,9 +83,6 @@
     .toast-root{position:fixed;right:20px;bottom:20px;z-index:9999}
     .toast-item{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:10px 14px;border-radius:10px;margin-top:8px;box-shadow:0 8px 20px rgba(12,20,40,0.2)}
 
-    /* responsive
-    Keep original breakpoint
-    */
     @media(max-width:980px){ .grid{grid-template-columns:1fr} .hero-image-wrap{display:none} }
   </style>
 </head>
@@ -88,7 +96,7 @@
     <!-- Hero banner -->
     <section class="hero-panel">
       <div class="hero-content">
-        <div class="hero-title">Welcome back, Matilda</div>
+        <div class="hero-title">Welcome back, <span id="profileGreeting">Matilda</span></div>
         <div class="hero-sub">Your care team and upcoming consults are below.</div>
       </div>
       <div class="hero-image-wrap">
@@ -116,13 +124,13 @@
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 240px;gap:12px">
-          <div class="panel">
+          <div class="panel" id="actionPanel">
             <h3>Quick Actions</h3>
             <div class="quick-actions">
-              <button class="btn-outline" id="bookBtnSmall">Book a Doctor</button>
-              <button class="btn-outline" id="consultBtnSmall">Start a Consult</button>
-              <button class="btn-outline" id="uploadBtnSmall">Upload Report</button>
-              <button class="btn-outline" id="sosBtnSmall">Emergency</button>
+              <div class="quick-action" id="qa-book"><i class="fa fa-calendar-plus"></i><div>Book</div></div>
+              <div class="quick-action" id="qa-consult"><i class="fa fa-video"></i><div>Consult</div></div>
+              <div class="quick-action" id="qa-upload"><i class="fa fa-file-medical"></i><div>Upload</div></div>
+              <div class="quick-action" id="qa-sos"><i class="fa fa-phone"></i><div>SOS</div></div>
             </div>
           </div>
 
@@ -131,6 +139,25 @@
             <div id="doctorsList" class="doctor-list"></div>
           </div>
         </div>
+
+        <!-- Appointments list (hidden by default) -->
+        <div class="panel" id="appointmentsPanel" style="display:none;margin-top:12px">
+          <h3>Your Appointments</h3>
+          <div id="appointmentsList" class="appt-list"></div>
+        </div>
+
+        <!-- Records panel -->
+        <div class="panel" id="recordsPanel" style="display:none;margin-top:12px">
+          <h3>Medical Records</h3>
+          <p style="color:var(--muted)">Upload reports or view existing files</p>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <input type="file" id="fileInput" style="display:none" />
+            <button class="btn-primary" id="uploadFileBtn">Upload File</button>
+            <button class="btn-outline" id="newRecordBtn">New Record</button>
+          </div>
+          <div id="fileList" class="file-list"></div>
+        </div>
+
       </div>
 
       <aside>
@@ -176,49 +203,41 @@
 <script>
 // App state (local-only prototype)
 const STORAGE_KEY = 'vhc_paid_v1';
-let state = { appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}], selectedAppt: null };
+let state = { appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}], selectedAppt: null, files: [], profile:{name:'Matilda'} };
 
-// Hero and doctor assets (using provided images)
 const HERO_ASSETS = [
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=1200',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F66e9aa98f57f4241aaf30f9e811b1ebc?format=webp&width=1200',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=1200'
 ];
+// per-slide focal positions to avoid cropped faces
+const HERO_POSITIONS = ['30% 50%','48% 50%','50% 40%'];
 const DOCTOR_ASSETS = [
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=400',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F25ef9274ba4d4fe98a499ac831aad674?format=webp&width=400',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=400'
 ];
 
-// Utility: unique id
 function uid(){ return Math.random().toString(36).slice(2,9); }
-
-// persist
-function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); }
+function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); document.querySelector('.greeting').innerText = `Welcome, ${state.profile.name || 'Matilda'}`; document.getElementById('profileGreeting').innerText = state.profile.name || 'Matilda'; }
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
-// Toasts
 function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.className='toast-root'; document.body.appendChild(container); }
   const t = document.createElement('div'); t.className='toast-item'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout);
 }
-
-// Modal root helpers
-function ensureModalRoot(){ // remove any leftover modalRoot created earlier
-  const existing = document.getElementById('modalRoot'); if(existing) existing.remove();
-  return document.body;
-}
-
+function ensureModalRoot(){ const existing = document.getElementById('modalRoot'); if(existing) existing.remove(); return document.body; }
 function createBackdrop(id){ const b = document.createElement('div'); b.id = id; b.className = 'backdrop-fixed'; return b; }
 
 // Booking modal
 function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_booking'); root.appendChild(backdrop);
-  const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='Matilda' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
+  const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='${state.profile.name || 'Matilda'}' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
   root.appendChild(modal);
   document.getElementById('bkCancel').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
-  document.getElementById('bkSave').addEventListener('click', ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); save(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); showToast('Booked — please pay to confirm'); });
+  document.getElementById('bkSave').addEventListener('click', ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); save(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); renderAppointmentsPanel(); showToast('Booked — please pay to confirm'); });
 }
+function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }
 
-// Reschedule modal
+// Reschedule
 function showRescheduleModal(appt){ if(document.getElementById('rescheduleModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_reschedule'); root.appendChild(backdrop);
   const modal = document.createElement('div'); modal.className='modal'; modal.id='rescheduleModal'; modal.innerHTML = `<h3>Reschedule Appointment</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' class='input-field' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`;
   root.appendChild(modal);
@@ -226,14 +245,23 @@ function showRescheduleModal(appt){ if(document.getElementById('rescheduleModal'
   document.getElementById('doResched').addEventListener('click', ()=>{ const when = document.getElementById('reschedWhen').value; if(!when){ showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); save(); renderAppointmentPreview(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); });
 }
 
-// Payment flow
+// Payment
 function openPaymentIfRequired(appt){ const modal = document.getElementById('paymentModal'); document.getElementById('pmProvider').innerText = appt.doctorName; document.getElementById('pmAmount').innerText = `$${appt.amount.toFixed(2)}`; modal.style.display = 'block'; const backdrop = createBackdrop('backdrop_payment'); document.body.appendChild(backdrop);
   document.getElementById('cancelPay').onclick = ()=>{ modal.style.display='none'; backdrop.remove(); };
   document.getElementById('confirmPay').onclick = ()=> simulatePayment(appt);
 }
 function simulatePayment(appt){ const num = document.getElementById('cardNumber').value.trim(); if(num.length<12){ showToast('Enter a valid card number'); return; } document.getElementById('confirmPay').innerText = 'Processing...'; setTimeout(()=>{ document.getElementById('confirmPay').innerText = 'Confirm Payment'; document.getElementById('paymentModal').style.display='none'; const bp=document.getElementById('backdrop_payment'); if(bp) bp.remove(); showToast('Payment successful — joining call'); appt.paid = true; save(); },1200); }
 
-// render list of doctors in the Care Team panel
+// Quick actions wiring
+function renderQuickButtons(){ document.getElementById('bookBtnSmall').onclick = ()=> openBookingFlow(); document.getElementById('consultBtnSmall').onclick = ()=> showView('consult'); document.getElementById('uploadBtnSmall').onclick = ()=> showView('records'); document.getElementById('sosBtnSmall').onclick = ()=> showToast('SOS: call emergency');
+  document.getElementById('qa-book').onclick = ()=> openBookingFlow(); document.getElementById('qa-consult').onclick = ()=> showConsultModal(); document.getElementById('qa-upload').onclick = ()=> document.getElementById('fileInput').click(); document.getElementById('qa-sos').onclick = ()=> showToast('SOS: emergency services will be contacted'); document.getElementById('payBtn').onclick = ()=> { if(state.appointments.length>0) openPaymentIfRequired(state.appointments[0]); else showToast('No appointment to pay'); }
+}
+function openBookingFlow(){ showBookingModal(); }
+
+// Records
+function handleFileInput(files){ if(!files || files.length===0) return; for(const f of files){ const id = uid(); state.files.push({id,name:f.name,size:f.size,type:f.type,uploaded: new Date().toISOString()}); } save(); renderRecordsPanel(); showToast('File(s) uploaded'); }
+
+// render doctors
 function renderDoctorsTiles(){ const list = document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [
   {name:'Dr. Maya Chen',img:DOCTOR_ASSETS[0],spec:'General'},
   {name:'Dr. Arjun Patel',img:DOCTOR_ASSETS[1],spec:'Pediatrics'},
@@ -243,7 +271,7 @@ function renderDoctorsTiles(){ const list = document.getElementById('doctorsList
 }
 function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }
 
-// render appointment preview
+// appointment preview
 function renderAppointmentPreview(){ const countdownEl = document.getElementById('apptCountdown'); const timelineRow = document.getElementById('timelineRow'); const appt = state.appointments[0]; if(!appt){ countdownEl.innerText='No appointments'; timelineRow.innerHTML=''; return; }
   document.getElementById('apptDetails').innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`;
   function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Due'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } }
@@ -253,56 +281,67 @@ function renderAppointmentPreview(){ const countdownEl = document.getElementById
   document.getElementById('rescheduleBtn').onclick = ()=> { showRescheduleModal(appt); };
 }
 
-// small metrics rendering
-function renderMetrics(){ const node = document.getElementById('metrics'); node.innerHTML=''; const metrics=[{label:'Sleep',val:'7.5h'},{label:'Stress',val:'Low'},{label:'Meds',val:'On track'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.style.flex='1'; el.innerHTML = `<div style='font-weight:700'>${m.val}</div><div style='color:var(--muted)'>${m.label}</div>`; node.appendChild(el); }); }
+// appointments panel
+function renderAppointmentsPanel(){ const list = document.getElementById('appointmentsList'); if(!list) return; list.innerHTML=''; (state.appointments||[]).forEach(a=>{ const el=document.createElement('div'); el.className='appt-item'; el.innerHTML = `<div><div style='font-weight:700'>${a.doctorName}</div><div style='color:var(--muted)'>${new Date(a.when).toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn-outline btn-appt-view' data-id='${a.id}'>View</button><button class='btn-primary btn-appt-pay' data-id='${a.id}'>Pay</button></div>`; list.appendChild(el); });
+  list.querySelectorAll('.btn-appt-view').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt){ state.selectedAppt=appt; renderAppointmentPreview(); showView('appointments'); } }));
+  list.querySelectorAll('.btn-appt-pay').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt) openPaymentIfRequired(appt); }));
+}
 
-function renderQuickButtons(){ document.getElementById('bookBtnSmall').onclick = ()=> openBookingFlow(); document.getElementById('consultBtnSmall').onclick = ()=> showView('consult'); document.getElementById('uploadBtnSmall').onclick = ()=> showView('records'); document.getElementById('sosBtnSmall').onclick = ()=> showToast('SOS: call emergency'); document.getElementById('payBtn').onclick = ()=> { if(state.appointments.length>0) openPaymentIfRequired(state.appointments[0]); else showToast('No appointment to pay'); } }
-function openBookingFlow(){ showBookingModal(); }
+// records panel
+function renderRecordsPanel(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; (state.files||[]).forEach(f=>{ const el=document.createElement('div'); el.className='file-item'; el.innerHTML = `<div><div style='font-weight:700'>${f.name}</div><div style='color:var(--muted);font-size:12px'>${new Date(f.uploaded).toLocaleString()}</div></div><div><button class='btn-outline' data-id='${f.id}'>Download</button></div>`; node.appendChild(el); });
+  node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> showToast('Download would start (stub)')));
+}
 
-// Hero: static with manual controls (no auto-rotate)
-function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.style.display = i===0 ? 'block' : 'none'; hero.appendChild(img); });
-  // arrows
+// consult modal (simulated video)
+function showConsultModal(){ if(document.getElementById('consultModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_consult'); root.appendChild(backdrop);
+  const modal=document.createElement('div'); modal.className='modal'; modal.id='consultModal'; modal.innerHTML = `<h3>Start Consult</h3><div style='margin-top:8px;color:var(--muted)'>Simulated video session — this is a prototype</div><div style='margin-top:12px;height:220px;background:#eaf1ff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>Video preview</div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn-primary'>Start Call</button><button id='cancelCall' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal);
+  document.getElementById('cancelCall').onclick = ()=> { modal.remove(); backdrop.remove(); };
+  document.getElementById('startCall').onclick = ()=> { showToast('Joining call (prototype)'); setTimeout(()=>{ modal.remove(); backdrop.remove(); },600); };
+}
+
+// hero carousel
+function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.style.display = i===0 ? 'block' : 'none'; img.style.objectPosition = HERO_POSITIONS[i] || '50% 50%'; hero.appendChild(img); });
   const left=document.createElement('button'); left.className='hero-arrow left'; left.innerHTML='\u2039'; left.addEventListener('click', ()=> changeHero(-1));
   const right=document.createElement('button'); right.className='hero-arrow right'; right.innerHTML='\u203a'; right.addEventListener('click', ()=> changeHero(1));
   hero.appendChild(left); hero.appendChild(right);
-  // pager
   const pager=document.createElement('div'); pager.className='hero-pager'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.className='hero-dot' + (i===0? ' active':'' ); dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.appendChild(pager);
 }
 function getCurrentHeroIndex(){ const hero=document.getElementById('heroCarousel'); const imgs = hero.querySelectorAll('img'); let idx=0; imgs.forEach((im,i)=>{ if(im.style.display!=='none') idx=i; }); return idx; }
 function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!hero) return; const imgs = hero.querySelectorAll('img'); imgs.forEach((im,idx)=> im.style.display = idx===i ? 'block' : 'none'); const dots = hero.querySelectorAll('.hero-dot'); dots.forEach((d,idx)=> d.classList.toggle('active', idx===i)); }
 function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
-// View switcher: show/hide sections and update hero image and nav active state
+// view switcher
 function showView(view){ const mapping = { home:0, appointments:1, consult:2, records:0, profile:1 };
   setHero(mapping[view]||0);
-  // appt preview visibility
+  // visibility
   document.getElementById('apptPreview').style.display = (view==='appointments' || view==='home') ? 'block' : 'none';
-  // doctors panel visible only on home
   document.getElementById('doctorsPanel').style.display = (view==='home') ? 'block' : 'none';
-  // home panel content toggles (simple prototype): show appointment details on appointments view
   document.getElementById('homePanel').style.display = (view==='home') ? 'block' : 'none';
-  // show simple records view by replacing appointment details with list when records
-  if(view==='records'){
-    document.getElementById('apptDetails').innerText = 'Medical records: No files yet';
-  } else if(view==='appointments'){
-    document.getElementById('apptDetails').innerText = state.appointments.length ? `${state.appointments[0].doctorName} — ${new Date(state.appointments[0].when).toLocaleString()}` : 'No appointment selected';
-  }
+  document.getElementById('appointmentsPanel').style.display = (view==='appointments') ? 'block' : 'none';
+  document.getElementById('recordsPanel').style.display = (view==='records') ? 'block' : 'none';
+
+  if(view==='records') renderRecordsPanel();
+  if(view==='appointments') renderAppointmentsPanel();
   if(view==='profile'){
-    // show a quick inline editable profile block inside the aside area
-    const apptDetails = document.getElementById('apptDetails'); apptDetails.innerHTML = `<div style='font-weight:700'>Matilda</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='Matilda' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ document.getElementById('saveProfile').onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v) document.querySelector('.greeting').innerText = `Welcome, ${v}`; showToast('Profile updated'); } },50);
+    const apptDetails = document.getElementById('apptDetails'); apptDetails.innerHTML = `<div style='font-weight:700'>${state.profile.name || 'Matilda'}</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='${state.profile.name || 'Matilda'}' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ document.getElementById('saveProfile').onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v){ state.profile.name = v; save(); document.querySelector('.greeting').innerText = `Welcome, ${v}`; document.getElementById('profileGreeting').innerText = v; showToast('Profile updated'); } } },50);
   }
 
-  // nav active state
   document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.classList.toggle('active', b.dataset.view===view));
-  showToast('Switched to '+view);
 }
 
-// initialization
-load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDoctorsTiles(); renderAppointmentPreview();
+// init
+load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDoctorsTiles(); renderAppointmentPreview(); renderAppointmentsPanel(); renderRecordsPanel();
 
 // wire bottom nav
 document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view)));
-// default view
+// file input
+document.getElementById('fileInput').addEventListener('change', (e)=> handleFileInput(e.target.files));
+document.getElementById('uploadFileBtn').addEventListener('click', ()=> document.getElementById('fileInput').click());
+
+// quick upload button
+document.getElementById('newRecordBtn').addEventListener('click', ()=> { const id=uid(); state.files.push({id,name:'New Record '+(state.files.length+1),size:0,type:'note',uploaded:new Date().toISOString()}); save(); renderRecordsPanel(); showToast('Record added'); });
+
+// default
 showView('home');
 
 </script>
