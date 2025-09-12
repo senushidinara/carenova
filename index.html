@@ -284,7 +284,7 @@ const DOCTOR_ASSETS = [
 ];
 
 function uid(){ return Math.random().toString(36).slice(2,9); }
-function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); if(!state.appointments || !state.appointments.length){ state.appointments = [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}]; } if(!state.profile) state.profile = {name:'Matilda'}; document.querySelector('.greeting').innerText = `Welcome, ${state.profile.name || 'Matilda'}`; document.getElementById('profileGreeting').innerText = state.profile.name || 'Matilda'; }
+function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); if(!state.appointments || !state.appointments.length){ state.appointments = [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}]; } if(!state.profile) state.profile = {name:'Matilda', medicalDetails: ''}; if(!('medicalDetails' in state.profile)) state.profile.medicalDetails = state.profile.medicalDetails || ''; document.querySelector('.greeting').innerText = `Welcome, ${state.profile.name || 'Matilda'}`; document.getElementById('profileGreeting').innerText = state.profile.name || 'Matilda'; }
 function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
 function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.className='toast-root'; document.body.appendChild(container); } const t = document.createElement('div'); t.className='toast-item'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout); }
