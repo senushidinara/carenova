@@ -309,6 +309,9 @@ function renderMetrics(){ const node = document.getElementById('metrics'); if(!n
 // quick buttons wiring
 function renderQuickButtons(){ try{ document.getElementById('qa-book') && (document.getElementById('qa-book').onclick = ()=> openBookingFlow()); document.getElementById('qa-consult') && (document.getElementById('qa-consult').onclick = ()=> showConsultModal()); document.getElementById('qa-upload') && (document.getElementById('qa-upload').onclick = ()=> document.getElementById('fileInput') && document.getElementById('fileInput').click()); document.getElementById('qa-sos') && (document.getElementById('qa-sos').onclick = ()=> showToast('SOS: emergency services will be contacted')); document.getElementById('uploadFileBtn') && (document.getElementById('uploadFileBtn').onclick = ()=> document.getElementById('fileInput') && document.getElementById('fileInput').click()); // compose handled elsewhere
   }catch(e){ console.error('renderQuickButtons error', e); } }
+
+// wrapper used by quick actions
+function openBookingFlow(){ try{ showBookingModal(); }catch(err){ console.error('openBookingFlow error', err); showToast('Unable to open booking modal'); } }
 function refillPrescription(id){ const rx = state.prescriptions.find(r=>r.id===id); if(!rx) return; if(rx.refills>0){ rx.refills--; save(); renderPrescriptions(); showToast('Refill requested — available at pharmacy'); } else { showToast('No refills left — request new prescription'); } }
 
 // Billing
