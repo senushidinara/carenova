@@ -383,12 +383,15 @@ document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener
 // wire secondary tabs
 document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section)));
 // file input
-document.getElementById('fileInput').addEventListener('change', (e)=> handleFileInput(e.target.files));
-document.getElementById('uploadFileBtn').addEventListener('click', ()=> document.getElementById('fileInput').click());
+const fileInputEl = document.getElementById('fileInput'); if(fileInputEl) fileInputEl.addEventListener('change', (e)=> handleFileInput(e.target.files));
+const uploadFileBtnEl = document.getElementById('uploadFileBtn'); if(uploadFileBtnEl) uploadFileBtnEl.addEventListener('click', ()=> fileInputEl && fileInputEl.click());
 // quick actions
-document.getElementById('qa-book').onclick = ()=> openBookingFlow(); document.getElementById('qa-consult').onclick = ()=> showConsultModal(); document.getElementById('qa-upload').onclick = ()=> document.getElementById('fileInput').click(); document.getElementById('qa-sos').onclick = ()=> showToast('SOS: emergency services will be contacted');
+const qaBookEl = document.getElementById('qa-book'); if(qaBookEl) qaBookEl.onclick = ()=> openBookingFlow();
+const qaConsultEl = document.getElementById('qa-consult'); if(qaConsultEl) qaConsultEl.onclick = ()=> showConsultModal();
+const qaUploadEl = document.getElementById('qa-upload'); if(qaUploadEl) qaUploadEl.onclick = ()=> fileInputEl && fileInputEl.click();
+const qaSosEl = document.getElementById('qa-sos'); if(qaSosEl) qaSosEl.onclick = ()=> showToast('SOS: emergency services will be contacted');
 // compose
-document.getElementById('composeBtn').onclick = ()=> composeMessage();
+const composeBtnEl = document.getElementById('composeBtn'); if(composeBtnEl) composeBtnEl.onclick = ()=> composeMessage();
 // invoice render
 renderBilling();
 // keyboard: Esc closes modals
