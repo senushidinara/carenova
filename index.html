@@ -111,11 +111,11 @@
         <div class="hero-title">Welcome back, <span id="profileGreeting">Matilda</span></div>
         <div class="hero-sub">Your care team and upcoming consults are below.</div>
         <div class="secondary-tabs" role="tablist">
-          <button class="tab-btn active" data-section="overview">Overview</button>
-          <button class="tab-btn" data-section="messages">Messages</button>
-          <button class="tab-btn" data-section="prescriptions">Prescriptions</button>
-          <button class="tab-btn" data-section="billing">Billing</button>
-          <button class="tab-btn" data-section="help">Help</button>
+          <button class="tab-btn active" data-section="overview"><i class="fa fa-home" style="margin-right:8px"></i>Overview</button>
+          <button class="tab-btn" data-section="messages"><i class="fa fa-envelope" style="margin-right:8px"></i>Messages</button>
+          <button class="tab-btn" data-section="prescriptions"><i class="fa fa-prescription-bottle" style="margin-right:8px"></i>Prescriptions</button>
+          <button class="tab-btn" data-section="billing"><i class="fa fa-file-invoice-dollar" style="margin-right:8px"></i>Billing</button>
+          <button class="tab-btn" data-section="help"><i class="fa fa-life-ring" style="margin-right:8px"></i>Help</button>
         </div>
       </div>
       <div class="hero-image-wrap">
@@ -324,8 +324,19 @@ function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!her
 function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
 // show section (secondary tabs)
-function showSection(section){ document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.section===section)); // hide all optional panels
+function showSection(section){ // set active tab
+  document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.section===section));
+  // hide panels
   const panels = ['messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel','homePanel']; panels.forEach(p=> document.getElementById(p) && (document.getElementById(p).style.display='none'));
+  // update hero title/subtitle and hero image per section for distinct feel
+  const titleEl = document.querySelector('.hero-title'); const subEl = document.querySelector('.hero-sub');
+  const mapping = { overview: {title:`Welcome back, ${state.profile.name||'Matilda'}`, sub:'Your care team and upcoming consults are below.', hero:0 },
+                    messages: {title:'Messages', sub:'Secure messages with your care team — open or compose a new message.', hero:1 },
+                    prescriptions: {title:'Prescriptions', sub:'View and request refills for your active medications.', hero:2 },
+                    billing: {title:'Billing', sub:'View invoices and pay securely.', hero:2 },
+                    help: {title:'Help & Support', sub:'Find guides or contact our support team.', hero:1 } };
+  const cfg = mapping[section] || mapping.overview; if(titleEl) titleEl.innerText = cfg.title; if(subEl) subEl.innerText = cfg.sub; setHero(cfg.hero);
+  // show related panel and render content
   if(section==='overview'){ document.getElementById('homePanel').style.display='block'; }
   if(section==='messages'){ document.getElementById('messagesPanel').style.display='block'; renderMessages(); }
   if(section==='prescriptions'){ document.getElementById('prescriptionsPanel').style.display='block'; renderPrescriptions(); }
