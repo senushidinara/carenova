@@ -375,8 +375,8 @@ function showSection(section){ // set active tab
     overview: {accent:'var(--accent)',accent2:'var(--accent-2)',hero:0},
     messages: {accent:'#0bb5a6',accent2:'#06a58a',hero:1},
     prescriptions: {accent:'#0b8f3b',accent2:'#2fc26b',hero:2},
-    billing: {accent:'#ff7a3d',accent2:'#ff4d6d',hero:2},
-    help: {accent:'#6c6f76',accent2:'#bdbfc4',hero:1}
+    billing: {accent:'#ff7a3d',accent2:'#ff4d6d',hero:3},
+    help: {accent:'#6c6f76',accent2:'#bdbfc4',hero:4}
   };
   const cfgTheme = THEMES[section] || THEMES.overview;
   try{ document.documentElement.style.setProperty('--accent', cfgTheme.accent); document.documentElement.style.setProperty('--accent-2', cfgTheme.accent2);}catch(e){}
