@@ -345,6 +345,17 @@ function showSection(section){ // set active tab
   document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.section===section));
   // hide panels
   const panels = ['messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel','homePanel']; panels.forEach(p=> document.getElementById(p) && (document.getElementById(p).style.display='none'));
+  // per-section theme (accent colors and hero)
+  const THEMES = {
+    overview: {accent:'var(--accent)',accent2:'var(--accent-2)',hero:0},
+    messages: {accent:'#0bb5a6',accent2:'#06a58a',hero:1},
+    prescriptions: {accent:'#0b8f3b',accent2:'#2fc26b',hero:2},
+    billing: {accent:'#ff7a3d',accent2:'#ff4d6d',hero:2},
+    help: {accent:'#6c6f76',accent2:'#bdbfc4',hero:1}
+  };
+  const cfgTheme = THEMES[section] || THEMES.overview;
+  try{ document.documentElement.style.setProperty('--accent', cfgTheme.accent); document.documentElement.style.setProperty('--accent-2', cfgTheme.accent2);}catch(e){}
+
   // update hero title/subtitle and hero image per section for distinct feel
   const titleEl = document.querySelector('.hero-title'); const subEl = document.querySelector('.hero-sub');
   const mapping = { overview: {title:`Welcome back, ${state.profile.name||'Matilda'}`, sub:'Your care team and upcoming consults are below.', hero:0 },
