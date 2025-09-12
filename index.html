@@ -21,9 +21,9 @@
     .hero-content{flex:1;padding:18px}
     .hero-title{font-weight:800;font-size:1.2rem;color:var(--accent)}
     .hero-sub{color:var(--muted);margin-top:6px}
-    .hero-image-wrap{width:420px;height:140px;border-radius:12px;overflow:hidden;background:#fff;flex-shrink:0}
+    .hero-image-wrap{width:520px;height:160px;border-radius:12px;overflow:hidden;background:#fff;flex-shrink:0}
     .hero-image-wrap .hero-carousel{width:100%;height:100%;position:relative}
-    .hero-carousel img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero-carousel img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .32s ease}
     .hero-pager{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
     .hero-dot{width:10px;height:10px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.6)}
     .hero-dot.active{background:var(--accent)}
@@ -31,8 +31,14 @@
     .hero-arrow.left{left:8px}
     .hero-arrow.right{right:8px}
 
+    /* secondary tabs under hero */
+    .secondary-tabs{display:flex;gap:8px;margin-top:12px}
+    .tab-btn{background:transparent;border:none;padding:8px 12px;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:700}
+    .tab-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 8px 20px rgba(63,81,181,0.08)}
+
     /* Upcoming appointment preview styled like references (glass) */
-    .appt-large{background:var(--panel);backdrop-filter:blur(8px);border-radius:16px;padding:36px;box-shadow:0 18px 40px rgba(16,24,40,0.08);text-align:center;margin-bottom:18px;border:1px solid rgba(15,23,42,0.04)}
+    .appt-large{background:var(--panel);backdrop-filter:blur(8px);border-radius:16px;padding:36px;box-shadow:0 18px 40px rgba(16,24,40,0.08);text-align:center;margin-bottom:18px;border:1px solid rgba(15,23,42,0.04);transition:transform .18s ease}
+    .appt-large:hover{transform:translateY(-4px)}
     .appt-large h2{margin:0;font-size:1.1rem;color:#1f2937}
     .appt-time{font-weight:900;font-size:56px;margin:12px 0;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
     .appt-time--empty{background:none;-webkit-background-clip:initial;color:var(--muted);font-size:20px;font-weight:600;margin:8px 0}
@@ -42,10 +48,12 @@
     .appt-actions{display:flex;gap:12px;justify-content:center;margin-top:20px}
 
     .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-    .panel{background:var(--panel);backdrop-filter:blur(6px);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(16,24,40,0.04);border:1px solid rgba(15,23,42,0.03)}
+    .panel{background:var(--panel);backdrop-filter:blur(6px);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(16,24,40,0.04);border:1px solid rgba(15,23,42,0.03);transition:box-shadow .18s ease}
+    .panel:hover{box-shadow:0 14px 40px rgba(16,24,40,0.06)}
 
     .controls-row{display:flex;gap:12px;margin-top:12px}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:700;transition:transform .12s ease}
+    .btn-primary:active{transform:translateY(1px)}
     .btn-outline{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:10px 18px;border-radius:12px;cursor:pointer}
 
     .quick-actions{display:flex;gap:12px;margin-top:12px}
@@ -59,16 +67,20 @@
     .doctor-name{font-weight:700}
     .doctor-special{color:var(--muted);font-size:12px}
 
-    /* appointments list */
-    .appt-list{display:flex;flex-direction:column;gap:10px}
-    .appt-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.03)}
+    /* messages */
+    .messages-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .message-item{padding:12px;border-radius:10px;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.03);display:flex;justify-content:space-between;align-items:center}
 
-    /* records */
-    .file-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .file-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.03)}
+    /* prescriptions */
+    .rx-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .rx-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.03)}
+
+    /* billing */
+    .invoice-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .invoice-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.03)}
 
     /* modal & backdrop */
-    .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;box-shadow:0 20px 50px rgba(2,6,23,0.2);z-index:120;width:420px}
+    .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;box-shadow:0 20px 50px rgba(2,6,23,0.2);z-index:120;width:480px}
     .modal .row{display:flex;gap:8px;margin-top:12px}
     .backdrop-fixed{position:fixed;inset:0;background:rgba(2,6,23,0.35);backdrop-filter:blur(2px);z-index:110}
     .input-field{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8}
@@ -80,7 +92,6 @@
     .nav-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
     .nav-btn.active{box-shadow:0 6px 18px rgba(63,81,181,0.12)}
 
-    /* toast */
     .toast-root{position:fixed;right:20px;bottom:20px;z-index:9999}
     .toast-item{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:10px 14px;border-radius:10px;margin-top:8px;box-shadow:0 8px 20px rgba(12,20,40,0.2)}
 
@@ -94,11 +105,18 @@
       <div class="greeting">Welcome, Matilda</div>
     </header>
 
-    <!-- Hero banner -->
+    <!-- Hero banner + secondary tabs -->
     <section class="hero-panel">
       <div class="hero-content">
         <div class="hero-title">Welcome back, <span id="profileGreeting">Matilda</span></div>
         <div class="hero-sub">Your care team and upcoming consults are below.</div>
+        <div class="secondary-tabs" role="tablist">
+          <button class="tab-btn active" data-section="overview">Overview</button>
+          <button class="tab-btn" data-section="messages">Messages</button>
+          <button class="tab-btn" data-section="prescriptions">Prescriptions</button>
+          <button class="tab-btn" data-section="billing">Billing</button>
+          <button class="tab-btn" data-section="help">Help</button>
+        </div>
       </div>
       <div class="hero-image-wrap">
         <div id="heroCarousel" class="hero-carousel"></div>
@@ -119,7 +137,7 @@
     <div class="grid">
       <div>
         <div class="panel" id="homePanel">
-          <h3>Health Snapshot</h3>
+          <h3 id="overviewTitle">Health Snapshot</h3>
           <p style="color:var(--muted)">Quick glance at recent metrics</p>
           <div id="metrics" style="display:flex;gap:12px;margin-top:12px"></div>
         </div>
@@ -141,13 +159,21 @@
           </div>
         </div>
 
-        <!-- Appointments list (hidden by default) -->
-        <div class="panel" id="appointmentsPanel" style="display:none;margin-top:12px">
-          <h3>Your Appointments</h3>
-          <div id="appointmentsList" class="appt-list"></div>
+        <!-- messages -->
+        <div class="panel" id="messagesPanel" style="display:none;margin-top:12px">
+          <h3>Messages</h3>
+          <div style="margin-top:8px;color:var(--muted)">Secure messages with your care team</div>
+          <div id="messagesList" class="messages-list"></div>
+          <div style="margin-top:12px"><button class="btn-primary" id="composeBtn">Compose</button></div>
         </div>
 
-        <!-- Records panel -->
+        <!-- prescriptions -->
+        <div class="panel" id="prescriptionsPanel" style="display:none;margin-top:12px">
+          <h3>Prescriptions</h3>
+          <div id="rxList" class="rx-list"></div>
+        </div>
+
+        <!-- records panel -->
         <div class="panel" id="recordsPanel" style="display:none;margin-top:12px">
           <h3>Medical Records</h3>
           <p style="color:var(--muted)">Upload reports or view existing files</p>
@@ -159,6 +185,12 @@
           <div id="fileList" class="file-list"></div>
         </div>
 
+        <!-- appointments list (hidden by default) -->
+        <div class="panel" id="appointmentsPanel" style="display:none;margin-top:12px">
+          <h3>Your Appointments</h3>
+          <div id="appointmentsList" class="appt-list"></div>
+        </div>
+
       </div>
 
       <aside>
@@ -168,6 +200,10 @@
           <div class="controls-row" style="margin-top:12px">
             <button class="btn-primary" id="payBtn">Pay & Confirm</button>
             <button class="btn-outline" id="saveDraft">Save Draft</button>
+          </div>
+          <div id="billingSummary" style="margin-top:12px;display:none">
+            <h4 style="margin:0">Billing</h4>
+            <div id="invoicePreview" style="color:var(--muted);margin-top:8px">No invoices</div>
           </div>
         </div>
 
@@ -204,14 +240,29 @@
 <script>
 // App state (local-only prototype)
 const STORAGE_KEY = 'vhc_paid_v1';
-let state = { appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}], selectedAppt: null, files: [], profile:{name:'Matilda'} };
+let state = { 
+  appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}],
+  selectedAppt: null,
+  files: [],
+  profile:{name:'Matilda'},
+  messages: [
+    {id:'m1',from:'Dr. Maya Chen',subject:'Pre-visit notes',body:'Please complete the questionnaire before the visit.',time:new Date().toISOString(),read:false},
+    {id:'m2',from:'Reception',subject:'Clinic hours',body:'We are open Mon-Fri 8am-6pm.',time:new Date().toISOString(),read:true}
+  ],
+  prescriptions: [
+    {id:'r1',name:'Atorvastatin 10mg',sig:'1 tab daily',refills:1},
+    {id:'r2',name:'Vitamin D 1000IU',sig:'1 tab daily',refills:3}
+  ],
+  invoices: [
+    {id:'i1',desc:'Consultation — Dr. Maya Chen',amount:25.00,paid:false}
+  ]
+};
 
 const HERO_ASSETS = [
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=1200',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F66e9aa98f57f4241aaf30f9e811b1ebc?format=webp&width=1200',
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=1200'
 ];
-// per-slide focal positions to avoid cropped faces
 const HERO_POSITIONS = ['30% 50%','48% 50%','50% 40%'];
 const DOCTOR_ASSETS = [
   'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=400',
@@ -220,138 +271,83 @@ const DOCTOR_ASSETS = [
 ];
 
 function uid(){ return Math.random().toString(36).slice(2,9); }
-function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); // ensure sensible defaults
-  if(!state.appointments || !state.appointments.length){ state.appointments = [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}]; }
-  if(!state.profile) state.profile = {name:'Matilda'};
-  document.querySelector('.greeting').innerText = `Welcome, ${state.profile.name || 'Matilda'}`; document.getElementById('profileGreeting').innerText = state.profile.name || 'Matilda'; }
+function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); if(!state.appointments || !state.appointments.length){ state.appointments = [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}]; } if(!state.profile) state.profile = {name:'Matilda'}; document.querySelector('.greeting').innerText = `Welcome, ${state.profile.name || 'Matilda'}`; document.getElementById('profileGreeting').innerText = state.profile.name || 'Matilda'; }
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
-function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.className='toast-root'; document.body.appendChild(container); }
-  const t = document.createElement('div'); t.className='toast-item'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout);
-}
+function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.className='toast-root'; document.body.appendChild(container); } const t = document.createElement('div'); t.className='toast-item'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout); }
 function ensureModalRoot(){ const existing = document.getElementById('modalRoot'); if(existing) existing.remove(); return document.body; }
-function createBackdrop(id){ const b = document.createElement('div'); b.id = id; b.className = 'backdrop-fixed'; return b; }
+function createBackdrop(id){ const b = document.createElement('div'); b.id = id; b.className = 'backdrop-fixed'; b.tabIndex = -1; b.addEventListener('click', ()=> { const m = document.querySelector('.modal'); if(m) { m.remove(); b.remove(); } }); return b; }
 
-// Booking modal
-function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_booking'); root.appendChild(backdrop);
-  const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='${state.profile.name || 'Matilda'}' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
-  root.appendChild(modal);
-  document.getElementById('bkCancel').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
-  document.getElementById('bkSave').addEventListener('click', ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); save(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); renderAppointmentsPanel(); showToast('Booked — please pay to confirm'); });
-}
-function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }
+// Messages
+function renderMessages(){ const node = document.getElementById('messagesList'); node.innerHTML=''; (state.messages||[]).forEach(m=>{ const el = document.createElement('div'); el.className='message-item'; el.innerHTML = `<div><div style='font-weight:700'>${m.subject}</div><div style='color:var(--muted);font-size:13px'>${m.from} • ${new Date(m.time).toLocaleString()}</div></div><div><button class='btn-outline' data-id='${m.id}'>Open</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> openMessage(b.dataset.id))); }
+function openMessage(id){ const msg = state.messages.find(m=>m.id===id); if(!msg) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_msg'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='msgModal'; modal.innerHTML = `<h3>${msg.subject}</h3><div style='color:var(--muted);margin-top:6px'>From: ${msg.from}</div><div style='margin-top:12px'>${msg.body}</div><div style='margin-top:12px;display:flex;gap:8px'><button id='replyBtn' class='btn-primary'>Reply</button><button id='closeMsg' class='btn-outline'>Close</button></div>`; root.appendChild(modal); document.getElementById('closeMsg').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('replyBtn').onclick = ()=> { modal.remove(); backdrop.remove(); composeMessage(msg.from); }; msg.read = true; save(); }
+function composeMessage(to='Care Team'){ if(document.getElementById('composeModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_compose'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='composeModal'; modal.innerHTML = `<h3>New Message</h3><div style='margin-top:8px'><label class='label'>To</label><input id='msgTo' class='input-field' value='${to}' /></div><div style='margin-top:8px'><label class='label'>Subject</label><input id='msgSub' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Message</label><textarea id='msgBody' class='input-field' style='height:120px'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='sendMsg' class='btn-primary'>Send</button><button id='cancelMsg' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelMsg').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('sendMsg').onclick = ()=> { const toD=document.getElementById('msgTo').value.trim(); const sub=document.getElementById('msgSub').value.trim(); const body=document.getElementById('msgBody').value.trim(); if(!sub||!body){ showToast('Please add subject and message'); return; } state.messages.unshift({id:uid(),from:toD,subject:sub,body, time:new Date().toISOString(),read:false}); save(); modal.remove(); backdrop.remove(); renderMessages(); showToast('Message sent'); }; }
 
-// Reschedule
-function showRescheduleModal(appt){ if(document.getElementById('rescheduleModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_reschedule'); root.appendChild(backdrop);
-  const modal = document.createElement('div'); modal.className='modal'; modal.id='rescheduleModal'; modal.innerHTML = `<h3>Reschedule Appointment</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' class='input-field' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`;
-  root.appendChild(modal);
-  document.getElementById('cancelResched').addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
-  document.getElementById('doResched').addEventListener('click', ()=>{ const when = document.getElementById('reschedWhen').value; if(!when){ showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); save(); renderAppointmentPreview(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); });
-}
+// Prescriptions
+function renderPrescriptions(){ const node = document.getElementById('rxList'); node.innerHTML=''; (state.prescriptions||[]).forEach(r=>{ const el=document.createElement('div'); el.className='rx-item'; el.innerHTML = `<div><div style='font-weight:700'>${r.name}</div><div style='color:var(--muted);font-size:13px'>${r.sig} • Refills left: ${r.refills}</div></div><div><button class='btn-primary' data-id='${r.id}'>Refill</button></div>`; node.appendChild(el); }); node.querySelectorAll('.rx-item button').forEach(b=> b.addEventListener('click', ()=> refillPrescription(b.dataset.id))); }
+function refillPrescription(id){ const rx = state.prescriptions.find(r=>r.id===id); if(!rx) return; if(rx.refills>0){ rx.refills--; save(); renderPrescriptions(); showToast('Refill requested — available at pharmacy'); } else { showToast('No refills left — request new prescription'); } }
 
-// Payment
-function openPaymentIfRequired(appt){ const modal = document.getElementById('paymentModal'); document.getElementById('pmProvider').innerText = appt.doctorName; document.getElementById('pmAmount').innerText = `$${appt.amount.toFixed(2)}`; modal.style.display = 'block'; const backdrop = createBackdrop('backdrop_payment'); document.body.appendChild(backdrop);
-  document.getElementById('cancelPay').onclick = ()=>{ modal.style.display='none'; backdrop.remove(); };
-  document.getElementById('confirmPay').onclick = ()=> simulatePayment(appt);
-}
-function simulatePayment(appt){ const num = document.getElementById('cardNumber').value.trim(); if(num.length<12){ showToast('Enter a valid card number'); return; } document.getElementById('confirmPay').innerText = 'Processing...'; setTimeout(()=>{ document.getElementById('confirmPay').innerText = 'Confirm Payment'; document.getElementById('paymentModal').style.display='none'; const bp=document.getElementById('backdrop_payment'); if(bp) bp.remove(); showToast('Payment successful — joining call'); appt.paid = true; save(); },1200); }
-
-// Quick actions wiring
-function renderQuickButtons(){ document.getElementById('bookBtnSmall').onclick = ()=> openBookingFlow(); document.getElementById('consultBtnSmall').onclick = ()=> showView('consult'); document.getElementById('uploadBtnSmall').onclick = ()=> showView('records'); document.getElementById('sosBtnSmall').onclick = ()=> showToast('SOS: call emergency');
-  document.getElementById('qa-book').onclick = ()=> openBookingFlow(); document.getElementById('qa-consult').onclick = ()=> showConsultModal(); document.getElementById('qa-upload').onclick = ()=> document.getElementById('fileInput').click(); document.getElementById('qa-sos').onclick = ()=> showToast('SOS: emergency services will be contacted'); document.getElementById('payBtn').onclick = ()=> { if(state.appointments.length>0) openPaymentIfRequired(state.appointments[0]); else showToast('No appointment to pay'); }
-}
-function openBookingFlow(){ showBookingModal(); }
-
-// Records
-function handleFileInput(files){ if(!files || files.length===0) return; for(const f of files){ const id = uid(); state.files.push({id,name:f.name,size:f.size,type:f.type,uploaded: new Date().toISOString()}); } save(); renderRecordsPanel(); showToast('File(s) uploaded'); }
+// Billing
+function renderBilling(){ const node = document.getElementById('invoicePreview'); node.innerHTML='No invoices'; const list = document.createElement('div'); list.className='invoice-list'; (state.invoices||[]).forEach(inv=>{ const el=document.createElement('div'); el.className='invoice-item'; el.innerHTML = `<div><div style='font-weight:700'>${inv.desc}</div><div style='color:var(--muted);font-size:13px'>Amount: $${inv.amount.toFixed(2)}</div></div><div><button class='btn-primary' data-id='${inv.id}'>Pay</button></div>`; list.appendChild(el); }); node.innerHTML=''; node.appendChild(list); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> { const inv = state.invoices.find(i=>i.id===b.dataset.id); if(inv) openPaymentForInvoice(inv); })); document.getElementById('billingSummary').style.display = (state.invoices&&state.invoices.length)?'block':'none'; }
+function openPaymentForInvoice(inv){ const modal = document.getElementById('paymentModal'); document.getElementById('pmProvider').innerText = inv.desc; document.getElementById('pmAmount').innerText = `$${inv.amount.toFixed(2)}`; modal.style.display = 'block'; const backdrop = createBackdrop('backdrop_payment'); document.body.appendChild(backdrop); document.getElementById('cancelPay').onclick = ()=>{ modal.style.display='none'; backdrop.remove(); }; document.getElementById('confirmPay').onclick = ()=> { simulatePaymentInvoice(inv); } }
+function simulatePaymentInvoice(inv){ const num = document.getElementById('cardNumber').value.trim(); if(num.length<12){ showToast('Enter a valid card number'); return; } document.getElementById('confirmPay').innerText = 'Processing...'; setTimeout(()=>{ document.getElementById('confirmPay').innerText = 'Confirm Payment'; document.getElementById('paymentModal').style.display='none'; const bp=document.getElementById('backdrop_payment'); if(bp) bp.remove(); inv.paid=true; save(); renderBilling(); showToast('Invoice paid'); },1200); }
 
 // render doctors
-function renderDoctorsTiles(){ const list = document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [
-  {name:'Dr. Maya Chen',img:DOCTOR_ASSETS[0],spec:'General'},
-  {name:'Dr. Arjun Patel',img:DOCTOR_ASSETS[1],spec:'Pediatrics'},
-  {name:'Dr. Leila Gomez',img:DOCTOR_ASSETS[2],spec:'Psychiatry'}
-]; docs.forEach(d=>{ const row=document.createElement('div'); row.className='doctor-row'; row.innerHTML = `<div class='doctor-avatar'><img src='${d.img}' alt='${d.name}' style='width:100%;height:100%;object-fit:cover' /></div><div class='doctor-meta'><div class='doctor-name'>${d.name}</div><div class='doctor-special'>${d.spec}</div></div><div><button class='btn-outline' data-doc='${d.name}'>Book</button></div>`; list.appendChild(row); });
-  list.querySelectorAll('button[data-doc]').forEach(b=> b.addEventListener('click', ()=> showBookingModalWithDoctor(b.dataset.doc)));
-}
-function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }
+function renderDoctorsTiles(){ const list = document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [ {name:'Dr. Maya Chen',img:DOCTOR_ASSETS[0],spec:'General'}, {name:'Dr. Arjun Patel',img:DOCTOR_ASSETS[1],spec:'Pediatrics'}, {name:'Dr. Leila Gomez',img:DOCTOR_ASSETS[2],spec:'Psychiatry'} ]; docs.forEach(d=>{ const row=document.createElement('div'); row.className='doctor-row'; row.innerHTML = `<div class='doctor-avatar'><img src='${d.img}' alt='${d.name}' style='width:100%;height:100%;object-fit:cover' /></div><div class='doctor-meta'><div class='doctor-name'>${d.name}</div><div class='doctor-special'>${d.spec}</div></div><div><button class='btn-outline' data-doc='${d.name}'>Book</button></div>`; list.appendChild(row); }); list.querySelectorAll('button[data-doc]').forEach(b=> b.addEventListener('click', ()=> showBookingModalWithDoctor(b.dataset.doc))); }
 
-// appointment preview
-function renderAppointmentPreview(){ const countdownEl = document.getElementById('apptCountdown'); const timelineRow = document.getElementById('timelineRow'); const appt = (state.appointments && state.appointments.length) ? state.appointments[0] : null;
-  const joinBtn = document.getElementById('joinNowBtn'); const reschedBtn = document.getElementById('rescheduleBtn');
-  if(!appt){ // empty state: friendly message and CTA
-    countdownEl.classList.add('appt-time--empty'); countdownEl.innerText = 'No upcoming appointments'; timelineRow.innerHTML=''; reschedBtn.style.display='none'; joinBtn.innerText='Book'; joinBtn.onclick = ()=> openBookingFlow(); document.getElementById('apptDetails').innerText = 'No appointment selected'; return; }
-  // has appointment
-  countdownEl.classList.remove('appt-time--empty'); document.getElementById('apptDetails').innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`;
-  function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Due'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } }
-  updateCountdown(); if(window.__apptTimer) clearInterval(window.__apptTimer); window.__apptTimer = setInterval(updateCountdown,10000);
-  timelineRow.innerHTML=''; const imgSrc = DOCTOR_ASSETS[0]; const node = document.createElement('div'); node.className = 'timeline-avatar'; node.innerHTML = `\n    <div class=\"avatar-circle\">\n      <img src=\"${imgSrc}\" alt=\"${appt.doctorName}\" style=\"width:100%;height:100%;object-fit:cover\" />\n    </div>\n    <div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div>\n  `; timelineRow.appendChild(node);
-  reschedBtn.style.display='inline-block'; joinBtn.innerText='Join Now'; joinBtn.onclick = ()=> { state.selectedAppt = appt; openPaymentIfRequired(appt); };
-  reschedBtn.onclick = ()=> { showRescheduleModal(appt); };
-}
+// appointments preview
+function renderAppointmentPreview(){ const countdownEl = document.getElementById('apptCountdown'); const timelineRow = document.getElementById('timelineRow'); const appt = (state.appointments && state.appointments.length) ? state.appointments[0] : null; const joinBtn = document.getElementById('joinNowBtn'); const reschedBtn = document.getElementById('rescheduleBtn'); if(!appt){ countdownEl.classList.add('appt-time--empty'); countdownEl.innerText = 'No upcoming appointments'; timelineRow.innerHTML=''; reschedBtn.style.display='none'; joinBtn.innerText='Book'; joinBtn.onclick = ()=> openBookingFlow(); document.getElementById('apptDetails').innerText = 'No appointment selected'; return; } countdownEl.classList.remove('appt-time--empty'); document.getElementById('apptDetails').innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`; function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Due'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } } updateCountdown(); if(window.__apptTimer) clearInterval(window.__apptTimer); window.__apptTimer = setInterval(updateCountdown,10000); timelineRow.innerHTML=''; const imgSrc = DOCTOR_ASSETS[0]; const node = document.createElement('div'); node.className = 'timeline-avatar'; node.innerHTML = `\n    <div class=\"avatar-circle\">\n      <img src=\"${imgSrc}\" alt=\"${appt.doctorName}\" style=\"width:100%;height:100%;object-fit:cover\" />\n    </div>\n    <div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div>\n  `; timelineRow.appendChild(node); reschedBtn.style.display='inline-block'; joinBtn.innerText='Join Now'; joinBtn.onclick = ()=> { state.selectedAppt = appt; openPaymentIfRequired(appt); }; reschedBtn.onclick = ()=> { showRescheduleModal(appt); }; }
 
-// appointments panel
-function renderAppointmentsPanel(){ const list = document.getElementById('appointmentsList'); if(!list) return; list.innerHTML=''; (state.appointments||[]).forEach(a=>{ const el=document.createElement('div'); el.className='appt-item'; el.innerHTML = `<div><div style='font-weight:700'>${a.doctorName}</div><div style='color:var(--muted)'>${new Date(a.when).toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn-outline btn-appt-view' data-id='${a.id}'>View</button><button class='btn-primary btn-appt-pay' data-id='${a.id}'>Pay</button></div>`; list.appendChild(el); });
-  list.querySelectorAll('.btn-appt-view').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt){ state.selectedAppt=appt; renderAppointmentPreview(); showView('appointments'); } }));
-  list.querySelectorAll('.btn-appt-pay').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt) openPaymentIfRequired(appt); }));
-}
+// appointments list
+function renderAppointmentsPanel(){ const list = document.getElementById('appointmentsList'); if(!list) return; list.innerHTML=''; (state.appointments||[]).forEach(a=>{ const el=document.createElement('div'); el.className='appt-item'; el.innerHTML = `<div><div style='font-weight:700'>${a.doctorName}</div><div style='color:var(--muted)'>${new Date(a.when).toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn-outline btn-appt-view' data-id='${a.id}'>View</button><button class='btn-primary btn-appt-pay' data-id='${a.id}'>Pay</button></div>`; list.appendChild(el); }); list.querySelectorAll('.btn-appt-view').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt){ state.selectedAppt=appt; renderAppointmentPreview(); showView('appointments'); } })); list.querySelectorAll('.btn-appt-pay').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt) openPaymentIfRequired(appt); })); }
 
-// records panel
-function renderRecordsPanel(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; (state.files||[]).forEach(f=>{ const el=document.createElement('div'); el.className='file-item'; el.innerHTML = `<div><div style='font-weight:700'>${f.name}</div><div style='color:var(--muted);font-size:12px'>${new Date(f.uploaded).toLocaleString()}</div></div><div><button class='btn-outline' data-id='${f.id}'>Download</button></div>`; node.appendChild(el); });
-  node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> showToast('Download would start (stub)')));
-}
+// records
+function handleFileInput(files){ if(!files || files.length===0) return; for(const f of files){ const id = uid(); state.files.push({id,name:f.name,size:f.size,type:f.type,uploaded: new Date().toISOString()}); } save(); renderRecordsPanel(); showToast('File(s) uploaded'); }
+function renderRecordsPanel(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; (state.files||[]).forEach(f=>{ const el=document.createElement('div'); el.className='file-item'; el.innerHTML = `<div><div style='font-weight:700'>${f.name}</div><div style='color:var(--muted);font-size:12px'>${new Date(f.uploaded).toLocaleString()}</div></div><div><button class='btn-outline' data-id='${f.id}'>Download</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> showToast('Download would start (stub)'))); }
 
-// consult modal (simulated video)
-function showConsultModal(){ if(document.getElementById('consultModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_consult'); root.appendChild(backdrop);
-  const modal=document.createElement('div'); modal.className='modal'; modal.id='consultModal'; modal.innerHTML = `<h3>Start Consult</h3><div style='margin-top:8px;color:var(--muted)'>Simulated video session — this is a prototype</div><div style='margin-top:12px;height:220px;background:#eaf1ff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>Video preview</div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn-primary'>Start Call</button><button id='cancelCall' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal);
-  document.getElementById('cancelCall').onclick = ()=> { modal.remove(); backdrop.remove(); };
-  document.getElementById('startCall').onclick = ()=> { showToast('Joining call (prototype)'); setTimeout(()=>{ modal.remove(); backdrop.remove(); },600); };
-}
+// consult modal
+function showConsultModal(){ if(document.getElementById('consultModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_consult'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='consultModal'; modal.innerHTML = `<h3>Start Consult</h3><div style='margin-top:8px;color:var(--muted)'>Simulated video session — this is a prototype</div><div style='margin-top:12px;height:220px;background:#eaf1ff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>Video preview</div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn-primary'>Start Call</button><button id='cancelCall' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelCall').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('startCall').onclick = ()=> { showToast('Joining call (prototype)'); setTimeout(()=>{ modal.remove(); backdrop.remove(); },600); }; }
 
 // hero carousel
-function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.style.display = i===0 ? 'block' : 'none'; img.style.objectPosition = HERO_POSITIONS[i] || '50% 50%'; hero.appendChild(img); });
-  const left=document.createElement('button'); left.className='hero-arrow left'; left.innerHTML='\u2039'; left.addEventListener('click', ()=> changeHero(-1));
-  const right=document.createElement('button'); right.className='hero-arrow right'; right.innerHTML='\u203a'; right.addEventListener('click', ()=> changeHero(1));
-  hero.appendChild(left); hero.appendChild(right);
-  const pager=document.createElement('div'); pager.className='hero-pager'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.className='hero-dot' + (i===0? ' active':'' ); dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.appendChild(pager);
-}
+function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.style.display = i===0 ? 'block' : 'none'; img.style.objectPosition = HERO_POSITIONS[i] || '50% 50%'; hero.appendChild(img); }); const left=document.createElement('button'); left.className='hero-arrow left'; left.innerHTML='\u2039'; left.addEventListener('click', ()=> changeHero(-1)); const right=document.createElement('button'); right.className='hero-arrow right'; right.innerHTML='\u203a'; right.addEventListener('click', ()=> changeHero(1)); hero.appendChild(left); hero.appendChild(right); const pager=document.createElement('div'); pager.className='hero-pager'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.className='hero-dot' + (i===0? ' active':'' ); dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.appendChild(pager); }
 function getCurrentHeroIndex(){ const hero=document.getElementById('heroCarousel'); const imgs = hero.querySelectorAll('img'); let idx=0; imgs.forEach((im,i)=>{ if(im.style.display!=='none') idx=i; }); return idx; }
 function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!hero) return; const imgs = hero.querySelectorAll('img'); imgs.forEach((im,idx)=> im.style.display = idx===i ? 'block' : 'none'); const dots = hero.querySelectorAll('.hero-dot'); dots.forEach((d,idx)=> d.classList.toggle('active', idx===i)); }
 function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
-// view switcher
-function showView(view){ const mapping = { home:0, appointments:1, consult:2, records:0, profile:1 };
-  setHero(mapping[view]||0);
-  // visibility
-  document.getElementById('apptPreview').style.display = (view==='appointments' || view==='home') ? 'block' : 'none';
-  document.getElementById('doctorsPanel').style.display = (view==='home') ? 'block' : 'none';
-  document.getElementById('homePanel').style.display = (view==='home') ? 'block' : 'none';
-  document.getElementById('appointmentsPanel').style.display = (view==='appointments') ? 'block' : 'none';
-  document.getElementById('recordsPanel').style.display = (view==='records') ? 'block' : 'none';
-
-  if(view==='records') renderRecordsPanel();
-  if(view==='appointments') renderAppointmentsPanel();
-  if(view==='profile'){
-    const apptDetails = document.getElementById('apptDetails'); apptDetails.innerHTML = `<div style='font-weight:700'>${state.profile.name || 'Matilda'}</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='${state.profile.name || 'Matilda'}' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ document.getElementById('saveProfile').onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v){ state.profile.name = v; save(); document.querySelector('.greeting').innerText = `Welcome, ${v}`; document.getElementById('profileGreeting').innerText = v; showToast('Profile updated'); } } },50);
-  }
-
-  document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.classList.toggle('active', b.dataset.view===view));
+// show section (secondary tabs)
+function showSection(section){ document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.section===section)); // hide all optional panels
+  const panels = ['messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel','homePanel']; panels.forEach(p=> document.getElementById(p) && (document.getElementById(p).style.display='none'));
+  if(section==='overview'){ document.getElementById('homePanel').style.display='block'; }
+  if(section==='messages'){ document.getElementById('messagesPanel').style.display='block'; renderMessages(); }
+  if(section==='prescriptions'){ document.getElementById('prescriptionsPanel').style.display='block'; renderPrescriptions(); }
+  if(section==='billing'){ document.getElementById('recordsPanel').style.display='block'; renderBilling(); }
+  if(section==='help'){ const panel = document.getElementById('recordsPanel'); panel.style.display='block'; panel.querySelector('h3').innerText='Help & Support'; panel.querySelector('p').innerText='Contact support or view guides.'; }
 }
 
+// view switcher for bottom nav
+function showView(view){ const mapping = { home:0, appointments:1, consult:2, records:0, profile:1 }; setHero(mapping[view]||0); document.getElementById('apptPreview').style.display = (view==='appointments' || view==='home') ? 'block' : 'none'; document.getElementById('doctorsPanel').style.display = (view==='home') ? 'block' : 'none'; document.getElementById('homePanel').style.display = (view==='home') ? 'block' : 'none'; document.getElementById('appointmentsPanel').style.display = (view==='appointments') ? 'block' : 'none'; document.getElementById('recordsPanel').style.display = (view==='records') ? 'block' : 'none'; if(view==='records') renderRecordsPanel(); if(view==='appointments') renderAppointmentsPanel(); if(view==='profile'){ const apptDetails = document.getElementById('apptDetails'); apptDetails.innerHTML = `<div style='font-weight:700'>${state.profile.name || 'Matilda'}</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='${state.profile.name || 'Matilda'}' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ document.getElementById('saveProfile').onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v){ state.profile.name = v; save(); document.querySelector('.greeting').innerText = `Welcome, ${v}`; document.getElementById('profileGreeting').innerText = v; showToast('Profile updated'); } } },50); } document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.classList.toggle('active', b.dataset.view===view)); }
+
 // init
-load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDoctorsTiles(); renderAppointmentPreview(); renderAppointmentsPanel(); renderRecordsPanel();
+load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDoctorsTiles(); renderAppointmentPreview(); renderAppointmentsPanel(); renderRecordsPanel(); renderBilling(); renderMessages(); renderPrescriptions();
 
 // wire bottom nav
 document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view)));
+// wire secondary tabs
+document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section)));
 // file input
 document.getElementById('fileInput').addEventListener('change', (e)=> handleFileInput(e.target.files));
 document.getElementById('uploadFileBtn').addEventListener('click', ()=> document.getElementById('fileInput').click());
-
-// quick upload button
-document.getElementById('newRecordBtn').addEventListener('click', ()=> { const id=uid(); state.files.push({id,name:'New Record '+(state.files.length+1),size:0,type:'note',uploaded:new Date().toISOString()}); save(); renderRecordsPanel(); showToast('Record added'); });
+// quick actions
+document.getElementById('qa-book').onclick = ()=> openBookingFlow(); document.getElementById('qa-consult').onclick = ()=> showConsultModal(); document.getElementById('qa-upload').onclick = ()=> document.getElementById('fileInput').click(); document.getElementById('qa-sos').onclick = ()=> showToast('SOS: emergency services will be contacted');
+// compose
+document.getElementById('composeBtn').onclick = ()=> composeMessage();
+// invoice render
+renderBilling();
+// keyboard: Esc closes modals
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.querySelector('.modal'); if(m){ const bp=document.querySelector('.backdrop-fixed'); m.remove(); if(bp) bp.remove(); } } });
 
 // default
-showView('home');
-
+showView('home'); showSection('overview');
 </script>
 </body>
 </html>
