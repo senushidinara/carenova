@@ -324,6 +324,11 @@ function renderDoctorsTiles(){ try{ const list = document.getElementById('doctor
 
 // Booking modal (created on demand)
 function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_booking'); root.appendChild(backdrop);
+}
+// helper to prefill doctor
+function showBookingModalWithDoctor(name){ try{ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }catch(err){ console.error('showBookingModalWithDoctor error', err); }
+// original modal body (inserted when showing)
+const _empty = 0;
   const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='${state.profile.name || 'Matilda'}' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
   root.appendChild(modal);
   const cancelBtn = document.getElementById('bkCancel'); if(cancelBtn) cancelBtn.addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
