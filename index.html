@@ -102,6 +102,11 @@
     .toast-root{position:fixed;right:20px;bottom:20px;z-index:9999}
     .toast-item{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:10px 14px;border-radius:10px;margin-top:8px;box-shadow:0 8px 20px rgba(12,20,40,0.2)}
 
+    /* high contrast mode */
+    .high-contrast{--panel:#fff;--muted:#374151;--text:#031026;--accent:#0b61ff;--accent-2:#ff6b6b}
+    .high-contrast body{background:#f6f9ff}
+    .high-contrast .panel{border-color:rgba(3,6,12,0.06)}
+
     @media(max-width:980px){ .grid{grid-template-columns:1fr} .hero-image-wrap{display:none} }
   </style>
 </head>
@@ -110,6 +115,7 @@
     <header class="app-header">
       <div class="brand-title">Virtual HealthCare</div>
       <div class="greeting">Welcome, Matilda</div>
+      <button id="contrastToggle" class="btn-outline" style="margin-left:12px">High contrast</button>
     </header>
 
     <!-- Hero banner + secondary tabs -->
@@ -282,11 +288,15 @@ function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
 function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.className='toast-root'; document.body.appendChild(container); } const t = document.createElement('div'); t.className='toast-item'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout); }
+
+// contrast toggle
+function setContrast(enabled){ if(enabled) document.documentElement.classList.add('high-contrast'); else document.documentElement.classList.remove('high-contrast'); localStorage.setItem('vhc_contrast', enabled? '1':'0'); }
+function initContrast(){ const v = localStorage.getItem('vhc_contrast'); if(v==='1'){ setContrast(true); } document.getElementById('contrastToggle').addEventListener('click', ()=>{ const active = document.documentElement.classList.toggle('high-contrast'); localStorage.setItem('vhc_contrast', active? '1':'0'); showToast(active? 'High contrast on':'High contrast off'); }); }
 function ensureModalRoot(){ const existing = document.getElementById('modalRoot'); if(existing) existing.remove(); return document.body; }
 function createBackdrop(id){ const b = document.createElement('div'); b.id = id; b.className = 'backdrop-fixed'; b.tabIndex = -1; b.addEventListener('click', ()=> { const m = document.querySelector('.modal'); if(m) { m.remove(); b.remove(); } }); return b; }
 
 // Messages
-function renderMessages(){ const node = document.getElementById('messagesList'); node.innerHTML=''; (state.messages||[]).forEach(m=>{ const el = document.createElement('div'); el.className='message-item'; el.innerHTML = `<div><div style='font-weight:700'>${m.subject}</div><div style='color:var(--muted);font-size:13px'>${m.from} • ${new Date(m.time).toLocaleString()}</div></div><div><button class='btn-outline' data-id='${m.id}'>Open</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> openMessage(b.dataset.id))); }
+function renderMessages(){ const node = document.getElementById('messagesList'); node.innerHTML=''; (state.messages||[]).forEach(m=>{ const el = document.createElement('div'); el.className='message-item'; el.innerHTML = `<div class='meta'><div style='font-weight:700'>${m.subject}</div><div style='color:var(--muted);font-size:13px'>${m.from} • ${new Date(m.time).toLocaleString()}</div><div style='color:var(--muted);margin-top:6px;font-size:13px'>${m.body.length>120? m.body.slice(0,120)+'...':m.body}</div></div><div><button class='btn-outline' data-id='${m.id}'>Open</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> openMessage(b.dataset.id))); }
 function openMessage(id){ const msg = state.messages.find(m=>m.id===id); if(!msg) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_msg'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='msgModal'; modal.innerHTML = `<h3>${msg.subject}</h3><div style='color:var(--muted);margin-top:6px'>From: ${msg.from}</div><div style='margin-top:12px'>${msg.body}</div><div style='margin-top:12px;display:flex;gap:8px'><button id='replyBtn' class='btn-primary'>Reply</button><button id='closeMsg' class='btn-outline'>Close</button></div>`; root.appendChild(modal); document.getElementById('closeMsg').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('replyBtn').onclick = ()=> { modal.remove(); backdrop.remove(); composeMessage(msg.from); }; msg.read = true; save(); }
 function composeMessage(to='Care Team'){ if(document.getElementById('composeModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_compose'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='composeModal'; modal.innerHTML = `<h3>New Message</h3><div style='margin-top:8px'><label class='label'>To</label><input id='msgTo' class='input-field' value='${to}' /></div><div style='margin-top:8px'><label class='label'>Subject</label><input id='msgSub' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Message</label><textarea id='msgBody' class='input-field' style='height:120px'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='sendMsg' class='btn-primary'>Send</button><button id='cancelMsg' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelMsg').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('sendMsg').onclick = ()=> { const toD=document.getElementById('msgTo').value.trim(); const sub=document.getElementById('msgSub').value.trim(); const body=document.getElementById('msgBody').value.trim(); if(!sub||!body){ showToast('Please add subject and message'); return; } state.messages.unshift({id:uid(),from:toD,subject:sub,body, time:new Date().toISOString(),read:false}); save(); modal.remove(); backdrop.remove(); renderMessages(); showToast('Message sent'); }; }
 
