@@ -251,13 +251,13 @@
   </div>
 
 <script>
-// App state (local-only prototype)
-const STORAGE_KEY = 'vhc_paid_v1';
-let state = { 
+// App state (local-only demo; saved to localStorage)
+  const STORAGE_KEY = 'vhc_paid_v1';
+  let state = {
   appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}],
   selectedAppt: null,
   files: [],
-  profile:{name:'Matilda'},
+  profile:{name:'Matilda', medicalDetails:''},
   messages: [
     {id:'m1',from:'Dr. Maya Chen',subject:'Pre-visit notes',body:'Please complete the questionnaire before the visit.',time:new Date().toISOString(),read:false},
     {id:'m2',from:'Reception',subject:'Clinic hours',body:'We are open Mon-Fri 8am-6pm.',time:new Date().toISOString(),read:true}
