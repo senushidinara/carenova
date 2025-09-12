@@ -429,6 +429,10 @@ document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.addEventList
 // file input
 const fileInputEl = document.getElementById('fileInput'); if(fileInputEl) fileInputEl.addEventListener('change', (e)=> handleFileInput(e.target.files));
 const uploadFileBtnEl = document.getElementById('uploadFileBtn'); if(uploadFileBtnEl) uploadFileBtnEl.addEventListener('click', ()=> fileInputEl && fileInputEl.click());
+// new record button
+const newRecordBtnEl = document.getElementById('newRecordBtn'); if(newRecordBtnEl) newRecordBtnEl.addEventListener('click', ()=> openNewRecordModal());
+// save draft
+const saveDraftEl = document.getElementById('saveDraft'); if(saveDraftEl) saveDraftEl.addEventListener('click', ()=>{ if(!state.selectedAppt){ showToast('No appointment selected'); return; } state.draft = Object.assign({}, state.selectedAppt); saveState(); showToast('Draft saved'); });
 // quick actions
 const qaBookEl = document.getElementById('qa-book'); if(qaBookEl) qaBookEl.onclick = ()=> openBookingFlow();
 const qaConsultEl = document.getElementById('qa-consult'); if(qaConsultEl) qaConsultEl.onclick = ()=> showConsultModal();
