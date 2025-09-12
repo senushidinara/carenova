@@ -9,7 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root{ --bg1:#edf2ff; --panel:rgba(255,255,255,0.92); --muted:#6b7280; --text:#0f172a; --accent:#3f51b5; --accent-2:#7c3aed; --radius:14px }
-    body{min-height:100vh;background:linear-gradient(180deg,#eef4ff,#f6fbff);color:var(--text);padding:28px;padding-bottom:140px;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    body{min-height:100vh;background:linear-gradient(180deg,#eef4ff,#f6fbff);color:var(--text);padding:28px;padding-bottom:220px;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     .container{max-width:1200px;margin:0 auto}
 
     header.app-header{display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px}
@@ -21,9 +21,9 @@
     .hero-content{flex:1;padding:18px}
     .hero-title{font-weight:800;font-size:1.2rem;color:var(--accent)}
     .hero-sub{color:var(--muted);margin-top:6px}
-    .hero-image-wrap{width:520px;height:160px;border-radius:12px;overflow:hidden;background:#fff;flex-shrink:0}
+    .hero-image-wrap{width:640px;height:240px;border-radius:12px;overflow:hidden;background:#fff;flex-shrink:0;box-shadow:0 10px 30px rgba(16,24,40,0.06);position:relative}
     .hero-image-wrap .hero-carousel{width:100%;height:100%;position:relative}
-    .hero-carousel img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .32s ease}
+    .hero-carousel{position:relative;width:100%;height:100%}.hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .42s ease,transform .4s ease}.hero-slide.visible{opacity:1;transform:translateZ(0)}
     .hero-pager{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
     .hero-dot{width:10px;height:10px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,0.6)}
     .hero-dot.active{background:var(--accent)}
@@ -87,7 +87,7 @@
     .label{display:block;margin-bottom:6px}
 
     /* bottom nav */
-    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:linear-gradient(90deg,rgba(255,255,255,0.9),rgba(255,255,255,0.85));padding:8px 14px;border-radius:40px;box-shadow:0 8px 20px rgba(12,20,40,0.08);display:flex;gap:10px;align-items:center;z-index:999}
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:36px;background:linear-gradient(90deg,rgba(255,255,255,0.95),rgba(255,255,255,0.9));padding:10px 18px;border-radius:48px;box-shadow:0 18px 40px rgba(12,20,40,0.12);display:flex;gap:12px;align-items:center;z-index:1200;backdrop-filter:blur(6px)}
     .nav-btn{background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)}
     .nav-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
     .nav-btn.active{box-shadow:0 6px 18px rgba(63,81,181,0.12)}
@@ -309,9 +309,11 @@ function renderRecordsPanel(){ const node = document.getElementById('fileList');
 function showConsultModal(){ if(document.getElementById('consultModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_consult'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='consultModal'; modal.innerHTML = `<h3>Start Consult</h3><div style='margin-top:8px;color:var(--muted)'>Simulated video session — this is a prototype</div><div style='margin-top:12px;height:220px;background:#eaf1ff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>Video preview</div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn-primary'>Start Call</button><button id='cancelCall' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelCall').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('startCall').onclick = ()=> { showToast('Joining call (prototype)'); setTimeout(()=>{ modal.remove(); backdrop.remove(); },600); }; }
 
 // hero carousel
-function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.style.display = i===0 ? 'block' : 'none'; img.style.objectPosition = HERO_POSITIONS[i] || '50% 50%'; hero.appendChild(img); }); const left=document.createElement('button'); left.className='hero-arrow left'; left.innerHTML='\u2039'; left.addEventListener('click', ()=> changeHero(-1)); const right=document.createElement('button'); right.className='hero-arrow right'; right.innerHTML='\u203a'; right.addEventListener('click', ()=> changeHero(1)); hero.appendChild(left); hero.appendChild(right); const pager=document.createElement('div'); pager.className='hero-pager'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.className='hero-dot' + (i===0? ' active':'' ); dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.appendChild(pager); }
-function getCurrentHeroIndex(){ const hero=document.getElementById('heroCarousel'); const imgs = hero.querySelectorAll('img'); let idx=0; imgs.forEach((im,i)=>{ if(im.style.display!=='none') idx=i; }); return idx; }
-function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!hero) return; const imgs = hero.querySelectorAll('img'); imgs.forEach((im,idx)=> im.style.display = idx===i ? 'block' : 'none'); const dots = hero.querySelectorAll('.hero-dot'); dots.forEach((d,idx)=> d.classList.toggle('active', idx===i)); }
+function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.className='hero-slide' + (i===0? ' visible':''); img.style.objectPosition = HERO_POSITIONS[i] || '50% 50%'; hero.appendChild(img); }); // arrows
+  const left=document.createElement('button'); left.className='hero-arrow left'; left.innerHTML='\u2039'; left.addEventListener('click', ()=> changeHero(-1)); const right=document.createElement('button'); right.className='hero-arrow right'; right.innerHTML='\u203a'; right.addEventListener('click', ()=> changeHero(1)); hero.appendChild(left); hero.appendChild(right); // pager
+  const pager=document.createElement('div'); pager.className='hero-pager'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.className='hero-dot' + (i===0? ' active':'' ); dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.appendChild(pager); }
+function getCurrentHeroIndex(){ const hero=document.getElementById('heroCarousel'); const imgs = hero.querySelectorAll('.hero-slide'); let idx=0; imgs.forEach((im,i)=>{ if(window.getComputedStyle(im).opacity !== '0') idx=i; }); return idx; }
+function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!hero) return; const imgs = hero.querySelectorAll('.hero-slide'); imgs.forEach((im,idx)=>{ im.classList.toggle('visible', idx===i); }); const dots = hero.querySelectorAll('.hero-dot'); dots.forEach((d,idx)=> d.classList.toggle('active', idx===i)); }
 function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
 // show section (secondary tabs)
