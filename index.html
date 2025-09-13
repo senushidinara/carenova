@@ -432,7 +432,12 @@ load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDocto
 // wire bottom nav
 document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view)));
 // wire secondary tabs
-document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section)));
+const secTabBtns = document.querySelectorAll('.secondary-tabs .tab-btn'); if(secTabBtns && secTabBtns.length){ secTabBtns.forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section))); } else { console.warn('No secondary tab buttons found at init'); }
+// also add a delegated listener as a fallback (captures clicks even if buttons are re-rendered)
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest && e.target.closest('.secondary-tabs .tab-btn');
+  if(btn){ console.log('Secondary tab clicked (delegated):', btn.dataset.section); showSection(btn.dataset.section); }
+});
 // file input
 const fileInputEl = document.getElementById('fileInput'); if(fileInputEl) fileInputEl.addEventListener('change', (e)=> handleFileInput(e.target.files));
 const uploadFileBtnEl = document.getElementById('uploadFileBtn'); if(uploadFileBtnEl) uploadFileBtnEl.addEventListener('click', ()=> fileInputEl && fileInputEl.click());
