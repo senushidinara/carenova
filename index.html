@@ -386,10 +386,12 @@ function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!her
 function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
 // show section (secondary tabs)
-function showSection(section){ console.log('showSection called with', section); // set active tab
+function showSection(section){ console.log('showSection called with', section); try{
+  // set active tab
   document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.section===section));
-  // hide panels
-  const panels = ['messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel','homePanel']; panels.forEach(p=> document.getElementById(p) && (document.getElementById(p).style.display='none'));
+  // hide panels safely
+  const panels = ['messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel','homePanel']; panels.forEach(p=>{ const el = document.getElementById(p); if(el) el.style.display='none'; });
+
   // per-section theme (accent colors and hero)
   const THEMES = {
     overview: {accent:'var(--accent)',accent2:'var(--accent-2)',hero:0},
@@ -403,27 +405,52 @@ function showSection(section){ console.log('showSection called with', section); 
 
   // update hero title/subtitle and hero image per section for distinct feel
   const titleEl = document.querySelector('.hero-title'); const subEl = document.querySelector('.hero-sub');
-  const mapping = { overview: {title:`Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`, sub:'Your care team and upcoming consults are below.', hero:0 },
-                    messages: {title:'Messages', sub:'Secure messages with your care team — open or compose a new message.', hero:1 },
-                    prescriptions: {title:'Prescriptions', sub:'View and request refills for your active medications.', hero:2 },
-                    billing: {title:'Billing', sub:'View invoices and pay securely.', hero:3 },
-                    help: {title:'Help & Support', sub:'Find guides or contact our support team.', hero:4 } };
-  const cfg = mapping[section] || mapping.overview; if(titleEl) titleEl.innerHTML = cfg.title; if(subEl) subEl.innerText = cfg.sub; setHero(cfg.hero);
-  // ensure overview renders required panels and data
-  if(section==='overview'){ try{ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); }catch(e){ console.error('render overview parts failed', e); } }
-  const actionPanelEl = document.getElementById('actionPanel'); if(actionPanelEl) actionPanelEl.style.display = (section==='overview' || section==='messages' || section==='prescriptions' || section==='records') ? 'block' : 'none';
-  // customize action panel per section
-  if(actionPanelEl){ if(section==='overview'){ actionPanelEl.innerHTML = `<h3>Quick Actions</h3><div class='quick-actions'><div class='quick-action' id='qa-book'><i class='fa fa-calendar-plus'></i><div>Book</div></div><div class='quick-action' id='qa-consult'><i class='fa fa-video'></i><div>Consult</div></div><div class='quick-action' id='qa-upload'><i class='fa fa-file-medical'></i><div>Upload</div></div><div class='quick-action' id='qa-sos'><i class='fa fa-phone'></i><div>SOS</div></div></div>`; renderQuickButtons(); }
-    else if(section==='messages'){ actionPanelEl.innerHTML = `<h3>Messages Actions</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='composeQuick' class='btn-primary'>Compose</button><button id='markAllRead' class='btn-outline'>Mark all read</button></div>`; setTimeout(()=>{ const c=document.getElementById('composeQuick'); if(c) c.onclick = ()=> composeMessage(); const m=document.getElementById('markAllRead'); if(m) m.onclick = ()=> { (state.messages||[]).forEach(x=> x.read=true); saveState(); renderMessages(); showToast('All messages marked read'); }; },40); }
-    else if(section==='prescriptions'){ actionPanelEl.innerHTML = `<h3>Prescriptions</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='addRxQuick' class='btn-primary'>Add Prescription</button><button id='reqRefillAll' class='btn-outline'>Request refill for all</button></div>`; setTimeout(()=>{ const a=document.getElementById('addRxQuick'); if(a) a.onclick = ()=> openAddPrescriptionModal(); const r=document.getElementById('reqRefillAll'); if(r) r.onclick = ()=> { (state.prescriptions||[]).forEach(p=> refillPrescription(p.id)); saveState(); renderPrescriptions(); showToast('Refill requests sent'); }; },40); }
-    else if(section==='records'){ actionPanelEl.innerHTML = `<h3>Records</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='uploadQuick' class='btn-primary'>Upload File</button><button id='newRecQuick' class='btn-outline'>New Record</button></div>`; setTimeout(()=>{ const up=document.getElementById('uploadQuick'); if(up) up.onclick = ()=> fileInputEl && fileInputEl.click(); const n=document.getElementById('newRecQuick'); if(n) n.onclick = ()=> openNewRecordModal(); },40); }
-    else { actionPanelEl.innerHTML = ''; } }
+  const mapping = {
+    overview: {title:`Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`, sub:'Your care team and upcoming consults are below.', hero:0 },
+    messages: {title:'Messages', sub:'Secure messages with your care team — open or compose a new message.', hero:1 },
+    prescriptions: {title:'Prescriptions', sub:'View and request refills for your active medications.', hero:2 },
+    billing: {title:'Billing', sub:'View invoices and pay securely.', hero:3 },
+    help: {title:'Help & Support', sub:'Find guides or contact our support team.', hero:4 }
+  };
+  const cfg = mapping[section] || mapping.overview;
+  if(titleEl) titleEl.innerHTML = cfg.title;
+  if(subEl) subEl.innerText = cfg.sub;
+  try{ setHero(cfg.hero); }catch(e){ console.error('setHero failed', e); }
 
-  if(section==='overview'){ document.getElementById('homePanel').style.display='block'; }
-  if(section==='messages'){ document.getElementById('messagesPanel').style.display='block'; renderMessages(); }
-  if(section==='prescriptions'){ document.getElementById('prescriptionsPanel').style.display='block'; renderPrescriptions(); }
-  if(section==='billing'){ document.getElementById('recordsPanel').style.display='block'; renderBilling(); }
-  if(section==='help'){ const panel = document.getElementById('recordsPanel'); panel.style.display='block'; panel.querySelector('h3').innerText='Help & Support'; panel.querySelector('p').innerText='Contact support or view guides.'; }
+  // ensure overview renders required panels and data
+  if(section==='overview'){
+    try{ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); }catch(e){ console.error('render overview parts failed', e); }
+  }
+
+  // action panel
+  const actionPanelEl = document.getElementById('actionPanel');
+  if(actionPanelEl){
+    try{
+      if(section==='overview'){
+        actionPanelEl.innerHTML = `<h3>Quick Actions</h3><div class='quick-actions'><div class='quick-action' id='qa-book'><i class='fa fa-calendar-plus'></i><div>Book</div></div><div class='quick-action' id='qa-consult'><i class='fa fa-video'></i><div>Consult</div></div><div class='quick-action' id='qa-upload'><i class='fa fa-file-medical'></i><div>Upload</div></div><div class='quick-action' id='qa-sos'><i class='fa fa-phone'></i><div>SOS</div></div></div>`;
+        renderQuickButtons();
+      } else if(section==='messages'){
+        actionPanelEl.innerHTML = `<h3>Messages Actions</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='composeQuick' class='btn-primary'>Compose</button><button id='markAllRead' class='btn-outline'>Mark all read</button></div>`;
+        setTimeout(()=>{ const c=document.getElementById('composeQuick'); if(c) c.onclick = ()=> composeMessage(); const m=document.getElementById('markAllRead'); if(m) m.onclick = ()=> { (state.messages||[]).forEach(x=> x.read=true); saveState(); renderMessages(); showToast('All messages marked read'); }; },40);
+      } else if(section==='prescriptions'){
+        actionPanelEl.innerHTML = `<h3>Prescriptions</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='addRxQuick' class='btn-primary'>Add Prescription</button><button id='reqRefillAll' class='btn-outline'>Request refill for all</button></div>`;
+        setTimeout(()=>{ const a=document.getElementById('addRxQuick'); if(a) a.onclick = ()=> openAddPrescriptionModal(); const r=document.getElementById('reqRefillAll'); if(r) r.onclick = ()=> { (state.prescriptions||[]).forEach(p=> refillPrescription(p.id)); saveState(); renderPrescriptions(); showToast('Refill requests sent'); }; },40);
+      } else if(section==='records'){
+        actionPanelEl.innerHTML = `<h3>Records</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='uploadQuick' class='btn-primary'>Upload File</button><button id='newRecQuick' class='btn-outline'>New Record</button></div>`;
+        setTimeout(()=>{ const up=document.getElementById('uploadQuick'); if(up) up.onclick = ()=> { const f = document.getElementById('fileInput'); if(f) f.click(); }; const n=document.getElementById('newRecQuick'); if(n) n.onclick = ()=> openNewRecordModal(); },40);
+      } else { actionPanelEl.innerHTML = ''; }
+    }catch(e){ console.error('action panel render failed', e); actionPanelEl.innerHTML = '' }
+  }
+
+  // show panels and render content
+  const homePanel = document.getElementById('homePanel'); if(homePanel) homePanel.style.display = (section==='overview') ? 'block' : 'none';
+  if(section==='messages'){ const mp=document.getElementById('messagesPanel'); if(mp){ mp.style.display='block'; try{ renderMessages(); }catch(e){ console.error('renderMessages failed', e);} } }
+  if(section==='prescriptions'){ const rp=document.getElementById('prescriptionsPanel'); if(rp){ rp.style.display='block'; try{ renderPrescriptions(); }catch(e){} } }
+  if(section==='billing'){ const bp=document.getElementById('recordsPanel'); if(bp){ bp.style.display='block'; try{ renderBilling(); }catch(e){} } }
+  if(section==='help'){ const panel = document.getElementById('recordsPanel'); if(panel){ panel.style.display='block'; const h = panel.querySelector('h3'); if(h) h.innerText='Help & Support'; const p = panel.querySelector('p'); if(p) p.innerText='Contact support or view guides.'; } }
+
+} catch(e){ console.error('showSection fatal', e); // fallback: restore overview
+  try{ const titleEl2 = document.querySelector('.hero-title'); const subEl2 = document.querySelector('.hero-sub'); if(titleEl2) titleEl2.innerHTML = `Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`; if(subEl2) subEl2.innerText = 'Your care team and upcoming consults are below.'; setHero(0); const ap = document.getElementById('actionPanel'); if(ap) ap.innerHTML = `<h3>Quick Actions</h3><div class='quick-actions'><div class='quick-action' id='qa-book'><i class='fa fa-calendar-plus'></i><div>Book</div></div><div class='quick-action' id='qa-consult'><i class='fa fa-video'></i><div>Consult</div></div></div>`; renderQuickButtons(); const hp = document.getElementById('homePanel'); if(hp) hp.style.display='block'; }catch(err){ console.error('showSection fallback failed', err); } }
 }
 
 // view switcher for bottom nav
