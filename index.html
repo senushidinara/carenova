@@ -39,74 +39,18 @@
     .tab-btn:hover{transform:translateY(-2px);color:var(--text)}
     .tab-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 20px 40px rgba(43,59,214,0.16);padding:10px 16px;transform:translateY(-2px)}
 
-    /* Upcoming appointment preview styled like references (glass) */
+    /* panels */
     .appt-large{background:var(--panel);backdrop-filter:blur(8px);border-radius:16px;padding:36px;box-shadow:0 18px 40px rgba(16,24,40,0.08);text-align:center;margin-bottom:18px;border:1px solid rgba(15,23,42,0.04);transition:transform .18s ease}
-    .appt-large:hover{transform:translateY(-4px)}
-    .appt-large h2{margin:0;font-size:1.1rem;color:#1f2937}
-    .appt-time{font-weight:900;font-size:56px;margin:12px 0;background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;color:transparent}
-    .appt-time--empty{background:none;-webkit-background-clip:initial;color:var(--muted);font-size:20px;font-weight:600;margin:8px 0}
-    .timeline-row{display:flex;align-items:center;gap:22px;justify-content:center;margin-top:18px}
-    .timeline-avatar{display:flex;flex-direction:column;align-items:center;font-size:13px;color:var(--muted)}
-    .avatar-circle{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;overflow:hidden}
-    .appt-actions{display:flex;gap:12px;justify-content:center;margin-top:20px}
-
     .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-    .panel{background:var(--panel);backdrop-filter:blur(6px);padding:18px;border-radius:14px;box-shadow:0 8px 28px rgba(16,24,40,0.04);border:1px solid rgba(15,23,42,0.03);transition:box-shadow .18s ease,transform .14s ease} .panel:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(16,24,40,0.12)}
-    .panel:hover{box-shadow:0 14px 40px rgba(16,24,40,0.06)}
-
+    .panel{background:var(--panel);backdrop-filter:blur(6px);padding:18px;border-radius:14px;box-shadow:0 8px 28px rgba(16,24,40,0.04);border:1px solid rgba(15,23,42,0.03)}
     .controls-row{display:flex;gap:12px;margin-top:12px}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:700;transition:transform .12s ease}
-    .btn-primary:active{transform:translateY(1px)}
-    .btn-primary{box-shadow:0 6px 18px rgba(43,59,214,0.12)}
-    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(43,59,214,0.18)}
-    @keyframes floatUp{0%{transform:translateY(0)}50%{transform:translateY(-4px)}100%{transform:translateY(0)}}
-    .hero-panel .hero-content{animation:floatUp 6s ease-in-out infinite}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:12px 20px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
     .btn-outline{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:10px 18px;border-radius:12px;cursor:pointer}
-
-    .quick-actions{display:flex;gap:12px;margin-top:12px}
-    .quick-action{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.88));border:1px solid rgba(15,23,42,0.04);cursor:pointer;transition:transform .12s ease,box-shadow .12s ease} .quick-action:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(43,59,214,0.06)} .quick-action i{font-size:18px;color:var(--accent)}
-    .quick-action i{font-size:18px;color:var(--accent)}
-
-    .doctor-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-    .doctor-row{display:flex;align-items:center;gap:10px}
+    .doctor-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
     .doctor-avatar{width:56px;height:56px;border-radius:10px;overflow:hidden}
     .doctor-meta{flex:1}
-    .doctor-name{font-weight:700}
-    .doctor-special{color:var(--muted);font-size:12px}
-
-    /* messages */
     .messages-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .message-item{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,247,255,0.9));border:1px solid rgba(15,23,42,0.04);display:flex;justify-content:space-between;align-items:center;box-shadow:0 8px 20px rgba(12,20,40,0.04)} .message-item .meta{max-width:76%}
-
-    /* prescriptions */
-    .rx-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .rx-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,247,255,0.9));border:1px solid rgba(15,23,42,0.04);box-shadow:0 8px 20px rgba(12,20,40,0.04)}
-
-    /* billing */
-    .invoice-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .invoice-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,247,255,0.9));border:1px solid rgba(15,23,42,0.04);box-shadow:0 8px 20px rgba(12,20,40,0.04)}
-
-    /* modal & backdrop */
-    .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;box-shadow:0 20px 50px rgba(2,6,23,0.2);z-index:120;width:480px}
-    .modal .row{display:flex;gap:8px;margin-top:12px}
-    .backdrop-fixed{position:fixed;inset:0;background:rgba(2,6,23,0.35);backdrop-filter:blur(2px);z-index:110}
-    .input-field{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8}
-    .label{display:block;margin-bottom:6px}
-
-    /* bottom nav */
-    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:36px;background:linear-gradient(90deg,rgba(255,255,255,0.95),rgba(255,255,255,0.9));padding:10px 18px;border-radius:48px;box-shadow:0 18px 40px rgba(12,20,40,0.12);display:flex;gap:12px;align-items:center;z-index:1200;backdrop-filter:blur(6px)}
-    .nav-btn{background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;color:var(--muted)}
-    .nav-btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
-    .nav-btn.active{box-shadow:0 6px 18px rgba(63,81,181,0.12)}
-
-    .toast-root{position:fixed;right:20px;bottom:20px;z-index:9999}
-    .toast-item{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;padding:10px 14px;border-radius:10px;margin-top:8px;box-shadow:0 8px 20px rgba(12,20,40,0.2)}
-
-    /* high contrast mode */
-    .high-contrast{--panel:#fff;--muted:#374151;--text:#031026;--accent:#0b61ff;--accent-2:#ff6b6b}
-    .high-contrast body{background:#f6f9ff}
-    .high-contrast .panel{border-color:rgba(3,6,12,0.06)}
-
+    .message-item{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,247,255,0.9));border:1px solid rgba(15,23,42,0.04);display:flex;justify-content:space-between;align-items:center}
     @media(max-width:980px){ .grid{grid-template-columns:1fr} .hero-image-wrap{display:none} }
   </style>
 </head>
@@ -251,268 +195,80 @@
   </div>
 
 <script>
-// App state (local-only demo; saved to localStorage)
-  const STORAGE_KEY = 'vhc_paid_v1';
-  let state = {
-  appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}],
-  selectedAppt: null,
-  files: [],
-  profile:{name:'Matilda', medicalDetails:''},
-  messages: [
-    {id:'m1',from:'Dr. Maya Chen',subject:'Pre-visit notes',body:'Please complete the questionnaire before the visit.',time:new Date().toISOString(),read:false},
-    {id:'m2',from:'Reception',subject:'Clinic hours',body:'We are open Mon-Fri 8am-6pm.',time:new Date().toISOString(),read:true}
-  ],
-  prescriptions: [
-    {id:'r1',name:'Atorvastatin 10mg',sig:'1 tab daily',refills:1},
-    {id:'r2',name:'Vitamin D 1000IU',sig:'1 tab daily',refills:3}
-  ],
-  invoices: [
-    {id:'i1',desc:'Consultation — Dr. Maya Chen',amount:25.00,paid:false}
-  ]
-};
-
-const HERO_ASSETS = [
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fa6a0ecace4204a3f8ba6076b62c0c063?format=webp&width=1200',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fabf33e4dccdb4e26baa183604ef7c510?format=webp&width=1200',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F5b3c6344f3f6425da0bee3a5fff93cdf?format=webp&width=1200',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fd5860eca956b4f0c9c2ca8f1ab8838c6?format=webp&width=1200',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fe3d58ee5b2e840129aa830c122064ea7?format=webp&width=1200'
-];
-const HERO_POSITIONS = ['30% 50%','48% 50%','50% 40%','40% 50%','60% 40%'];
-const DOCTOR_ASSETS = [
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=400',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F25ef9274ba4d4fe98a499ac831aad674?format=webp&width=400',
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=400'
-];
+// Minimal safe app script (auto-fix)
+const STORAGE_KEY = 'vhc_paid_v1';
+let state = {};
 
 function uid(){ return Math.random().toString(36).slice(2,9); }
-function load(){ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); if(!state.appointments || !state.appointments.length){ state.appointments = [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}]; } if(!state.profile) state.profile = {name:'Matilda', medicalDetails: ''}; if(!('medicalDetails' in state.profile)) state.profile.medicalDetails = state.profile.medicalDetails || ''; document.querySelector('.greeting').innerText = `Welcome, ${state.profile.name || 'Matilda'}`; document.getElementById('profileGreeting').innerText = state.profile.name || 'Matilda'; }
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function load(){ try{ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); else {
+    state = {
+      appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}],
+      selectedAppt: null,
+      files: [],
+      profile:{name:'Matilda', medicalDetails:''},
+      messages: [{id:'m1',from:'Dr. Maya Chen',subject:'Pre-visit notes',body:'Please complete the questionnaire before the visit.',time:new Date().toISOString(),read:false}],
+      prescriptions: [],
+      invoices: []
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+  const g = document.querySelector('.greeting'); if(g) g.innerText = `Welcome, ${state.profile.name||'Matilda'}`;
+  const pg = document.getElementById('profileGreeting'); if(pg) pg.innerText = state.profile.name || 'Matilda';
+}catch(e){ console.error('load failed', e); state = state || {}; }
+}
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){ console.error('save failed', e); } }
+function showToast(msg, t=2000){ const c = document.getElementById('toastRoot') || (()=>{ const el=document.createElement('div'); el.id='toastRoot'; el.className='toast-root'; document.body.appendChild(el); return el; })(); const item = document.createElement('div'); item.className='toast-item'; item.innerText = msg; c.appendChild(item); setTimeout(()=> item.remove(), t); }
 
-function showToast(msg, timeout=2600){ let container = document.getElementById('toastRoot'); if(!container){ container = document.createElement('div'); container.id='toastRoot'; container.className='toast-root'; document.body.appendChild(container); } const t = document.createElement('div'); t.className='toast-item'; t.innerText = msg; container.appendChild(t); setTimeout(()=> t.remove(), timeout); }
+// Simple renderers
+const HERO_ASSETS = [
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fa6a0ecace4204a3f8ba6076b62c0c063?format=webp&width=1200'
+];
+function renderHeroCarousel(){ const hero = document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; const fallback = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420"><rect width="100%" height="100%" fill="%23eef4ff"/><text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" font-family="Arial" font-size="28" fill="%23919">Virtual HealthCare</text></svg>';
+  HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src = src; img.className='hero-slide'+(i===0?' visible':''); img.style.objectPosition='50% 50%'; img.alt='hero'; img.onerror = ()=>{ img.src = fallback; }; hero.appendChild(img); });
+  // simple pager
+  const pager = document.createElement('div'); pager.className='hero-pager'; hero.appendChild(pager);
+}
 
-// contrast toggle
-function setContrast(enabled){ if(enabled) document.documentElement.classList.add('high-contrast'); else document.documentElement.classList.remove('high-contrast'); localStorage.setItem('vhc_contrast', enabled? '1':'0'); }
-function initContrast(){ const v = localStorage.getItem('vhc_contrast'); if(v==='1'){ setContrast(true); } document.getElementById('contrastToggle').addEventListener('click', ()=>{ const active = document.documentElement.classList.toggle('high-contrast'); localStorage.setItem('vhc_contrast', active? '1':'0'); showToast(active? 'High contrast on':'High contrast off'); }); }
-function ensureModalRoot(){ const existing = document.getElementById('modalRoot'); if(existing) existing.remove(); return document.body; }
-function createBackdrop(id){ const b = document.createElement('div'); b.id = id; b.className = 'backdrop-fixed'; b.tabIndex = -1; b.addEventListener('click', ()=> { const m = document.querySelector('.modal'); if(m) { m.remove(); b.remove(); } }); return b; }
+function renderDoctorsTiles(){ const list=document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [
+  {name:'Dr. Maya Chen', spec:'General'}, {name:'Dr. Arjun Patel', spec:'Pediatrics'}, {name:'Dr. Leila Gomez', spec:'Psychiatry'}
+]; docs.forEach(d=>{ const row = document.createElement('div'); row.className='doctor-row'; row.innerHTML = `<div class="doctor-avatar"><div style="width:100%;height:100%;background:#eef4ff;border-radius:8px;display:flex;align-items:center;justify-content:center">👩‍⚕️</div></div><div class="doctor-meta"><div class="doctor-name">${d.name}</div><div class="doctor-special">${d.spec}</div></div><div><button class="btn-outline" data-doc="${d.name}">Book</button></div>`; list.appendChild(row); row.querySelector('button[data-doc]').addEventListener('click', ()=> showBookingModalWithDoctor(d.name)); }); }
 
-// Messages
-function renderMessages(){ const node = document.getElementById('messagesList'); node.innerHTML=''; (state.messages||[]).forEach(m=>{ const el = document.createElement('div'); el.className='message-item'; el.innerHTML = `<div class='meta'><div style='font-weight:700'>${m.subject}</div><div style='color:var(--muted);font-size:13px'>${m.from} • ${new Date(m.time).toLocaleString()}</div><div style='color:var(--muted);margin-top:6px;font-size:13px'>${m.body.length>120? m.body.slice(0,120)+'...':m.body}</div></div><div><button class='btn-outline' data-id='${m.id}'>Open</button></div>`; node.appendChild(el); }); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> openMessage(b.dataset.id))); }
-function openMessage(id){ const msg = state.messages.find(m=>m.id===id); if(!msg) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_msg'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='msgModal'; modal.innerHTML = `<h3>${msg.subject}</h3><div style='color:var(--muted);margin-top:6px'>From: ${msg.from}</div><div style='margin-top:12px'>${msg.body}</div><div style='margin-top:12px;display:flex;gap:8px'><button id='replyBtn' class='btn-primary'>Reply</button><button id='closeMsg' class='btn-outline'>Close</button></div>`; root.appendChild(modal); document.getElementById('closeMsg').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('replyBtn').onclick = ()=> { modal.remove(); backdrop.remove(); composeMessage(msg.from); }; msg.read = true; saveState(); }
-function composeMessage(to='Care Team'){ if(document.getElementById('composeModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_compose'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='composeModal'; modal.innerHTML = `<h3>New Message</h3><div style='margin-top:8px'><label class='label'>To</label><input id='msgTo' class='input-field' value='${to}' /></div><div style='margin-top:8px'><label class='label'>Subject</label><input id='msgSub' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Message</label><textarea id='msgBody' class='input-field' style='height:120px'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='sendMsg' class='btn-primary'>Send</button><button id='cancelMsg' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelMsg').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('sendMsg').onclick = ()=> { const toD=document.getElementById('msgTo').value.trim(); const sub=document.getElementById('msgSub').value.trim(); const body=document.getElementById('msgBody').value.trim(); if(!sub||!body){ showToast('Please add subject and message'); return; } state.messages.unshift({id:uid(),from:toD,subject:sub,body, time:new Date().toISOString(),read:false}); saveState(); modal.remove(); backdrop.remove(); renderMessages(); showToast('Message sent'); }; }
-
-// Prescriptions
-function renderPrescriptions(){ const node = document.getElementById('rxList'); if(!node) return; node.innerHTML=''; const toolbar = document.createElement('div'); toolbar.style.display='flex'; toolbar.style.justifyContent='space-between'; toolbar.style.alignItems='center'; toolbar.style.marginBottom='8px'; toolbar.innerHTML = `<div style='color:var(--muted)'>Active prescriptions</div><div><button id='addPrescriptionBtn' class='btn-primary'>Add Prescription</button></div>`; node.appendChild(toolbar); const list = document.createElement('div'); list.className='rx-list-inner'; (state.prescriptions||[]).forEach(r=>{ const el=document.createElement('div'); el.className='rx-item'; const hist = (r.history && r.history.length)? `<div style='color:var(--muted);font-size:12px;margin-top:6px'>History: ${r.history.map(h=> new Date(h.when).toLocaleString() + ' ('+h.action+')').join(' | ')}</div>` : ''; el.innerHTML = `<div><div style='font-weight:700'>${r.name}</div><div style='color:var(--muted);font-size:13px'>${r.sig} • Refills left: ${r.refills}</div>${hist}</div><div style='display:flex;flex-direction:column;gap:6px'><button class='btn-primary btn-rx-refill' data-id='${r.id}'>Refill</button><button class='btn-outline btn-rx-view' data-id='${r.id}'>View</button></div>`; list.appendChild(el); }); node.appendChild(list); node.querySelectorAll('.btn-rx-refill').forEach(b=> b.addEventListener('click', ()=> refillPrescription(b.dataset.id))); node.querySelectorAll('.btn-rx-view').forEach(b=> b.addEventListener('click', ()=> viewPrescription(b.dataset.id))); const addBtn = document.getElementById('addPrescriptionBtn'); if(addBtn) addBtn.onclick = ()=> openAddPrescriptionModal(); }
-
-// small metrics rendering
 function renderMetrics(){ const node = document.getElementById('metrics'); if(!node) return; node.innerHTML=''; const metrics=[{label:'Sleep',val:'7.5h'},{label:'Stress',val:'Low'},{label:'Meds',val:'On track'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.style.flex='1'; el.innerHTML = `<div style='font-weight:700'>${m.val}</div><div style='color:var(--muted)'>${m.label}</div>`; node.appendChild(el); }); }
 
-// quick buttons wiring
-function renderQuickButtons(){ try{ document.getElementById('qa-book') && (document.getElementById('qa-book').onclick = ()=> openBookingFlow()); document.getElementById('qa-consult') && (document.getElementById('qa-consult').onclick = ()=> showConsultModal()); document.getElementById('qa-upload') && (document.getElementById('qa-upload').onclick = ()=> document.getElementById('fileInput') && document.getElementById('fileInput').click()); document.getElementById('qa-sos') && (document.getElementById('qa-sos').onclick = ()=> showToast('SOS: emergency services will be contacted')); document.getElementById('uploadFileBtn') && (document.getElementById('uploadFileBtn').onclick = ()=> document.getElementById('fileInput') && document.getElementById('fileInput').click()); // compose handled elsewhere
-  }catch(e){ console.error('renderQuickButtons error', e); } }
+function renderMessages(){ const node = document.getElementById('messagesList'); if(!node) return; node.innerHTML=''; (state.messages||[]).forEach(m=>{ const el=document.createElement('div'); el.className='message-item'; el.innerHTML = `<div class='meta'><div style='font-weight:700'>${m.subject}</div><div style='color:var(--muted);font-size:13px'>${m.from} • ${new Date(m.time).toLocaleString()}</div><div style='color:var(--muted);margin-top:6px;font-size:13px'>${m.body}</div></div><div><button class='btn-outline btn-open' data-id='${m.id}'>Open</button></div>`; node.appendChild(el); }); node.querySelectorAll('.btn-open').forEach(b=> b.addEventListener('click', ()=> openMessage(b.dataset.id))); }
+function openMessage(id){ const msg = (state.messages||[]).find(x=> x.id===id); if(!msg) return; const root=document.body; const backdrop = createBackdrop('backdrop_msg'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.innerHTML = `<h3>${msg.subject}</h3><div style='color:var(--muted);margin-top:6px'>From: ${msg.from}</div><div style='margin-top:12px'>${msg.body}</div><div style='margin-top:12px;display:flex;gap:8px'><button id='closeMsg' class='btn-outline'>Close</button></div>`; root.appendChild(modal); document.getElementById('closeMsg').onclick = ()=>{ modal.remove(); backdrop.remove(); }; msg.read = true; saveState(); }
 
-// wrapper used by quick actions
-function openBookingFlow(){ try{ showBookingModal(); }catch(err){ console.error('openBookingFlow error', err); showToast('Unable to open booking modal'); } }
-function refillPrescription(id){ const rx = state.prescriptions.find(r=>r.id===id); if(!rx) return; rx.history = rx.history || []; if(rx.refills>0){ rx.refills--; rx.history.push({when:new Date().toISOString(), action:'refill_requested'}); saveState(); renderPrescriptions(); showToast('Refill requested — available at pharmacy'); } else { rx.history.push({when:new Date().toISOString(), action:'refill_failed_no_refills'}); saveState(); renderPrescriptions(); showToast('No refills left — request new prescription'); } }
+// Appointments
+function renderAppointmentPreview(){ const el = document.getElementById('apptCountdown'); const timeline = document.getElementById('timelineRow'); const appt = (state.appointments && state.appointments[0]) || null; if(!el) return; if(!appt){ el.classList.add('appt-time--empty'); el.innerText = 'No upcoming appointments'; timeline.innerHTML=''; document.getElementById('apptDetails').innerText = 'No appointment selected'; return; } el.classList.remove('appt-time--empty'); el.innerText = new Date(appt.when).toLocaleString(); timeline.innerHTML = `<div class="timeline-avatar"><div class="avatar-circle" style="background:#eef4ff"><img src="" alt="" style="width:100%;height:100%"/></div><div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div></div>`; document.getElementById('apptDetails').innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`; }
+function renderAppointmentsPanel(){ const list = document.getElementById('appointmentsList'); if(!list) return; list.innerHTML=''; (state.appointments||[]).forEach(a=>{ const el=document.createElement('div'); el.className='appt-item'; el.innerHTML = `<div><div style='font-weight:700'>${a.doctorName}</div><div style='color:var(--muted)'>${new Date(a.when).toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn-outline btn-appt-view' data-id='${a.id}'>View</button><button class='btn-outline btn-appt-resched' data-id='${a.id}'>Reschedule</button></div>`; list.appendChild(el); }); list.querySelectorAll('.btn-appt-view').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt){ state.selectedAppt = appt; renderAppointmentPreview(); showView('appointments'); } })); list.querySelectorAll('.btn-appt-resched').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt) showRescheduleModal(appt); })); }
 
-function openAddPrescriptionModal(){ if(document.getElementById('addRxModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_addrx'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='addRxModal'; modal.innerHTML = `<h3>New Prescription</h3><div style='margin-top:8px'><label class='label'>Medication name</label><input id='rxName' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Sig</label><input id='rxSig' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Refills</label><input id='rxRefills' type='number' class='input-field' value='1' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='saveRx' class='btn-primary'>Add</button><button id='cancelRx' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelRx').onclick = ()=>{ modal.remove(); backdrop.remove(); }; document.getElementById('saveRx').onclick = ()=>{ const name = document.getElementById('rxName').value.trim(); const sig = document.getElementById('rxSig').value.trim(); const refills = parseInt(document.getElementById('rxRefills').value,10) || 0; if(!name||!sig){ showToast('Please fill medication and sig'); return; } const rx = { id: uid(), name, sig, refills, history: [{when:new Date().toISOString(), action:'created'}] }; state.prescriptions = state.prescriptions || []; state.prescriptions.unshift(rx); saveState(); renderPrescriptions(); modal.remove(); backdrop.remove(); showToast('Prescription added'); }; }
+function showRescheduleModal(appt){ if(!appt) return; const root=document.body; const backdrop = createBackdrop('backdrop_reschedule'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.innerHTML = `<h3>Reschedule</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' class='input-field' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelResched').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('doResched').onclick = ()=>{ const when = document.getElementById('reschedWhen').value; if(!when) { showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); saveState(); renderAppointmentPreview(); renderAppointmentsPanel(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); } }
 
-function viewPrescription(id){ const rx = (state.prescriptions||[]).find(r=> r.id===id); if(!rx) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_viewrx'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='viewRxModal'; const historyHtml = (rx.history||[]).map(h=> `<div style="color:var(--muted);font-size:12px">${new Date(h.when).toLocaleString()} — ${h.action}</div>`).join(''); modal.innerHTML = `<h3>${rx.name}</h3><div style='color:var(--muted);margin-top:6px'>${rx.sig} • Refills: ${rx.refills}</div><div style='margin-top:12px'>${historyHtml || '<div style="color:var(--muted)">No history</div>'}</div><div style='margin-top:12px;display:flex;gap:8px'><button id='closeRxView' class='btn-outline'>Close</button></div>`; root.appendChild(modal); document.getElementById('closeRxView').onclick = ()=>{ modal.remove(); backdrop.remove(); }; }
+// Records
+function renderRecordsPanel(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; const files = state.files || []; if(files.length===0){ node.innerHTML = `<div style='color:var(--muted)'>No medical records. Use Upload or New Record to add.</div>`; return; } files.forEach(f=>{ const el=document.createElement('div'); el.style.marginBottom='8px'; el.innerHTML = `<div style='font-weight:700'>${f.name}</div><div style='color:var(--muted);font-size:12px'>${new Date(f.uploaded).toLocaleString()}</div>`; node.appendChild(el); }); }
 
-// Billing
-function renderBilling(){ const node = document.getElementById('invoicePreview'); node.innerHTML='No invoices'; const list = document.createElement('div'); list.className='invoice-list'; (state.invoices||[]).forEach(inv=>{ const el=document.createElement('div'); el.className='invoice-item'; el.innerHTML = `<div><div style='font-weight:700'>${inv.desc}</div><div style='color:var(--muted);font-size:13px'>Amount: $${inv.amount.toFixed(2)}</div></div><div><button class='btn-primary' data-id='${inv.id}'>Pay</button></div>`; list.appendChild(el); }); node.innerHTML=''; node.appendChild(list); node.querySelectorAll('button[data-id]').forEach(b=> b.addEventListener('click', ()=> { const inv = state.invoices.find(i=>i.id===b.dataset.id); if(inv) openPaymentForInvoice(inv); })); document.getElementById('billingSummary').style.display = (state.invoices&&state.invoices.length)?'block':'none'; }
-function openPaymentForInvoice(inv){ const modal = document.getElementById('paymentModal'); const prov = document.getElementById('pmProvider'); const amt = document.getElementById('pmAmount'); if(!modal || !prov || !amt){ showToast('Payment UI not available'); return; } prov.innerText = inv.desc; amt.innerText = `$${inv.amount.toFixed(2)}`; modal.style.display = 'block'; const backdrop = createBackdrop('backdrop_payment'); document.body.appendChild(backdrop); const cancel = document.getElementById('cancelPay'); const confirm = document.getElementById('confirmPay'); if(cancel) cancel.onclick = ()=>{ modal.style.display='none'; backdrop.remove(); }; if(confirm) confirm.onclick = ()=> { simulatePaymentInvoice(inv); }; }
+function openNewRecordModal(){ if(document.getElementById('newRecordModal')) return; const root=document.body; const backdrop = createBackdrop('backdrop_newrec'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='newRecordModal'; modal.innerHTML = `<h3>New Medical Record</h3><div style='margin-top:8px'><label class='label'>Title</label><input id='recTitle' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Notes</label><textarea id='recNotes' class='input-field' style='height:120px'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='saveRecordBtn' class='btn-primary'>Save</button><button id='cancelRecordBtn' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelRecordBtn').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('saveRecordBtn').onclick = ()=>{ const title = document.getElementById('recTitle').value.trim(); const notes = document.getElementById('recNotes').value.trim(); if(!title){ showToast('Please enter a title'); return; } state.files = state.files || []; state.files.unshift({id:uid(), name:title, notes, uploaded:new Date().toISOString()}); saveState(); renderRecordsPanel(); modal.remove(); backdrop.remove(); showToast('Medical record added'); }; }
 
-// Payment for appointment (used by Join Now)
-function openPaymentIfRequired(appt){ try{ if(!appt) { showToast('No appointment'); return; } // show same payment modal
-  const modal = document.getElementById('paymentModal'); const prov = document.getElementById('pmProvider'); const amt = document.getElementById('pmAmount'); if(!modal || !prov || !amt){ showToast('Payment UI not available'); return; } prov.innerText = appt.doctorName; amt.innerText = `$${(appt.amount||25).toFixed(2)}`; modal.style.display = 'block'; const backdrop = createBackdrop('backdrop_payment'); document.body.appendChild(backdrop); const cancel = document.getElementById('cancelPay'); const confirm = document.getElementById('confirmPay'); if(cancel) cancel.onclick = ()=>{ modal.style.display='none'; backdrop.remove(); }; if(confirm) confirm.onclick = ()=> { // simple validation
-      const numEl = document.getElementById('cardNumber'); if(numEl && numEl.value.trim().length<12){ showToast('Enter a valid card number'); return; } // simulate
-      document.getElementById('confirmPay').innerText = 'Processing...'; setTimeout(()=>{ document.getElementById('confirmPay').innerText = 'Confirm Payment'; modal.style.display='none'; const bp=document.getElementById('backdrop_payment'); if(bp) bp.remove(); appt.paid = true; saveState(); showToast('Payment successful — joining call'); // placeholder for navigation
-      },1200); }; }catch(e){ console.error('openPaymentIfRequired error', e); showToast('Payment failed'); } }
+// simple booking modal
+function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root=document.body; const backdrop=createBackdrop('backdrop_booking'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='${state.profile.name||"Matilda"}' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('bkCancel').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('bkSave').onclick = ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when||!doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(), doctorName:doc, when:new Date(when).toISOString(), amount:25}; state.appointments = state.appointments || []; state.appointments.unshift(appt); saveState(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); renderAppointmentsPanel(); showToast('Booked — please pay to confirm'); }; }
+function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input=document.getElementById('bkDoc'); if(input) input.value = name; },50); }
 
-// Reschedule modal
-function showRescheduleModal(appt){ try{ if(!appt) { showToast('No appointment to reschedule'); return; } if(document.getElementById('rescheduleModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_reschedule'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='rescheduleModal'; modal.innerHTML = `<h3>Reschedule Appointment</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' class='input-field' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); const cancel = document.getElementById('cancelResched'); if(cancel) cancel.addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); }); const doReschedBtn = document.getElementById('doResched'); if(doReschedBtn) doReschedBtn.addEventListener('click', ()=>{ const when = document.getElementById('reschedWhen').value; if(!when){ showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); saveState(); renderAppointmentPreview(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); }); }catch(e){ console.error('showRescheduleModal error', e); showToast('Unable to reschedule'); } }
-function simulatePaymentInvoice(inv){ const num = document.getElementById('cardNumber').value.trim(); if(num.length<12){ showToast('Enter a valid card number'); return; } document.getElementById('confirmPay').innerText = 'Processing...'; setTimeout(()=>{ document.getElementById('confirmPay').innerText = 'Confirm Payment'; document.getElementById('paymentModal').style.display='none'; const bp=document.getElementById('backdrop_payment'); if(bp) bp.remove(); inv.paid=true; saveState(); renderBilling(); showToast('Invoice paid'); },1200); }
+// simple payment simulation
+function simulatePaymentInvoice(inv){ setTimeout(()=>{ inv.paid = true; saveState(); renderBilling(); showToast('Invoice paid'); },900); }
+function renderBilling(){ const node=document.getElementById('invoicePreview'); if(!node) return; node.innerHTML=''; (state.invoices||[]).forEach(inv=>{ const el=document.createElement('div'); el.className='invoice-item'; el.innerHTML = `<div><div style='font-weight:700'>${inv.desc}</div><div style='color:var(--muted);font-size:13px'>Amount: $${inv.amount.toFixed(2)}</div></div><div><button class='btn-primary btn-pay' data-id='${inv.id}'>Pay</button></div>`; node.appendChild(el); }); node.querySelectorAll('.btn-pay').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const inv=(state.invoices||[]).find(x=>x.id===id); if(inv) simulatePaymentInvoice(inv); })); document.getElementById('billingSummary').style.display = (state.invoices && state.invoices.length)?'block':'none'; }
 
-// render doctors
-function renderDoctorsTiles(){ try{ const list = document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [ {name:'Dr. Maya Chen',img:DOCTOR_ASSETS[0],spec:'General'}, {name:'Dr. Arjun Patel',img:DOCTOR_ASSETS[1],spec:'Pediatrics'}, {name:'Dr. Leila Gomez',img:DOCTOR_ASSETS[2],spec:'Psychiatry'} ]; docs.forEach(d=>{ try{ const row=document.createElement('div'); row.className='doctor-row'; const safeName = String(d.name).replace(/'/g,"\'"); const safeSpec = String(d.spec).replace(/'/g,"\'"); row.innerHTML = `<div class='doctor-avatar'><img src='${d.img}' alt='${safeName}' style='width:100%;height:100%;object-fit:cover' data-src='${d.img}' /></div><div class='doctor-meta'><div class='doctor-name'>${safeName}</div><div class='doctor-special'>${safeSpec}</div></div><div><button class='btn-outline' data-doc='${safeName}'>Book</button></div>`; list.appendChild(row); // ensure avatar fallback
-                try{ const imgEl = row.querySelector('img'); if(imgEl){ imgEl.onerror = function(){ console.warn('Doctor avatar failed to load', d.img); this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="100%" height="100%" fill="%23eef4ff"/><text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="%239192a6">Dr</text></svg>'; }; } }catch(e){} list.querySelectorAll('button[data-doc]').forEach(b=> b.addEventListener('click', ()=> showBookingModalWithDoctor(b.dataset.doc))); }catch(err){ console.error('renderDoctorsTiles error', err); } }
+// helpers
+function createBackdrop(id){ const existing=document.getElementById(id); if(existing) existing.remove(); const b=document.createElement('div'); b.id=id; b.className='backdrop-fixed'; b.addEventListener('click', ()=>{ const m=document.querySelector('.modal'); if(m) m.remove(); b.remove(); }); return b; }
 
-// Booking modal (created on demand)
-function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_booking'); root.appendChild(backdrop);
-  const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='${state.profile.name || 'Matilda'}' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
-  root.appendChild(modal);
-  const cancelBtn = document.getElementById('bkCancel'); if(cancelBtn) cancelBtn.addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
-  const saveBtn = document.getElementById('bkSave'); if(saveBtn) saveBtn.addEventListener('click', ()=>{ const name=document.getElementById('bkName') && document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc') && document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen') && document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); saveState(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); renderAppointmentsPanel(); showToast('Booked �� please pay to confirm'); });
-}
-// helper to prefill doctor
-function showBookingModalWithDoctor(name){ try{ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }catch(err){ console.error('showBookingModalWithDoctor error', err); } }
+// navigation
+function showSection(section){ try{ const tabs=document.querySelectorAll('.secondary-tabs .tab-btn'); tabs.forEach(b=> b.classList.toggle('active', b.dataset.section===section)); const map={'overview':'homePanel','messages':'messagesPanel','prescriptions':'prescriptionsPanel','billing':'recordsPanel','help':'recordsPanel'}; Object.values(map).forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); const panel = map[section] || 'homePanel'; const el=document.getElementById(panel); if(el) el.style.display='block'; if(panel==='homePanel'){ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); } if(panel==='messagesPanel') renderMessages(); if(panel==='prescriptionsPanel') renderPrescriptions(); }catch(e){ console.error('showSection error', e); } }
+function showView(view){ document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.classList.toggle('active', b.dataset.view===view)); document.getElementById('apptPreview').style.display = (view==='appointments'||view==='home')?'block':'none'; document.getElementById('doctorsPanel').style.display = (view==='home')?'block':'none'; document.getElementById('homePanel').style.display = (view==='home')?'block':'none'; document.getElementById('appointmentsPanel').style.display = (view==='appointments')?'block':'none'; document.getElementById('recordsPanel').style.display = (view==='records')?'block':'none'; if(view==='records') renderRecordsPanel(); if(view==='appointments') renderAppointmentsPanel(); if(view==='profile'){ const apptDetails=document.getElementById('apptDetails'); if(apptDetails) apptDetails.innerHTML = `<div style='font-weight:700'>${state.profile.name||'Matilda'}</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='${state.profile.name||'Matilda'}' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ const s=document.getElementById('saveProfile'); if(s) s.onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v) state.profile.name=v; saveState(); const pg=document.getElementById('profileGreeting'); if(pg) pg.innerText = state.profile.name||'Matilda'; showToast('Profile saved'); }; },50); } }
 
-// appointments preview
-function renderAppointmentPreview(){ const countdownEl = document.getElementById('apptCountdown'); const timelineRow = document.getElementById('timelineRow'); const appt = (state.appointments && state.appointments.length) ? state.appointments[0] : null; const joinBtn = document.getElementById('joinNowBtn'); const reschedBtn = document.getElementById('rescheduleBtn'); if(!appt){ countdownEl.classList.add('appt-time--empty'); countdownEl.innerText = 'No upcoming appointments'; timelineRow.innerHTML=''; if(reschedBtn) reschedBtn.style.display='none'; if(joinBtn){ joinBtn.innerText='Book'; joinBtn.onclick = ()=> openBookingFlow(); } document.getElementById('apptDetails').innerText = 'No appointment selected'; return; } countdownEl.classList.remove('appt-time--empty'); const detailsEl = document.getElementById('apptDetails'); if(detailsEl) detailsEl.innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`; function updateCountdown(){ const diff = new Date(appt.when) - new Date(); if(diff<=0){ countdownEl.innerText='Due'; } else { const mins = Math.floor(diff/60000); const hrs = Math.floor(mins/60); const m = String(mins%60).padStart(2,'0'); countdownEl.innerText = `${hrs}:${m}`; } } updateCountdown(); if(window.__apptTimer) clearInterval(window.__apptTimer); window.__apptTimer = setInterval(updateCountdown,10000); timelineRow.innerHTML=''; const imgSrc = DOCTOR_ASSETS[0]; const node = document.createElement('div'); node.className = 'timeline-avatar'; node.innerHTML = `\n    <div class=\"avatar-circle\">\n      <img src=\"${imgSrc}\" alt=\"${appt.doctorName}\" style=\"width:100%;height:100%;object-fit:cover\" />\n    </div>\n    <div style='margin-top:8px;font-weight:700'>${appt.doctorName}</div>\n  `; timelineRow.appendChild(node); if(reschedBtn){ reschedBtn.style.display='inline-block'; reschedBtn.onclick = ()=> { if(typeof showRescheduleModal==='function') showRescheduleModal(appt); else { console.error('showRescheduleModal missing'); showToast('Reschedule not available'); } }; } if(joinBtn){ joinBtn.innerText='Join Now'; joinBtn.onclick = ()=> { state.selectedAppt = appt; if(typeof openPaymentIfRequired==='function') openPaymentIfRequired(appt); else if(typeof openPaymentForInvoice==='function') openPaymentForInvoice(appt); else { console.error('payment function missing'); showToast('Payment not available'); } }; } }
-
-// appointments list
-function renderAppointmentsPanel(){ const list = document.getElementById('appointmentsList'); if(!list) return; list.innerHTML=''; const appts = state.appointments || []; if(appts.length===0){ list.innerHTML = `<div style='color:var(--muted)'>No appointments scheduled</div>`; return; } appts.forEach(a=>{ const el=document.createElement('div'); el.className='appt-item'; el.innerHTML = `<div><div style='font-weight:700'>${a.doctorName}</div><div style='color:var(--muted)'>${new Date(a.when).toLocaleString()}</div></div><div style='display:flex;gap:8px'><button class='btn-outline btn-appt-view' data-id='${a.id}'>View</button><button class='btn-outline btn-appt-resched' data-id='${a.id}'>Reschedule</button><button class='btn-outline btn-appt-cancel' data-id='${a.id}'>Cancel</button><button class='btn-primary btn-appt-pay' data-id='${a.id}'>Pay</button></div>`; list.appendChild(el); }); // wire actions
-  list.querySelectorAll('.btn-appt-view').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt){ state.selectedAppt=appt; renderAppointmentPreview(); showView('appointments'); } }));
-  list.querySelectorAll('.btn-appt-resched').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt) showRescheduleModal(appt); }));
-  list.querySelectorAll('.btn-appt-cancel').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; if(!confirm('Cancel appointment?')) return; cancelAppointment(id); }));
-  list.querySelectorAll('.btn-appt-pay').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const appt = state.appointments.find(x=>x.id===id); if(appt) openPaymentIfRequired(appt); })); }
-
-function cancelAppointment(id){ const idx = (state.appointments||[]).findIndex(a=>a.id===id); if(idx>-1){ state.appointments.splice(idx,1); if(state.selectedAppt && state.selectedAppt.id===id) state.selectedAppt=null; saveState(); renderAppointmentsPanel(); renderAppointmentPreview(); showToast('Appointment canceled'); } }
-
-// records
-function handleFileInput(files){ if(!files || files.length===0) return; for(const f of files){ const id = uid(); state.files.push({id,name:f.name,size:f.size,type:f.type,uploaded: new Date().toISOString()}); } saveState(); renderRecordsPanel(); showToast('File(s) uploaded'); }
-function renderRecordsPanel(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; const files = state.files || []; if(files.length===0){ node.innerHTML = `<div style='color:var(--muted)'>No medical records. Use Upload or New Record to add.</div>`; return; } files.forEach(f=>{ const el = document.createElement('div'); el.className = 'file-item'; const tagsHtml = (f.tags && f.tags.length)? `<div style='margin-top:6px;color:var(--muted);font-size:12px'>Tags: ${f.tags.join(', ')}</div>` : ''; const dateStr = f.uploaded ? new Date(f.uploaded).toLocaleString() : ''; const title = f.title || f.name || 'Record'; const snippet = f.notes? (f.notes.length>120? f.notes.slice(0,120)+'...': f.notes) : ''; el.innerHTML = `<div><div style='font-weight:700'>${title}</div><div style='color:var(--muted);font-size:12px'>${dateStr}</div><div style='color:var(--muted);margin-top:6px;font-size:13px'>${snippet}</div>${tagsHtml}</div><div style='display:flex;flex-direction:column;gap:6px'><button class='btn-outline btn-record-view' data-id='${f.id}'>View</button><button class='btn-outline btn-record-delete' data-id='${f.id}'>Delete</button></div>`; node.appendChild(el); }); // wire view/delete
-  node.querySelectorAll('.btn-record-view').forEach(b=> b.addEventListener('click', ()=> viewRecord(b.dataset.id)));
-  node.querySelectorAll('.btn-record-delete').forEach(b=> b.addEventListener('click', ()=> { if(confirm('Delete record?')){ deleteRecord(b.dataset.id); } })); }
-
-function viewRecord(id){ const rec = (state.files||[]).find(r=> r.id===id); if(!rec) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_viewrec'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='viewRecordModal'; modal.innerHTML = `<h3>${rec.title||'Record'}</h3><div style='color:var(--muted);margin-top:6px'>Uploaded: ${rec.uploaded? new Date(rec.uploaded).toLocaleString() : '—'}</div><div style='margin-top:12px'>${rec.notes ? `<div style='margin-bottom:8px'>${rec.notes.replace(/\n/g,'<br/>')}</div>` : '<div style="color:var(--muted)">No notes</div>'}</div><div style='margin-top:8px;color:var(--muted)'>${rec.tags && rec.tags.length? 'Tags: '+rec.tags.join(', '):''}</div><div style='margin-top:12px;display:flex;gap:8px'><button id='closeViewRec' class='btn-outline'>Close</button><button id='downloadRec' class='btn-primary'>Download</button></div>`; root.appendChild(modal); document.getElementById('closeViewRec').onclick = ()=>{ modal.remove(); backdrop.remove(); }; document.getElementById('downloadRec').onclick = ()=>{ showToast('Download would start (stub)'); }; }
-
-function deleteRecord(id){ state.files = (state.files||[]).filter(f=> f.id !== id); saveState(); renderRecordsPanel(); showToast('Record deleted'); }
-
-function openNewRecordModal(){ if(document.getElementById('newRecordModal')) return; const root = ensureModalRoot(); const backdrop = createBackdrop('backdrop_newrec'); root.appendChild(backdrop); const modal = document.createElement('div'); modal.className='modal'; modal.id='newRecordModal'; modal.innerHTML = `<h3>New Medical Record</h3><div style='margin-top:8px'><label class='label'>Title</label><input id='recTitle' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Notes</label><textarea id='recNotes' class='input-field' style='height:120px'></textarea></div><div style='margin-top:8px'><label class='label'>Tags (comma separated)</label><input id='recTags' class='input-field' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='saveRecordBtn' class='btn-primary'>Save</button><button id='cancelRecordBtn' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelRecordBtn').onclick = ()=>{ modal.remove(); backdrop.remove(); }; document.getElementById('saveRecordBtn').onclick = ()=>{ const title = document.getElementById('recTitle').value.trim(); const notes = document.getElementById('recNotes').value.trim(); const tags = document.getElementById('recTags').value.split(',').map(t=>t.trim()).filter(Boolean); if(!title){ showToast('Please enter a title'); return; } const rec = { id: uid(), title, notes, tags, uploaded: new Date().toISOString() }; state.files = state.files || []; state.files.unshift(rec); saveState(); renderRecordsPanel(); modal.remove(); backdrop.remove(); showToast('Medical record added'); }; }
-
-// consult modal
-function showConsultModal(){ if(document.getElementById('consultModal')) return; const root=ensureModalRoot(); const backdrop=createBackdrop('backdrop_consult'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='consultModal'; modal.innerHTML = `<h3>Start Consult</h3><div style='margin-top:8px;color:var(--muted)'>Simulated video session</div><div style='margin-top:12px;height:220px;background:#eaf1ff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>Video preview</div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn-primary'>Start Call</button><button id='cancelCall' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelCall').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('startCall').onclick = ()=> { showToast('Joining call'); setTimeout(()=>{ modal.remove(); backdrop.remove(); },600); }; }
-
-// hero carousel
-function renderHeroCarousel(){ const hero=document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; const HERO_FALLBACK = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="%23eef4ff"/><stop offset="1" stop-color="%23f6fbff"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/><text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" fill="%239192a6">Virtual HealthCare</text></svg>';
-HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src=src; img.dataset.index = i; img.className='hero-slide' + (i===0? ' visible':''); img.style.objectPosition = HERO_POSITIONS[i] || '50% 50%'; img.alt = 'hero-'+i; img.onerror = function(){ console.warn('Hero image failed to load', src); this.onerror = null; this.src = HERO_FALLBACK; this.style.objectFit='cover'; }; hero.appendChild(img); }); // arrows
-  const left=document.createElement('button'); left.className='hero-arrow left'; left.innerHTML='\u2039'; left.addEventListener('click', ()=> changeHero(-1)); const right=document.createElement('button'); right.className='hero-arrow right'; right.innerHTML='\u203a'; right.addEventListener('click', ()=> changeHero(1)); hero.appendChild(left); hero.appendChild(right); // pager
-  const pager=document.createElement('div'); pager.className='hero-pager'; HERO_ASSETS.forEach((_,i)=>{ const dot=document.createElement('button'); dot.className='hero-dot' + (i===0? ' active':'' ); dot.addEventListener('click', ()=> setHero(i)); pager.appendChild(dot); }); hero.appendChild(pager); }
-function getCurrentHeroIndex(){ const hero=document.getElementById('heroCarousel'); const imgs = hero.querySelectorAll('.hero-slide'); let idx=0; imgs.forEach((im,i)=>{ if(window.getComputedStyle(im).opacity !== '0') idx=i; }); return idx; }
-function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!hero) return; const imgs = hero.querySelectorAll('.hero-slide'); imgs.forEach((im,idx)=>{ im.classList.toggle('visible', idx===i); }); const dots = hero.querySelectorAll('.hero-dot'); dots.forEach((d,idx)=> d.classList.toggle('active', idx===i)); }
-function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
-
-// show section (secondary tabs)
-function showSection(section){
-  // simplified, defensive section switch to avoid dynamic re-render bugs
-  try{
-    console.log('showSection called with', section);
-    const tabs = document.querySelectorAll('.secondary-tabs .tab-btn'); tabs.forEach(b=> b.classList.toggle('active', b.dataset.section===section));
-
-    // hide all panels
-    const panels = ['homePanel','messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel'];
-    panels.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
-
-    // mapping
-    const map = {
-      overview: {panel:'homePanel', hero:0, title:`Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`, sub:'Your care team and upcoming consults are below.'},
-      messages: {panel:'messagesPanel', hero:1, title:'Messages', sub:'Secure messages with your care team — open or compose a new message.'},
-      prescriptions: {panel:'prescriptionsPanel', hero:2, title:'Prescriptions', sub:'View and request refills for your active medications.'},
-      billing: {panel:'recordsPanel', hero:3, title:'Billing', sub:'View invoices and pay securely.'},
-      help: {panel:'recordsPanel', hero:4, title:'Help & Support', sub:'Find guides or contact our support team.'}
-    };
-    const cfg = map[section] || map.overview;
-
-    const titleEl = document.querySelector('.hero-title'); const subEl = document.querySelector('.hero-sub');
-    if(titleEl) titleEl.innerHTML = cfg.title; if(subEl) subEl.innerText = cfg.sub;
-    try{ setHero(cfg.hero); }catch(e){ console.warn('setHero failed', e); }
-
-    const showEl = document.getElementById(cfg.panel); if(showEl) showEl.style.display = 'block';
-
-    // lightweight per-panel rendering
-    if(cfg.panel==='homePanel'){ try{ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); }catch(e){ console.error('overview render failed', e); } }
-    if(cfg.panel==='messagesPanel'){ try{ renderMessages(); }catch(e){ console.error('renderMessages failed', e); } }
-    if(cfg.panel==='prescriptionsPanel'){ try{ renderPrescriptions(); }catch(e){ console.error('renderPrescriptions failed', e); } }
-
-    // show/hide action panel (no innerHTML replacement to avoid reflows)
-    const actionPanel = document.getElementById('actionPanel'); if(actionPanel) actionPanel.style.display = (section==='overview' || section==='messages' || section==='prescriptions' || section==='records') ? 'block' : 'none';
-
-  }catch(err){ console.error('showSection error', err); }
-}
-
-// view switcher for bottom nav
-function showView(view){ const mapping = { home:0, appointments:1, consult:2, records:0, profile:1 }; setHero(mapping[view]||0); document.getElementById('apptPreview').style.display = (view==='appointments' || view==='home') ? 'block' : 'none'; document.getElementById('doctorsPanel').style.display = (view==='home') ? 'block' : 'none'; document.getElementById('homePanel').style.display = (view==='home') ? 'block' : 'none'; document.getElementById('appointmentsPanel').style.display = (view==='appointments') ? 'block' : 'none'; document.getElementById('recordsPanel').style.display = (view==='records') ? 'block' : 'none'; if(view==='records') renderRecordsPanel(); if(view==='appointments') renderAppointmentsPanel(); if(view==='profile'){ const apptDetails = document.getElementById('apptDetails'); apptDetails.innerHTML = `<div style='font-weight:700'>${state.profile.name || 'Matilda'}</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='${state.profile.name || 'Matilda'}' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ document.getElementById('saveProfile').onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v){ state.profile.name = v; saveState(); document.querySelector('.greeting').innerText = `Welcome, ${v}`; document.getElementById('profileGreeting').innerText = v; showToast('Profile updated'); } } },50); } document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.classList.toggle('active', b.dataset.view===view)); }
+// wire basic interactions
+function ensureBindings(){ try{ document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section))); document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view))); const fileInput=document.getElementById('fileInput'); if(fileInput) fileInput.addEventListener('change', (e)=>{ handleFileInput(e.target.files); }); const uploadBtn=document.getElementById('uploadFileBtn'); if(uploadBtn) uploadBtn.addEventListener('click', ()=>{ const fi=document.getElementById('fileInput'); if(fi) fi.click(); }); const newRec=document.getElementById('newRecordBtn'); if(newRec) newRec.addEventListener('click', ()=> openNewRecordModal()); const qaBook=document.getElementById('qa-book'); if(qaBook) qaBook.addEventListener('click', ()=> showBookingModal()); const qaConsult=document.getElementById('qa-consult'); if(qaConsult) qaConsult.addEventListener('click', ()=> showConsultModal()); const qaUpload=document.getElementById('qa-upload'); if(qaUpload) qaUpload.addEventListener('click', ()=>{ const fi=document.getElementById('fileInput'); if(fi) fi.click(); }); const composeBtn=document.getElementById('composeBtn'); if(composeBtn) composeBtn.addEventListener('click', ()=> composeMessage()); const reschedBtn=document.getElementById('rescheduleBtn'); if(reschedBtn) reschedBtn.addEventListener('click', ()=> { const appt=(state.appointments&&state.appointments[0]); if(appt) showRescheduleModal(appt); else showToast('No appointment'); }); const joinBtn=document.getElementById('joinNowBtn'); if(joinBtn) joinBtn.addEventListener('click', ()=> { const appt=(state.appointments&&state.appointments[0]); if(appt) showView('appointments'); else showBookingModal(); }); }catch(e){ console.error('ensureBindings failed', e); } }
 
 // init
-load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDoctorsTiles(); renderAppointmentPreview(); renderAppointmentsPanel(); renderRecordsPanel(); renderBilling(); renderMessages(); renderPrescriptions(); initContrast && initContrast();
-// ensure hero and default section
-try{ setHero(0); showView('home'); showSection('overview'); }catch(e){ console.error('init: failed to set default view', e); }
-
-// wire bottom nav
-document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view)));
-// wire secondary tabs
-const secTabBtns = document.querySelectorAll('.secondary-tabs .tab-btn'); if(secTabBtns && secTabBtns.length){ secTabBtns.forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section))); } else { console.warn('No secondary tab buttons found at init'); }
-// delegated listener as a fallback (captures clicks even if buttons are re-rendered)
-document.addEventListener('click', (e)=>{
-  const btn = e.target.closest && e.target.closest('.secondary-tabs .tab-btn');
-  if(btn){ console.log('Secondary tab clicked (delegated):', btn.dataset.section); showSection(btn.dataset.section); }
-});
-// file input
-const fileInputEl = document.getElementById('fileInput'); if(fileInputEl) fileInputEl.addEventListener('change', (e)=> handleFileInput(e.target.files));
-const uploadFileBtnEl = document.getElementById('uploadFileBtn'); if(uploadFileBtnEl) uploadFileBtnEl.addEventListener('click', ()=> fileInputEl && fileInputEl.click());
-// new record button
-const newRecordBtnEl = document.getElementById('newRecordBtn'); if(newRecordBtnEl) newRecordBtnEl.addEventListener('click', ()=> openNewRecordModal());
-// save draft
-const saveDraftEl = document.getElementById('saveDraft'); if(saveDraftEl) saveDraftEl.addEventListener('click', ()=>{ if(!state.selectedAppt){ showToast('No appointment selected'); return; } state.draft = Object.assign({}, state.selectedAppt); saveState(); showToast('Draft saved'); });
-// quick actions
-const qaBookEl = document.getElementById('qa-book'); if(qaBookEl) qaBookEl.onclick = ()=> openBookingFlow();
-const qaConsultEl = document.getElementById('qa-consult'); if(qaConsultEl) qaConsultEl.onclick = ()=> showConsultModal();
-const qaUploadEl = document.getElementById('qa-upload'); if(qaUploadEl) qaUploadEl.onclick = ()=> fileInputEl && fileInputEl.click();
-const qaSosEl = document.getElementById('qa-sos'); if(qaSosEl) qaSosEl.onclick = ()=> showToast('SOS: emergency services will be contacted');
-// compose
-const composeBtnEl = document.getElementById('composeBtn'); if(composeBtnEl) composeBtnEl.onclick = ()=> composeMessage();
-// invoice render
-renderBilling();
-// keyboard: Esc closes modals
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.querySelector('.modal'); if(m){ const bp=document.querySelector('.backdrop-fixed'); m.remove(); if(bp) bp.remove(); } } });
-
-// default
-showView('home'); showSection('overview');
-
-// Ensure bindings: re-attach missing event listeners as a robust fallback
-function ensureBindings(){ try{
-  // secondary tabs
-  document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=>{ b.onclick = ()=> { try{ showSection(b.dataset.section); }catch(e){ console.error('tab click handler failed', e); } }; });
-  // bottom nav
-  document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.onclick = ()=> { try{ showView(b.dataset.view); }catch(e){ console.error('bottom nav click failed', e); } });
-  // quick actions
-  const qaBook = document.getElementById('qa-book'); if(qaBook) qaBook.onclick = ()=> openBookingFlow();
-  const qaConsult = document.getElementById('qa-consult'); if(qaConsult) qaConsult.onclick = ()=> showConsultModal();
-  const qaUpload = document.getElementById('qa-upload'); if(qaUpload) qaUpload.onclick = ()=> { const fi=document.getElementById('fileInput'); if(fi) fi.click(); };
-  const qaSos = document.getElementById('qa-sos'); if(qaSos) qaSos.onclick = ()=> showToast('SOS: emergency services will be contacted');
-  // compose
-  const composeBtn = document.getElementById('composeBtn'); if(composeBtn) composeBtn.onclick = ()=> composeMessage();
-  // file input
-  const fileInputEl = document.getElementById('fileInput'); if(fileInputEl) fileInputEl.onchange = (e)=> handleFileInput(e.target.files);
-  const uploadFileBtnEl = document.getElementById('uploadFileBtn'); if(uploadFileBtnEl) uploadFileBtnEl.onclick = ()=> { const fi=document.getElementById('fileInput'); if(fi) fi.click(); };
-  // records
-  const newRecordBtn = document.getElementById('newRecordBtn'); if(newRecordBtn) newRecordBtn.onclick = ()=> openNewRecordModal();
-  // appointments
-  const reschedBtn = document.getElementById('rescheduleBtn'); if(reschedBtn) reschedBtn.onclick = ()=> { const appt = (state.appointments && state.appointments[0]); if(appt) showRescheduleModal(appt); else showToast('No appointment'); };
-  const joinBtn = document.getElementById('joinNowBtn'); if(joinBtn) joinBtn.onclick = ()=> { const appt = (state.appointments && state.appointments[0]); if(appt) openPaymentIfRequired(appt); else openBookingFlow(); };
-  const saveDraftEl = document.getElementById('saveDraft'); if(saveDraftEl) saveDraftEl.onclick = ()=>{ if(!state.selectedAppt){ showToast('No appointment selected'); return; } state.draft = Object.assign({}, state.selectedAppt); saveState(); showToast('Draft saved'); };
-  // other buttons: pay
-  const payBtn = document.getElementById('payBtn'); if(payBtn) payBtn.onclick = ()=> { const appt = (state.selectedAppt || (state.appointments && state.appointments[0])); if(appt) openPaymentIfRequired(appt); else showToast('No appointment to pay'); };
-  // wire action panel quick buttons (if present)
-  setTimeout(()=>{
-    const composeQuick = document.getElementById('composeQuick'); if(composeQuick) composeQuick.onclick = ()=> composeMessage();
-    const markAllRead = document.getElementById('markAllRead'); if(markAllRead) markAllRead.onclick = ()=> { (state.messages||[]).forEach(x=> x.read=true); saveState(); renderMessages(); showToast('All messages marked read'); };
-    const addRxQuick = document.getElementById('addRxQuick'); if(addRxQuick) addRxQuick.onclick = ()=> openAddPrescriptionModal();
-    const reqRefillAll = document.getElementById('reqRefillAll'); if(reqRefillAll) reqRefillAll.onclick = ()=> { (state.prescriptions||[]).forEach(p=> refillPrescription(p.id)); saveState(); renderPrescriptions(); showToast('Refill requests sent'); };
-    const uploadQuick = document.getElementById('uploadQuick'); if(uploadQuick) uploadQuick.onclick = ()=> { const fi=document.getElementById('fileInput'); if(fi) fi.click(); };
-    const newRecQuick = document.getElementById('newRecQuick'); if(newRecQuick) newRecQuick.onclick = ()=> openNewRecordModal();
-  },40);
-  // ensure hero carousel exists
-  try{ renderHeroCarousel(); }catch(e){}
- }catch(e){ console.error('ensureBindings failed', e); }}
-
-// run initial bindings and schedule a second pass
-ensureBindings(); setTimeout(()=> ensureBindings(), 300);
-
-// Setup profile editor observer: when showView populates #apptDetails for profile, replace with enhanced editor that saves medical details
-(function(){ const apptDetails = document.getElementById('apptDetails'); if(!apptDetails) return; const mo = new MutationObserver((mutations)=>{ for(const m of mutations){ if(m.type === 'childList'){ const saveEl = apptDetails.querySelector('#saveProfile'); if(saveEl){ const profileName = state.profile.name || 'Matilda'; const profileMedical = state.profile.medicalDetails || ''; apptDetails.innerHTML = `<div style='font-weight:700'>${profileName}</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change details below</div><div style='margin-top:8px'><label class='label'>Name</label><input id='profileName' class='input-field' value='${profileName}' /></div><div style='margin-top:8px'><label class='label'>Medical details</label><textarea id='profileMedical' class='input-field' style='height:120px'>${profileMedical}</textarea></div><div style='margin-top:8px;display:flex;gap:8px'><button id='saveProfileEnhanced' class='btn-primary'>Save</button><button id='cancelProfileEnhanced' class='btn-outline'>Cancel</button></div>`; const s = document.getElementById('saveProfileEnhanced'); if(s) s.onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); const m=document.getElementById('profileMedical').value.trim(); if(v) state.profile.name = v; state.profile.medicalDetails = m; saveState(); const pg = document.getElementById('profileGreeting'); if(pg) pg.innerText = state.profile.name || 'Matilda'; const g = document.querySelector('.greeting'); if(g) g.innerText = `Welcome, ${state.profile.name || 'Matilda'}`; showToast('Profile saved'); }; const c = document.getElementById('cancelProfileEnhanced'); if(c) c.onclick = ()=>{ renderAppointmentPreview(); showView('home'); }; } } } }); mo.observe(apptDetails, { childList:true, subtree:true }); })();
-
-// runtime diagnostics: capture uncaught errors and console.error
-(function(){
-  const diag = document.createElement('div'); diag.id='diagRoot'; diag.style.position='fixed'; diag.style.left='20px'; diag.style.bottom='120px'; diag.style.maxWidth='420px'; diag.style.zIndex=99999; diag.style.fontSize='13px'; diag.style.color='#111'; document.body.appendChild(diag);
-  function addMsg(type,msg){ try{ const el=document.createElement('div'); el.style.background='rgba(255,255,255,0.95)'; el.style.border='1px solid rgba(0,0,0,0.06)'; el.style.padding='8px'; el.style.marginTop='6px'; el.style.borderRadius='8px'; el.style.boxShadow='0 6px 18px rgba(12,20,40,0.06)'; el.style.maxWidth='360px'; el.innerText = type+': '+(typeof msg==='string'?msg:JSON.stringify(msg)); diag.appendChild(el); if(diag.childElementCount>8) diag.removeChild(diag.firstChild); setTimeout(()=>{ try{ if(el && el.parentNode) el.parentNode.removeChild(el); }catch(e){} }, 20000); }catch(e){} }
-  window.addEventListener('error', function(e){ try{ addMsg('Error', (e && e.message) || String(e)); }catch(e){} });
-  const origErr = console.error; console.error = function(){ try{ addMsg('console.error', Array.from(arguments).map(a=> typeof a === 'string'?a:JSON.stringify(a)).join(' ')); }catch(e){} origErr && origErr.apply(console, arguments); };
-  const origWarn = console.warn; console.warn = function(){ try{ addMsg('console.warn', Array.from(arguments).map(a=> typeof a === 'string'?a:JSON.stringify(a)).join(' ')); }catch(e){} origWarn && origWarn.apply(console, arguments); };
-})();
+load(); renderHeroCarousel(); renderMetrics(); renderDoctorsTiles(); renderAppointmentPreview(); renderAppointmentsPanel(); renderRecordsPanel(); renderBilling(); renderMessages(); renderPrescriptions && renderPrescriptions(); ensureBindings(); try{ showView('home'); showSection('overview'); }catch(e){ console.error('init failed', e); }
 </script>
 </body>
 </html>
