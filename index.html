@@ -394,7 +394,7 @@ function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!her
 function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
 // show section (secondary tabs)
-function showSection(section){ try{ console.log('showSection called with', section); }catch(e){} try{ // set active tab
+function showSection(section){ console.log('showSection called with', section); // set active tab
   document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.section===section));
   // hide panels
   const panels = ['messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel','homePanel']; panels.forEach(p=> document.getElementById(p) && (document.getElementById(p).style.display='none'));
