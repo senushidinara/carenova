@@ -77,6 +77,28 @@
     .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;box-shadow:0 20px 50px rgba(2,6,23,0.2);z-index:120;width:520px}
     .backdrop-fixed{position:fixed;inset:0;background:rgba(2,6,23,0.35);backdrop-filter:blur(2px);z-index:110}
 
+    /* Appointments list styles */
+    .appt-panel-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+    .appt-tabs{display:flex;gap:8px}
+    .appt-tab{background:transparent;border:none;padding:6px 12px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--muted)}
+    .appt-tab.active{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));color:var(--text);box-shadow:0 8px 30px rgba(99,102,241,0.06)}
+    .appt-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .appt-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(250,251,255,0.95));border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 20px rgba(16,24,40,0.04)}
+    .appt-left{display:flex;align-items:center;gap:12px}
+    .appt-avatar{width:56px;height:56px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#eef4ff;display:flex;align-items:center;justify-content:center}
+    .appt-info .appt-doctor{font-weight:800}
+    .appt-info .appt-time{color:var(--muted);font-size:13px;margin-top:4px}
+    .appt-actions{display:flex;gap:8px}
+    .action-btn{padding:8px 10px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+    .action-btn.view{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));color:var(--text)}
+    .action-btn.resched{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--text)}
+    .appt-meta{display:flex;gap:8px;align-items:center}
+    .badge{padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px}
+    .badge.upcoming{background:linear-gradient(90deg,#dff6ff,#e6f0ff);color:var(--accent-2)}
+    .badge.past{background:linear-gradient(90deg,#fff1e6,#ffecec);color:var(--accent-3)}
+    .small-muted{color:var(--muted);font-size:12px}
+    .load-more{background:transparent;border:none;color:var(--accent);cursor:pointer;font-weight:700;padding:8px}
+
     @media(max-width:980px){ .grid{grid-template-columns:1fr} .hero-image-wrap{display:none} .modal{width:92%} .bottom-nav{bottom:20px} }
   </style>
 </head>
