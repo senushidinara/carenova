@@ -1,669 +1,558 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NeuroAssess Pro — Honest Interactive</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Virtual HealthCare — Polished</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{ --bg1:#edf2ff; --panel:rgba(255,255,255,0.72); --muted:#6b7280; --text:#091029; --accent:#2b3bd6; --accent-2:#6b21d8; --accent-3:#ff6b6b; --radius:14px; --glass: rgba(255,255,255,0.6); --pastel-1: #ffd9e8; --pastel-2: #e6f0ff }
+    html,body{height:100%}
+    body{min-height:100vh;background:linear-gradient(180deg,#eef4ff,#f6fbff);color:var(--text);padding:28px;padding-bottom:220px;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    .container{max-width:1200px;margin:0 auto}
 
-<!-- Icons + Chart.js + jsPDF -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    header.app-header{display:flex;align-items:center;gap:16px;padding:12px;border-radius:12px}
+    .brand-title{font-weight:800;font-size:1.25rem;color:var(--accent)}
+    .greeting{margin-left:auto;color:var(--muted)}
 
-<style>
-  :root{
-    --bg1:#0d1421; --bg2:#111827; --card:rgba(30,41,59,0.9);
-    --text:#e5e7eb; --muted:#9ca3af; --accent:#4f46e5; --success:#0e9f6e;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-  body{min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);padding:18px}
-  .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:18px}
-  header{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:rgba(17,24,39,0.9);border:1px solid rgba(79,70,229,0.08)}
-  .logo{font-weight:800;font-size:1.25rem;background:linear-gradient(90deg,var(--success),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .tag{color:var(--muted);font-size:0.95rem}
-  .actions{margin-left:auto;display:flex;gap:8px}
-  button.btn{background:linear-gradient(135deg,var(--accent),#7e3af2);border:none;color:white;padding:8px 12px;border-radius:9px;cursor:pointer}
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
-  main{display:grid;gap:12px}
-  .card{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(79,70,229,0.06)}
-  h2{color:var(--accent);margin-bottom:8px}
-  .small{color:var(--muted);font-size:0.9rem;margin-bottom:8px}
-  label{display:block;margin-top:8px;font-weight:600}
-  input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(17,24,39,0.6);color:var(--text)}
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px}
-  .game-card{padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);text-align:center}
-  .center{text-align:center}
-  footer{grid-column:1/-1;margin-top:12px;color:var(--muted);font-size:0.9rem;text-align:center}
-  @media(max-width:980px){.wrap{grid-template-columns:1fr}; .actions{flex-wrap:wrap}}
-  .progress{height:8px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
-  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#1a56db);width:0%}
-  .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);margin-top:8px}
-  .breath-circle{width:120px;height:120px;border-radius:50%;margin:12px auto;background:radial-gradient(circle at 30% 30%, rgba(79,70,229,0.4), rgba(79,70,229,0.08));display:flex;align-items:center;justify-content:center;font-weight:700}
-</style>
+    /* Hero & panels */
+    .hero-panel{margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--panel);backdrop-filter:blur(8px);padding:18px;border-radius:16px}
+    .hero-content{flex:1;padding:8px 18px;position:relative;z-index:2}
+    .hero-title{font-weight:800;font-size:1.3rem;color:var(--accent);line-height:1.1}
+    .hero-sub{color:var(--muted);margin-top:6px}
+    .hero-image-wrap{width:560px;height:220px;border-radius:12px;overflow:hidden;background:#fff;flex-shrink:0;box-shadow:0 18px 50px rgba(16,24,40,0.06);position:relative;z-index:1}
+    .hero-carousel{position:relative;width:100%;height:100%}
+    .hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .42s ease,transform .4s ease}
+    .hero-slide.visible{opacity:1}
+    .hero-pager{position:absolute;right:10px;bottom:10px;display:flex;gap:6px;z-index:40}
+
+    /* secondary tabs under hero */
+    .secondary-tabs{display:flex;gap:8px;margin-top:12px}
+    .tab-btn{background:transparent;border:none;padding:8px 14px;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:700;transition:all .18s ease;display:inline-flex;align-items:center}
+    .tab-btn i{opacity:.9}
+    .tab-btn:hover{transform:translateY(-2px);color:var(--text)}
+    .tab-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 20px 40px rgba(43,59,214,0.12);padding:10px 16px}
+
+    /* panels */
+    .appt-large{background:var(--panel);backdrop-filter:blur(10px);border-radius:16px;padding:28px;box-shadow:0 18px 40px rgba(16,24,40,0.06);text-align:center;margin-bottom:18px;border:1px solid rgba(255,255,255,0.12)}
+    .appt-time{font-weight:800;font-size:44px;margin:12px 0;color:var(--accent)}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    .panel{background:var(--panel);backdrop-filter:blur(8px);padding:18px;border-radius:14px;box-shadow:0 8px 28px rgba(16,24,40,0.04);border:1px solid rgba(255,255,255,0.08)}
+    .controls-row{display:flex;gap:12px;margin-top:12px}
+
+    /* improved buttons - pastel + glassmorphism */
+    .btn-primary{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));color:var(--text);padding:10px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.6);cursor:pointer;font-weight:700;backdrop-filter:blur(6px);box-shadow:0 8px 30px rgba(99,102,241,0.08)}
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-outline{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);padding:10px 16px;border-radius:12px;cursor:pointer;color:var(--text)}
+    .btn-outline:hover{transform:translateY(-2px)}
+
+    .doctor-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .doctor-avatar{width:56px;height:56px;border-radius:10px;overflow:hidden}
+    .doctor-meta{flex:1}
+    .messages-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .message-item{padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(250,251,255,0.95));border:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center}
+
+    /* quick actions - glassy, pastel */
+    .quick-actions{display:flex;gap:12px;margin-top:12px}
+    .quick-action{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px;border-radius:14px;background:linear-gradient(180deg,var(--glass),rgba(255,255,255,0.44));border:1px solid rgba(255,255,255,0.6);cursor:pointer;transition:all .18s ease;backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(43,59,214,0.06)}
+    .quick-action i{font-size:18px;color:var(--accent-2)}
+    .quick-action div{font-weight:700;color:var(--accent)}
+    .quick-action:hover{transform:translateY(-6px)}
+
+    /* bottom nav styling - lifted above content */
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:linear-gradient(90deg,rgba(255,255,255,0.9),rgba(255,255,255,0.86));padding:10px 20px;border-radius:56px;box-shadow:0 30px 60px rgba(12,20,40,0.14);display:flex;gap:14px;align-items:center;z-index:1400;border:1px solid rgba(255,255,255,0.5);backdrop-filter:blur(8px)}
+    .bottom-nav .nav-btn{background:transparent;border:none;padding:8px 14px;border-radius:14px;cursor:pointer;font-weight:700;color:var(--muted);font-size:15px}
+    .bottom-nav .nav-btn.primary{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));color:var(--text);padding:8px 16px}
+    .bottom-nav .nav-btn.active{box-shadow:0 10px 30px rgba(63,81,181,0.06)}
+
+    /* utility classes (replace some inline styles) */
+    .ml-12{margin-left:12px}
+    .metric-item{flex:1}
+    .avatar-circle{width:56px;height:56px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#eef4ff}
+    .timeline-name{margin-top:8px;font-weight:700}
+
+    /* form controls */
+    .input-field{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(17,24,39,0.06);background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(250,251,255,0.95));box-shadow:inset 0 -1px 0 rgba(255,255,255,0.6);font-size:14px}
+    .input-field:focus{outline:none;box-shadow:0 6px 20px rgba(43,59,214,0.06);border-color:rgba(43,59,214,0.12)}
+    .patient-form h4{font-size:15px;color:var(--accent-2);margin-bottom:6px}
+    .patient-form .input-field{background:rgba(255,255,255,0.94);border:1px solid rgba(255,255,255,0.06)}
+    .patient-form textarea.input-field{min-height:86px}
+    .patient-form .btn-primary{padding:10px 14px;border-radius:10px}
+
+    /* modal & backdrop */
+    .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;box-shadow:0 20px 50px rgba(2,6,23,0.2);z-index:120;width:520px}
+    .backdrop-fixed{position:fixed;inset:0;background:rgba(2,6,23,0.35);backdrop-filter:blur(2px);z-index:110}
+
+    /* Appointments list styles */
+    .appt-panel-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+    .appt-tabs{display:flex;gap:8px}
+    .appt-tab{background:transparent;border:none;padding:6px 12px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--muted)}
+    .appt-tab.active{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));color:var(--text);box-shadow:0 8px 30px rgba(99,102,241,0.06)}
+    .appt-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .appt-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(250,251,255,0.95));border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 20px rgba(16,24,40,0.04)}
+    .appt-left{display:flex;align-items:center;gap:12px}
+    .appt-avatar{width:56px;height:56px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#eef4ff;display:flex;align-items:center;justify-content:center}
+    .appt-info .appt-doctor{font-weight:800}
+    .appt-info .appt-time{color:var(--muted);font-size:13px;margin-top:4px}
+    .appt-actions{display:flex;gap:8px}
+    .action-btn{padding:8px 10px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+    .action-btn.view{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));color:var(--text)}
+    .action-btn.resched{background:transparent;border:1px solid rgba(15,23,42,0.06);color:var(--text)}
+    .appt-meta{display:flex;gap:8px;align-items:center}
+    .badge{padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px}
+    .badge.upcoming{background:linear-gradient(90deg,#dff6ff,#e6f0ff);color:var(--accent-2)}
+    .badge.past{background:linear-gradient(90deg,#fff1e6,#ffecec);color:var(--accent-3)}
+    .small-muted{color:var(--muted);font-size:12px}
+    .load-more{background:transparent;border:none;color:var(--accent);cursor:pointer;font-weight:700;padding:8px}
+
+    /* patient form visual enhancements */
+    .patient-grid{display:grid;grid-template-columns:1fr 320px;gap:12px}
+    .section-card{background:linear-gradient(180deg,rgba(255,255,255,0.92),rgba(250,251,255,0.95));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 8px 30px rgba(16,24,40,0.04)}
+    .section-title{font-weight:800;color:var(--accent-2);margin-bottom:8px}
+    .stat-grid{display:flex;gap:8px}
+    .stat-card{flex:1;padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,247,255,0.96));text-align:center}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid rgba(15,23,42,0.04);cursor:pointer;background:rgba(255,255,255,0.88)}
+    .chip.selected{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));box-shadow:0 8px 30px rgba(99,102,241,0.06);border-color:transparent}
+    .choice-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .toggle-btn{padding:8px 12px;border-radius:999px;border:1px solid rgba(15,23,42,0.04);cursor:pointer;background:rgba(255,255,255,0.92)}
+    .toggle-btn.active{background:linear-gradient(90deg,var(--pastel-1),var(--pastel-2));box-shadow:0 8px 20px rgba(99,102,241,0.06)}
+    .checkbox-label{display:inline-flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;border:1px solid rgba(15,23,42,0.04);background:rgba(255,255,255,0.94);cursor:pointer}
+    .wizard-steps{display:flex;gap:8px;margin-bottom:12px}
+    .risk-alert{padding:10px;border-radius:10px;background:linear-gradient(90deg,#fff7e6,#fff1f0);border:1px solid rgba(255,150,120,0.12);color:var(--accent-3);font-weight:700}
+
+    @media(max-width:980px){ .grid{grid-template-columns:1fr} .hero-image-wrap{display:none} .modal{width:92%} .bottom-nav{bottom:20px} .patient-grid{grid-template-columns:1fr} }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div>
-      <div class="logo">NEUROASSESS PRO</div>
-      <div class="tag">Honest data only — computed from your inputs & interactions</div>
-    </div>
-    <div class="actions">
-      <button class="btn" id="newBtn"><i class="fas fa-user-plus"></i> New Session</button>
-      <button class="ghost" id="saveBtn"><i class="fas fa-save"></i> Save Locally</button>
-      <button class="btn" id="pdfBtn"><i class="fas fa-file-pdf"></i> Export PDF</button>
-    </div>
-  </header>
+  <div class="container">
+    <header class="app-header">
+      <div class="brand-title">Virtual HealthCare</div>
+      <div class="greeting">Welcome, Matilda</div>
+      <button id="contrastToggle" class="btn-outline ml-12">High contrast</button>
+    </header>
 
-  <main>
-    <!-- LEFT: Inputs, games, EEG -->
-    <section class="card">
-      <h2>Daily Log & Truthful Data</h2>
-      <div class="small">Fill these honestly. Reports and feedback use only what you provided or recorded.</div>
-
-      <div class="grid-2">
-        <div>
-          <label>Date</label>
-          <input id="dateInput" type="date" />
-        </div>
-        <div>
-          <label>Time</label>
-          <input id="timeInput" type="time" />
+    <!-- Hero banner + secondary tabs -->
+    <section class="hero-panel">
+      <div class="hero-content">
+        <div class="hero-title">Welcome back, <span id="profileGreeting">Matilda</span></div>
+        <div class="hero-sub">Your care team and upcoming consults are below.</div>
+        <div class="secondary-tabs" role="tablist">
+          <button class="tab-btn active" data-section="overview" onclick="showSection('overview')"><i class="fa fa-home" style="margin-right:8px"></i>Overview</button>
+          <button class="tab-btn" data-section="messages" onclick="showSection('messages')"><i class="fa fa-envelope" style="margin-right:8px"></i>Messages</button>
+          <button class="tab-btn" data-section="prescriptions" onclick="showSection('prescriptions')"><i class="fa fa-prescription-bottle" style="margin-right:8px"></i>Prescriptions</button>
+          <button class="tab-btn" data-section="billing" onclick="showSection('billing')"><i class="fa fa-file-invoice-dollar" style="margin-right:8px"></i>Billing</button>
+          <button class="tab-btn" data-section="help" onclick="showSection('help')"><i class="fa fa-life-ring" style="margin-right:8px"></i>Help</button>
         </div>
       </div>
-
-      <label>Mood (1-10)</label>
-      <input id="mood" type="number" min="0" max="10" placeholder="0 = very low, 10 = excellent">
-
-      <label>Sleep hours (last night)</label>
-      <input id="sleep" type="number" min="0" max="24" step="0.1" placeholder="e.g., 7.5">
-
-      <label>Memory clarity (0-10)</label>
-      <input id="memoryClarity" type="number" min="0" max="10">
-
-      <label>Focus level (0-10)</label>
-      <input id="focus" type="number" min="0" max="10">
-
-      <label>Notes / Medications</label>
-      <textarea id="notes" rows="3" placeholder="Optional: medication, caffeine, stressors..."></textarea>
-
-      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn" id="logBtn"><i class="fas fa-check"></i> Log Entry</button>
-        <button class="ghost" id="exportCsvBtn"><i class="fas fa-file-csv"></i> Export Responses CSV</button>
-      </div>
-
-      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.04)">
-
-      <h2>Games & Exercises</h2>
-      <div class="small">Play the games — scores are real, used in your honest report.</div>
-
-      <div class="game-grid">
-        <!-- Sequence Memory -->
-        <div class="game-card">
-          <h3>Sequence Memory</h3>
-          <div id="seqDisplay" style="font-size:1.1rem;margin:8px 0">Press Start</div>
-          <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">
-            <button class="ghost" id="seqStart">Start</button>
-            <button class="btn" id="seqSubmit">Submit Answer</button>
-          </div>
-          <input id="seqAnswer" placeholder="Type sequence (e.g., ↑↓←→)" style="margin-top:8px">
-          <div class="small" id="seqResult"></div>
-        </div>
-
-        <!-- Word Recall -->
-        <div class="game-card">
-          <h3>Word Recall</h3>
-          <div id="wordList" style="min-height:46px;margin:8px 0" class="small">Press Start to see words.</div>
-          <div style="display:flex;gap:6px;justify-content:center">
-            <button class="ghost" id="wordStart">Start</button>
-            <button class="btn" id="wordSubmit">Submit</button>
-          </div>
-          <textarea id="wordAnswer" placeholder="Type the words you remember, separated by commas" rows="2" style="margin-top:8px"></textarea>
-          <div class="small" id="wordResult"></div>
-        </div>
-
-        <!-- Reaction Time -->
-        <div class="game-card">
-          <h3>Reaction Time</h3>
-          <div id="reactArea" style="height:70px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer">
-            <span id="reactLabel">Click to Start</span>
-          </div>
-          <div class="small" style="margin-top:6px">Best: <span id="bestReact">-</span> ms</div>
-          <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">
-            <button class="ghost" id="reactReset">Reset</button>
-          </div>
-        </div>
-
-        <!-- Mini N-back (1-back) -->
-        <div class="game-card">
-          <h3>1-back (short)</h3>
-          <div id="nbackDisplay" style="font-size:2rem;margin:8px 0">Press Start</div>
-          <div style="display:flex;gap:6px;justify-content:center">
-            <button class="ghost" id="nbackStart">Start</button>
-            <button class="btn" id="nbackStop">Stop</button>
-          </div>
-          <div class="small" id="nbackResult"></div>
-        </div>
-      </div>
-
-      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.04)">
-
-      <h2>Mindfulness</h2>
-      <div class="small">Short guided breathing & quick body-scan. Use when focus dips.</div>
-      <div class="center">
-        <div class="breath-circle" id="breathCircle">Breathe</div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
-          <button class="ghost" id="breathStart">Start 1-min</button>
-          <button class="btn" id="breathStop">Stop</button>
-        </div>
-        <div class="small" id="breathStatus" style="margin-top:6px">Idle</div>
-      </div>
-
-      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.04)">
-
-      <h2>EEG Upload (optional)</h2>
-      <div class="small">CSV with two columns: time, amplitude. Plot is exploratory — no clinical preprocessing here.</div>
-      <input id="eegFile" type="file" accept=".csv" style="margin-top:8px">
-      <div style="margin-top:10px">
-        <canvas id="eegCanvas" height="120"></canvas>
+      <div class="hero-image-wrap">
+        <div id="heroCarousel" class="hero-carousel"></div>
       </div>
     </section>
 
-    <!-- RIGHT: Live report, charts, exports -->
-    <aside>
-      <div class="card">
-        <h2>Live Honest Report</h2>
-        <div class="small">All content below is computed only from your logged entries or game results.</div>
-
-        <div style="margin-top:10px">
-          <div><strong>Latest entry:</strong> <span id="latestEntry">No data</span></div>
-          <div style="margin-top:8px"><strong>Memory recall (last game):</strong> <span id="lastMemory">-</span></div>
-          <div style="margin-top:8px"><strong>Reaction best:</strong> <span id="lastReact">-</span> ms</div>
-        </div>
-
-        <div style="margin-top:12px">
-          <h3 style="margin-bottom:6px">Trends (7-day)</h3>
-          <canvas id="trendChart" height="240"></canvas>
-        </div>
-
-        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn" id="downloadCsv">Download All CSV</button>
-          <button class="ghost" id="clearLocal">Clear Local Data</button>
-        </div>
-
-        <div style="margin-top:10px" class="small" id="honestNote">Note: This tool is not a diagnostic device. Use the data honestly and consult professionals for clinical decisions.</div>
+    <!-- Appointment preview -->
+    <section class="appt-large" id="apptPreview">
+      <h2>Upcoming Appointments Preview</h2>
+      <div class="appt-time" id="apptCountdown">--:--</div>
+      <div class="timeline-row" id="timelineRow"></div>
+      <div class="appt-actions">
+        <button class="btn-outline" id="rescheduleBtn">Reschedule</button>
+        <button class="btn-primary" id="joinNowBtn">Join Now</button>
       </div>
-    </aside>
-  </main>
+    </section>
 
-  <footer>
-    © 2025 NeuroAssess Pro — honest analytics only | Local-first (no servers). Deploy this `index.html` straight to Netlify.
-  </footer>
-</div>
+    <div class="grid">
+      <div>
+        <div class="panel" id="homePanel">
+          <h3 id="overviewTitle">Health Snapshot</h3>
+          <p style="color:var(--muted)">Quick glance at recent metrics</p>
+          <div id="metrics" style="display:flex;gap:12px;margin-top:12px"></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 240px;gap:12px">
+          <div class="panel" id="actionPanel">
+            <h3>Quick Actions</h3>
+            <div class="quick-actions">
+              <button type="button" class="quick-action" id="qa-book" onclick="showBookingModal()" aria-label="Book"><i class="fa fa-calendar-plus"></i><div>Book</div></button>
+              <button type="button" class="quick-action" id="qa-consult" onclick="showConsultModal()" aria-label="Consult"><i class="fa fa-video"></i><div>Consult</div></button>
+              <button type="button" class="quick-action" id="qa-upload" onclick="document.getElementById('fileInput') && document.getElementById('fileInput').click()" aria-label="Upload"><i class="fa fa-file-medical"></i><div>Upload</div></button>
+              <button type="button" class="quick-action" id="qa-sos" onclick="showToast('SOS: emergency services will be contacted')" aria-label="SOS"><i class="fa fa-phone"></i><div>SOS</div></button>
+            </div>
+          </div>
+
+          <div class="panel" id="doctorsPanel">
+            <h3>Care Team</h3>
+            <div id="doctorsList" class="doctor-list"></div>
+          </div>
+        </div>
+
+        <!-- messages -->
+        <div class="panel" id="messagesPanel" style="display:none;margin-top:12px">
+          <h3>Messages</h3>
+          <div style="margin-top:8px;color:var(--muted)">Secure messages with your care team</div>
+          <div id="messagesList" class="messages-list"></div>
+          <div style="margin-top:12px"><button class="btn-primary" id="composeBtn">Compose</button></div>
+        </div>
+
+        <!-- prescriptions -->
+        <div class="panel" id="prescriptionsPanel" style="display:none;margin-top:12px">
+          <h3>Prescriptions</h3>
+          <div id="rxList" class="rx-list"></div>
+        </div>
+
+        <!-- records panel -->
+        <div class="panel" id="recordsPanel" style="display:none;margin-top:12px">
+          <h3>Medical Records</h3>
+          <p style="color:var(--muted)">Upload reports or view existing files</p>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <input type="file" id="fileInput" style="display:none" />
+            <button class="btn-primary" id="uploadFileBtn">Upload File</button>
+            <button class="btn-outline" id="newRecordBtn">New Record</button>
+          </div>
+          <div id="fileList" class="file-list"></div>
+        </div>
+
+        <!-- appointments list (hidden by default) -->
+        <div class="panel" id="appointmentsPanel" style="display:none;margin-top:12px">
+          <h3>Your Appointments</h3>
+          <div id="appointmentsList" class="appt-list"></div>
+        </div>
+
+      </div>
+
+      <aside>
+        <div class="panel">
+          <h3>Appointment Details</h3>
+          <div id="apptDetails" style="margin-top:8px;color:var(--muted)">No appointment selected</div>
+          <div class="controls-row" style="margin-top:12px">
+            <button class="btn-primary" id="payBtn">Pay & Confirm</button>
+            <button class="btn-outline" id="saveDraft">Save Draft</button>
+          </div>
+          <div id="billingSummary" style="margin-top:12px;display:none">
+            <h4 style="margin:0">Billing</h4>
+            <div id="invoicePreview" style="color:var(--muted);margin-top:8px">No invoices</div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer></footer>
+  </div>
+
+  <!-- Bottom navigation -->
+  <div class="bottom-nav" id="bottomNav">
+    <button class="nav-btn" data-view="home" onclick="showView('home')">Home</button>
+    <button class="nav-btn" data-view="appointments" onclick="showView('appointments')">Appointments</button>
+    <button class="nav-btn primary" data-view="consult" onclick="showView('consult')">Consult</button>
+    <button class="nav-btn" data-view="records" onclick="showView('records')">Records</button>
+    <button class="nav-btn" data-view="profile" onclick="showView('profile')">Profile</button>
+  </div>
+
+  <!-- Payment modal (web stub) -->
+  <div id="paymentModal" style="display:none" class="modal" role="dialog" aria-modal="true">
+    <h3>Pay for Consultation</h3>
+    <div style="color:var(--muted);margin-top:8px">Provider: <span id="pmProvider">-</span></div>
+    <div style="margin-top:12px">Amount: <strong id="pmAmount">$25.00</strong></div>
+    <div class="row" style="margin-top:12px">
+      <input id="cardNumber" placeholder="Card number" class="input-field" />
+    </div>
+    <div class="row">
+      <input id="cardExp" placeholder="MM/YY" class="input-field" />
+      <input id="cardCvv" placeholder="CVV" class="input-field" />
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px"><button id="confirmPay" class="btn-primary">Confirm Payment</button><button id="cancelPay" class="btn-outline">Cancel</button></div>
+  </div>
 
 <script>
-/* ============================
-   State & Utilities
-   ============================ */
-const STATE_KEY = 'neuroassess_pro_v1';
-let state = {
-  entries: [], // array of daily logs & game scores
-  bestReaction: null
-};
-function saveState(){ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
-function loadState(){ const s = localStorage.getItem(STATE_KEY); if(s) state = JSON.parse(s); }
-function uid(n=6){ const s='abcdefghijklmnopqrstuvwxyz0123456789'; let o=''; for(let i=0;i<n;i++) o+=s[Math.floor(Math.random()*s.length)]; return Date.now().toString().slice(-5)+'-'+o; }
+// Minimal safe app script (auto-fix)
+const STORAGE_KEY = 'vhc_paid_v1';
+let state = {};
 
-/* ============================
-   UI refs
-   ============================ */
-const dateInput=document.getElementById('dateInput');
-const timeInput=document.getElementById('timeInput');
-const moodInput=document.getElementById('mood');
-const sleepInput=document.getElementById('sleep');
-const memClarityInput=document.getElementById('memoryClarity');
-const focusInput=document.getElementById('focus');
-const notesInput=document.getElementById('notes');
-const logBtn=document.getElementById('logBtn');
-const latestEntry=document.getElementById('latestEntry');
-const exportCsvBtn=document.getElementById('exportCsvBtn');
-const downloadCsv=document.getElementById('downloadCsv');
-const clearLocal=document.getElementById('clearLocal');
-const lastMemorySpan=document.getElementById('lastMemory');
-const lastReactSpan=document.getElementById('lastReact');
-const trendCtx = document.getElementById('trendChart').getContext('2d');
-let trendChart = null;
-
-/* ============================
-   Initialization
-   ============================ */
-(function init(){
-  loadState();
-  // set today's date/time default
-  const d = new Date();
-  dateInput.valueAsDate = d;
-  timeInput.value = d.toTimeString().slice(0,5);
-  renderLatest();
-  renderTrend();
-})();
-
-/* ============================
-   Logging entries
-   ============================ */
-logBtn.addEventListener('click', ()=>{
-  const entry = {
-    id: uid(),
-    datetime: (dateInput.value || '') + ' ' + (timeInput.value || ''),
-    mood: Number(moodInput.value || ''),
-    sleep: Number(sleepInput.value || ''),
-    memoryClarity: Number(memClarityInput.value || ''),
-    focus: Number(focusInput.value || ''),
-    notes: String(notesInput.value || ''),
-    games: {
-      sequence: lastSeqScore || null,
-      wordRecall: lastWordScore || null,
-      reactionBest: state.bestReaction || null,
-      nback: lastNbackScore || null
-    }
-  };
-  state.entries.push(entry);
-  saveState();
-  renderLatest();
-  renderTrend();
-  alert('Entry logged locally. Export to CSV or PDF to share.');
-});
-
-/* Export CSV of current responses only */
-exportCsvBtn.addEventListener('click', ()=> {
-  const rows = [['id','datetime','mood','sleep','memoryClarity','focus','notes','seqScore','wordScore','reactBest','nbackScore']];
-  for(const e of state.entries){
-    rows.push([e.id,e.datetime,e.mood,e.sleep,e.memoryClarity,e.focus,e.notes,
-                e.games.sequence,e.games.wordRecall,e.games.reactionBest,e.games.nback]);
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function load(){ try{ const s = localStorage.getItem(STORAGE_KEY); if(s) state = JSON.parse(s); else {
+    state = {
+      appointments: [{id:'appt1', doctorName:'Dr. Maya Chen', when: new Date(Date.now()+1000*60*60).toISOString(), amount:25}],
+      selectedAppt: null,
+      files: [],
+      profile:{name:'Matilda', medicalDetails:''},
+      messages: [{id:'m1',from:'Dr. Maya Chen',subject:'Pre-visit notes',body:'Please complete the questionnaire before the visit.',time:new Date().toISOString(),read:false}],
+      prescriptions: [],
+      invoices: []
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
-  const csv = rows.map(r=>r.map(c=>`"${String(c||'')}"`).join(',')).join('\n');
-  const blob = new Blob([csv],{type:'text/csv'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'neuroassess_responses.csv'; a.click();
-});
+  const g = document.querySelector('.greeting'); if(g) g.innerText = `Welcome, ${state.profile.name||'Matilda'}`;
+  const pg = document.getElementById('profileGreeting'); if(pg) pg.innerText = state.profile.name || 'Matilda';
+}catch(e){ console.error('load failed', e); state = state || {}; }
+}
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){ console.error('save failed', e); } }
+function showToast(msg, t=2000){ const c = document.getElementById('toastRoot') || (()=>{ const el=document.createElement('div'); el.id='toastRoot'; el.className='toast-root'; document.body.appendChild(el); return el; })(); const item = document.createElement('div'); item.className='toast-item'; item.innerText = msg; c.appendChild(item); setTimeout(()=> item.remove(), t); }
 
-/* Download all CSV - same as export */
-downloadCsv.addEventListener('click', ()=> exportCsvBtn.click());
-
-clearLocal.addEventListener('click', ()=>{
-  if(!confirm('Clear all local data? This cannot be undone.')) return;
-  localStorage.removeItem(STATE_KEY); state = {entries:[], bestReaction:null}; saveState(); renderLatest(); renderTrend();
-  alert('Local data cleared.');
-});
-
-/* Render latest info */
-function renderLatest(){
-  if(state.entries.length===0){ latestEntry.innerText='No data yet'; }
-  else {
-    const e = state.entries[state.entries.length-1];
-    latestEntry.innerText = `${e.datetime} | mood ${e.mood || '-'} | mem ${e.memoryClarity || '-'} | focus ${e.focus || '-'}`;
-  }
-  lastMemorySpan.innerText = lastWordScore !== null ? `${lastWordScore.correct}/${lastWordScore.total}` : '-';
-  lastReactSpan.innerText = state.bestReaction !== null ? state.bestReaction : '-';
+// Simple renderers
+const HERO_ASSETS = [
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fa6a0ecace4204a3f8ba6076b62c0c063?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fabf33e4dccdb4e26baa183604ef7c510?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F5b3c6344f3f6425da0bee3a5fff93cdf?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fd5860eca956b4f0c9c2ca8f1ab8838c6?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fe3d58ee5b2e840129aa830c122064ea7?format=webp&width=1200'
+];
+function renderHeroCarousel(){ const hero = document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; const fallback = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420"><rect width="100%" height="100%" fill="%23eef4ff"/><text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" font-family="Arial" font-size="28" fill="%23919">Virtual HealthCare</text></svg>';
+  HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src = src; img.className='hero-slide'+(i===0?' visible':''); img.style.objectPosition='50% 50%'; img.alt='hero'; img.onerror = ()=>{ img.src = fallback; }; hero.appendChild(img); });
+  // simple pager
+  const pager = document.createElement('div'); pager.className='hero-pager'; hero.appendChild(pager);
 }
 
-/* Render trend chart (7-day) */
-function renderTrend(){
-  const last7 = state.entries.slice(-14); // allow up to 14 days if less
-  const labels = last7.map(e => e.datetime.split(' ')[0]);
-  const memory = last7.map(e => e.memoryClarity || null);
-  const focus = last7.map(e => e.focus || null);
-  if(trendChart) trendChart.destroy();
-  trendChart = new Chart(trendCtx, {
-    type:'line',
-    data:{
-      labels,
-      datasets:[
-        {label:'Memory clarity',data:memory,borderColor:'#4f46e5',fill:false,tension:0.3},
-        {label:'Focus',data:focus,borderColor:'#0e9f6e',fill:false,tension:0.3}
-      ]
-    },
-    options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:10}}}
-  });
+const DOCTOR_ASSETS = [
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=400',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F25ef9274ba4d4fe98a499ac831aad674?format=webp&width=400',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=400'
+];
+function renderDoctorsTiles(){ const list=document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [
+  {name:'Dr. Maya Chen', spec:'General', img:DOCTOR_ASSETS[0]},
+  {name:'Dr. Arjun Patel', spec:'Pediatrics', img:DOCTOR_ASSETS[1]},
+  {name:'Dr. Leila Gomez', spec:'Psychiatry', img:DOCTOR_ASSETS[2]}
+]; docs.forEach((d, idx)=>{ const row = document.createElement('div'); row.className='doctor-row'; const safeName = String(d.name).replace(/'/g,"\'"); row.innerHTML = `<div class="doctor-avatar"><img src="${d.img}" alt="${safeName}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'><rect width=\'100%\' height=\'100%\' fill=\'%23eef4ff\'/><text x=\'50%\' y=\'50%\' alignment-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'18\' fill=\'%239192a6\'>Dr</text></svg>'"/></div><div class="doctor-meta"><div class="doctor-name">${safeName}</div><div class="doctor-special">${d.spec}</div></div><div><button class="btn-outline" data-doc="${safeName}">Book</button></div>`; list.appendChild(row); const btn = row.querySelector('button[data-doc]'); if(btn) btn.addEventListener('click', ()=> showBookingModalWithDoctor(d.name)); }); }
+
+function renderMetrics(){ const node = document.getElementById('metrics'); if(!node) return; node.innerHTML=''; const metrics=[{label:'Sleep',val:'7.5h'},{label:'Stress',val:'Low'},{label:'Meds',val:'On track'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.className='metric-item'; el.innerHTML = `<div class='metric-value' style='font-weight:700'>${m.val}</div><div class='metric-label' style='color:var(--muted)'>${m.label}</div>`; node.appendChild(el); }); }
+
+function renderMessages(){ const node = document.getElementById('messagesList'); if(!node) return; node.innerHTML=''; (state.messages||[]).forEach(m=>{ const el=document.createElement('div'); el.className='message-item'; el.innerHTML = `<div class='meta'><div style='font-weight:700'>${m.subject}</div><div style='color:var(--muted);font-size:13px'>${m.from} • ${new Date(m.time).toLocaleString()}</div><div style='color:var(--muted);margin-top:6px;font-size:13px'>${m.body}</div></div><div><button class='btn-outline btn-open' data-id='${m.id}'>Open</button></div>`; node.appendChild(el); }); node.querySelectorAll('.btn-open').forEach(b=> b.addEventListener('click', ()=> openMessage(b.dataset.id))); }
+function openMessage(id){ const msg = (state.messages||[]).find(x=> x.id===id); if(!msg) return; const root=document.body; const backdrop = createBackdrop('backdrop_msg'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.innerHTML = `<h3>${msg.subject}</h3><div style='color:var(--muted);margin-top:6px'>From: ${msg.from}</div><div style='margin-top:12px'>${msg.body}</div><div style='margin-top:12px;display:flex;gap:8px'><button id='closeMsg' class='btn-outline'>Close</button></div>`; root.appendChild(modal); document.getElementById('closeMsg').onclick = ()=>{ modal.remove(); backdrop.remove(); }; msg.read = true; saveState(); }
+
+// Appointments
+function renderAppointmentPreview(){ const el = document.getElementById('apptCountdown'); const timeline = document.getElementById('timelineRow'); const appt = (state.appointments && state.appointments[0]) || null; if(!el) return; if(!appt){ el.classList.add('appt-time--empty'); el.innerText = 'No upcoming appointments'; timeline.innerHTML=''; document.getElementById('apptDetails').innerText = 'No appointment selected'; return; } el.classList.remove('appt-time--empty'); el.innerText = new Date(appt.when).toLocaleString(); (function(){ const names = ['Maya','Arjun','Leila']; let src = ''; const idx = names.findIndex(n=> appt.doctorName && appt.doctorName.indexOf(n)!==-1); if(idx>=0) src = DOCTOR_ASSETS[idx]; const imgTag = src ? `<img src="${src}" alt="${appt.doctorName}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'><rect width=\'100%\' height=\'100%\' fill=\'%23eef4ff\'/><text x=\'50%\' y=\'50%\' alignment-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'18\' fill=\'%239192a6\'>Dr</text></svg>'"/>` : `<i class='fa fa-user-doctor' style='color:var(--accent);font-size:20px'></i>`; timeline.innerHTML = `<div class="timeline-avatar"><div class="avatar-circle">${imgTag}</div><div class='timeline-name'>${appt.doctorName}</div></div>`; })(); document.getElementById('apptDetails').innerText = `${appt.doctorName} — ${new Date(appt.when).toLocaleString()}`; }
+function renderAppointmentsPanel(){ const list = document.getElementById('appointmentsList'); if(!list) return; list.innerHTML=''; const appts = (state.appointments||[]).slice().sort((a,b)=> new Date(a.when) - new Date(b.when)); const now = Date.now(); const upcoming = appts.filter(a=> new Date(a.when).getTime() > now); const past = appts.filter(a=> new Date(a.when).getTime() <= now);
+  // header with tabs
+  const header = document.createElement('div'); header.className = 'appt-panel-header'; const title = document.createElement('div'); title.className='small-muted'; title.innerText = `${appts.length} appointments`; const tabs = document.createElement('div'); tabs.className='appt-tabs'; ['Upcoming','Past','All'].forEach(t=>{ const btn = document.createElement('button'); btn.className='appt-tab'; btn.innerText = t; btn.dataset.tab = t.toLowerCase(); tabs.appendChild(btn); }); header.appendChild(title); header.appendChild(tabs); list.appendChild(header);
+  const container = document.createElement('div'); container.className='appt-list'; list.appendChild(container);
+  let active = upcoming.length>0? 'upcoming' : (appts.length>0? 'all' : 'all');
+  function renderFor(tab, expand=false){ container.innerHTML=''; let arr = []; if(tab==='upcoming') arr = upcoming; else if(tab==='past') arr = past; else arr = appts; if(!arr || arr.length===0){ container.innerHTML = `<div class='small-muted'>No ${tab} appointments</div>`; return; }
+    const limit = expand? arr.length : 6; arr.slice(0,limit).forEach(a=>{ const card = document.createElement('div'); card.className='appt-card'; const left = document.createElement('div'); left.className='appt-left'; const av = document.createElement('div'); av.className='appt-avatar'; (function(){ const names = ['Maya','Arjun','Leila']; let src=''; const idx = names.findIndex(n=> a.doctorName && a.doctorName.indexOf(n)!==-1); if(idx>=0) src = DOCTOR_ASSETS[idx]; if(src){ av.innerHTML = `<img src="${src}" alt="${a.doctorName}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'><rect width=\'100%\' height=\'100%\' fill=\'%23eef4ff\'/><text x=\'50%\' y=\'50%\' alignment-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'18\' fill=\'%239192a6\'>Dr</text></svg>'"/>`; } else { av.innerHTML = `<i class='fa fa-user-doctor' style='color:var(--accent);font-size:20px'></i>`; } })(); const info = document.createElement('div'); info.className='appt-info'; info.innerHTML = `<div class='appt-doctor'>${a.doctorName}</div><div class='appt-time'>${new Date(a.when).toLocaleString()}</div>`; left.appendChild(av); left.appendChild(info); const right = document.createElement('div'); right.className='appt-actions'; const badge = document.createElement('div'); badge.className = 'badge '+(new Date(a.when).getTime()>now?'upcoming':'past'); badge.innerText = new Date(a.when).getTime()>now?'Upcoming':'Past'; const view = document.createElement('button'); view.className='action-btn view'; view.dataset.id = a.id; view.innerText='View'; const res = document.createElement('button'); res.className='action-btn resched'; res.dataset.id = a.id; res.innerText='Reschedule'; right.appendChild(badge); right.appendChild(view); right.appendChild(res); card.appendChild(left); card.appendChild(right); container.appendChild(card); }); if(arr.length>6 && !expand){ const load = document.createElement('div'); load.style.textAlign='center'; const btn = document.createElement('button'); btn.className='load-more'; btn.innerText = 'Show more'; btn.addEventListener('click', ()=> renderFor(tab, true)); load.appendChild(btn); container.appendChild(load); }
+    // handlers
+    container.querySelectorAll('.action-btn.view').forEach(b=> b.addEventListener('click', ()=>{ const id=b.dataset.id; const appt = (state.appointments||[]).find(x=>x.id===id); if(appt){ state.selectedAppt = appt; renderAppointmentPreview(); showView('appointments'); } }));
+    container.querySelectorAll('.action-btn.resched').forEach(b=> b.addEventListener('click', ()=>{ const id=b.dataset.id; const appt = (state.appointments||[]).find(x=>x.id===id); if(appt) showRescheduleModal(appt); })); }
+  // tab wiring
+  tabs.querySelectorAll('.appt-tab').forEach(b=> b.addEventListener('click', ()=>{ tabs.querySelectorAll('.appt-tab').forEach(x=> x.classList.toggle('active', x===b)); active = b.dataset.tab; renderFor(active); })); const firstTab = Array.from(tabs.querySelectorAll('.appt-tab')).find(bt=> bt.dataset.tab===active) || tabs.querySelector('.appt-tab'); if(firstTab) firstTab.classList.add('active'); renderFor(active); }
+
+function showRescheduleModal(appt){ if(!appt) return; const root=document.body; const backdrop = createBackdrop('backdrop_reschedule'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.innerHTML = `<h3>Reschedule</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' class='input-field' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelResched').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('doResched').onclick = ()=>{ const when = document.getElementById('reschedWhen').value; if(!when) { showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); saveState(); renderAppointmentPreview(); renderAppointmentsPanel(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); } }
+
+// Records
+function renderRecordsPanel(){ const container = document.getElementById('fileList'); if(!container) return; container.innerHTML = '';
+  // ensure patient object
+  state.patient = state.patient || { name: state.profile.name || '', email:'', phone:'', dob:'', age:'', weight:'', height:'', bmi:'', gender:'', bloodType:'O+', conditions:[], allergies:[], surgeries:[], medications:'', lifestyle:{smoking:false,alcohol:false,exercise:'None',diet:'Omnivore'}, family:{parents:[],siblings:[]}, insurance:'None', primaryPhysician:'', other:'' , emergency:{name:'',phone:'',relation:''} };
+
+  const html = `
+    <div class='patient-grid'>
+      <div class='section-card'>
+        <div class='section-title'>Personal Details</div>
+        <div class='stat-grid' style='margin-bottom:12px'>
+          <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.age||'—')}</div><div class='small-muted'>Age</div></div>
+          <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.bmi||'—')}</div><div class='small-muted'>BMI</div></div>
+          <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.weight||'—')}</div><div class='small-muted'>Weight</div></div>
+        </div>
+
+        <div class='form-row'>
+          <label class='small-muted'>Full name</label>
+          <input id='pt_name' class='input-field' value='${escapeHtml(state.patient.name||'')}' />
+        </div>
+        <div class='form-row' style='margin-top:8px'>
+          <label class='small-muted'>Date of birth</label>
+          <input id='pt_dob' type='date' class='input-field' value='${escapeHtml(state.patient.dob||'')}' />
+        </div>
+        <div style='margin-top:8px'>
+          <label class='small-muted'>Gender</label>
+          <div class='choice-grid' id='genderChoices'>
+            <div class='chip ${state.patient.gender==='Male'?'selected':''}' data-value='Male'>Male</div>
+            <div class='chip ${state.patient.gender==='Female'?'selected':''}' data-value='Female'>Female</div>
+            <div class='chip ${state.patient.gender==='Other'?'selected':''}' data-value='Other'>Other</div>
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Blood type</label>
+          <div class='choice-grid' id='bloodChoices'>
+            ${['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(bt=>`<div class='chip ${state.patient.bloodType===bt?'selected':''}' data-value='${bt}'>${bt}</div>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Height</label>
+          <div class='choice-grid' id='heightChoices'>
+            ${['<150','150-160','161-170','171-180','>180'].map(h=>`<div class='chip ${state.patient.height===h?'selected':''}' data-value='${h}'>${h.replace('-','–')} cm</div>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Weight</label>
+          <div class='choice-grid' id='weightChoices'>
+            ${['<50','50-60','61-70','71-80','>80'].map(w=>`<div class='chip ${state.patient.weight===w?'selected':''}' data-value='${w}'>${w.replace('-','–')} kg</div>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Current Medications</label>
+          <input id='pt_medications' class='input-field' value='${escapeHtml(state.patient.medications||'')}' />
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Medical History</label>
+          <div class='choice-grid' id='chronicChoices'>
+            ${['Diabetes','Hypertension','Asthma','Heart Disease','None'].map(c=>`<label class='checkbox-label'><input type='checkbox' value='${c}' ${ (state.patient.conditions||[]).includes(c)?'checked':'' } /> ${c}</label>`).join('')}
+          </div>
+
+          <div style='margin-top:10px'>
+            <div class='small-muted'>Past surgeries</div>
+            <div class='choice-grid' id='surgeryChoices'>${['Appendectomy','Tonsillectomy','Other','None'].map(s=>`<label class='checkbox-label'><input type='checkbox' value='${s}' ${ (state.patient.surgeries||[]).includes(s)?'checked':'' } /> ${s}</label>`).join('')}</div>
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Allergies</label>
+          <div class='choice-grid' id='allergyChoices'>
+            ${['Penicillin','Sulfa Drugs','NSAIDs','Nuts','Dairy','Gluten','Seafood','Pollen','Dust','Animal Dander','None'].map(a=>`<label class='checkbox-label'><input type='checkbox' value='${a}' ${ (state.patient.allergies||[]).includes(a)?'checked':'' } /> ${a}</label>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Lifestyle & Habits</label>
+          <div class='choice-grid'>
+            <div class='toggle-btn ${state.patient.lifestyle && state.patient.lifestyle.smoking? 'active':''}' id='smokingToggle'>Smoking</div>
+            <div class='toggle-btn ${state.patient.lifestyle && state.patient.lifestyle.alcohol? 'active':''}' id='alcoholToggle'>Alcohol</div>
+            <div class='choice-grid' id='exerciseChoices'>${['Daily','2-3x/week','Rarely','None'].map(e=>`<div class='chip ${state.patient.lifestyle && state.patient.lifestyle.exercise===e? 'selected':''}' data-value='${e}'>${e}</div>`).join('')}</div>
+            <div style='margin-top:8px'>Diet: <div class='choice-grid' id='dietChoices'>${['Vegetarian','Vegan','Omnivore','Other'].map(d=>`<div class='chip ${state.patient.lifestyle && state.patient.lifestyle.diet===d? 'selected':''}' data-value='${d}'>${d}</div>`).join('')}</div></div>
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Doctor & Insurance</label>
+          <select id='primaryPhysician' class='input-field'>
+            <option value=''>Select primary physician</option>
+          </select>
+          <div style='margin-top:8px' class='choice-grid' id='insuranceChoices'>${['Provider A','Provider B','Provider C','None'].map(i=>`<div class='chip ${state.patient.insurance===i? 'selected':''}' data-value='${i}'>${i}</div>`).join('')}</div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Notes / Recent Symptoms</label>
+          <textarea id='pt_other' class='input-field'>${escapeHtml(state.patient.other||'')}</textarea>
+        </div>
+
+        <div style='margin-top:12px;display:flex;gap:8px'>
+          <button id='savePatient' class='btn-primary'>Save</button>
+          <button id='cancelPatient' class='btn-outline'>Reset</button>
+        </div>
+      </div>
+
+      <div>
+        <div class='section-card'>
+          <div class='section-title'>Summary & Insights</div>
+          <div class='stat-grid' style='margin-bottom:12px'>
+            <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.age||'—')}</div><div class='small-muted'>Age</div></div>
+            <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.bmi||'—')}</div><div class='small-muted'>BMI</div></div>
+          </div>
+          <div id='riskAlertPlaceholder'></div>
+          <div style='margin-top:12px'>
+            <div class='small-muted'>Uploaded Files</div>
+            <div id='recordsFilesList'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const wrapper = document.createElement('div'); wrapper.innerHTML = html; container.appendChild(wrapper);
+
+  // populate physician select from visible doctors
+  setTimeout(()=>{
+    const sel = document.getElementById('primaryPhysician'); if(sel){ sel.innerHTML = "<option value=''>Select primary physician</option>"; document.querySelectorAll('.doctor-meta .doctor-name').forEach(dn=>{ const opt = document.createElement('option'); opt.value = dn.innerText; opt.text = dn.innerText; if(state.patient.primaryPhysician===dn.innerText) opt.selected=true; sel.appendChild(opt); }); }
+
+    // wiring chips
+    function wireChips(containerId, field){ const node = document.getElementById(containerId); if(!node) return; node.querySelectorAll('.chip').forEach(ch=> ch.addEventListener('click', ()=>{ const val = ch.dataset.value; // toggle selection single
+      node.querySelectorAll('.chip').forEach(c=> c.classList.toggle('selected', c===ch)); state.patient[field]=val; saveState(); renderRecordsPanel(); })); }
+    wireChips('genderChoices','gender'); wireChips('bloodChoices','bloodType'); wireChips('heightChoices','height'); wireChips('weightChoices','weight'); wireChips('exerciseChoices','lifestyle.exercise'); wireChips('dietChoices','lifestyle.diet');
+
+    // checkbox groups
+    function wireCheckboxes(containerId, field){ const node = document.getElementById(containerId); if(!node) return; node.querySelectorAll('input[type=checkbox]').forEach(cb=> cb.addEventListener('change', ()=>{ const vals = Array.from(node.querySelectorAll('input[type=checkbox]:checked')).map(i=> i.value); state.patient[field]=vals; saveState(); renderRecordsPanel(); })); }
+    wireCheckboxes('chronicChoices','conditions'); wireCheckboxes('surgeryChoices','surgeries'); wireCheckboxes('allergyChoices','allergies');
+
+    // toggles
+    const smoking = document.getElementById('smokingToggle'); if(smoking) smoking.addEventListener('click', ()=>{ const active = smoking.classList.toggle('active'); state.patient.lifestyle = state.patient.lifestyle || {}; state.patient.lifestyle.smoking = active; saveState(); renderRecordsPanel(); });
+    const alcohol = document.getElementById('alcoholToggle'); if(alcohol) alcohol.addEventListener('click', ()=>{ const active = alcohol.classList.toggle('active'); state.patient.lifestyle = state.patient.lifestyle || {}; state.patient.lifestyle.alcohol = active; saveState(); renderRecordsPanel(); });
+
+    // inputs
+    const inputs = ['pt_name','pt_dob','pt_medications','pt_other']; inputs.forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change', ()=>{ state.patient[id.replace('pt_','')] = el.value; if(id==='pt_dob'){ // recalc age
+        const dob = new Date(el.value); if(!isNaN(dob)) state.patient.age = Math.max(0, new Date().getFullYear() - dob.getFullYear()); }
+      saveState(); renderRecordsPanel(); }); });
+
+    // numeric inputs for height/weight to compute BMI if numbers present
+    const hEl = document.getElementById('pt_height'); const wEl = document.getElementById('pt_weight'); if(hEl) hEl.addEventListener('change', ()=>{ state.patient.height = hEl.value; computeBMI(); saveState(); renderRecordsPanel(); }); if(wEl) wEl.addEventListener('change', ()=>{ state.patient.weight = wEl.value; computeBMI(); saveState(); renderRecordsPanel(); });
+
+    function computeBMI(){ const h = parseFloat((document.getElementById('pt_height')||{value:''}).value); const w = parseFloat((document.getElementById('pt_weight')||{value:''}).value); if(h && w){ // height in cm
+      const m = h/100; const bmi = (w/(m*m)); state.patient.bmi = Math.round(bmi*10)/10; } }
+
+    // physician select
+    const phys = document.getElementById('primaryPhysician'); if(phys) phys.addEventListener('change', ()=>{ state.patient.primaryPhysician = phys.value; saveState(); renderRecordsPanel(); });
+
+    // insurance chips
+    document.getElementById('insuranceChoices') && document.getElementById('insuranceChoices').querySelectorAll('.chip').forEach(ch=> ch.addEventListener('click', ()=>{ document.getElementById('insuranceChoices').querySelectorAll('.chip').forEach(c=> c.classList.toggle('selected', c===ch)); state.patient.insurance = ch.dataset.value; saveState(); renderRecordsPanel(); }));
+
+    // save/reset
+    const saveBtn = document.getElementById('savePatient'); if(saveBtn) saveBtn.onclick = ()=>{ // gather small inputs
+      state.patient.name = (document.getElementById('pt_name')||{value:''}).value.trim(); state.patient.dob = (document.getElementById('pt_dob')||{value:''}).value; state.patient.medications = (document.getElementById('pt_medications')||{value:''}).value.trim(); state.patient.other = (document.getElementById('pt_other')||{value:''}).value.trim(); state.patient.emergency = state.patient.emergency || {}; state.patient.emergency.name = (document.getElementById('em_name')||{value:''}).value.trim(); state.patient.emergency.phone = (document.getElementById('em_phone')||{value:''}).value.trim(); state.patient.emergency.relation = (document.getElementById('em_relation')||{value:''}).value.trim(); saveState(); showToast('Patient saved'); renderRecordsPanel(); };
+    const cancelBtn = document.getElementById('cancelPatient'); if(cancelBtn) cancelBtn.onclick = ()=>{ state.patient = { name:'', email:'', phone:'', dob:'', age:'', weight:'', height:'', bmi:'', gender:'', bloodType:'O+', conditions:[], allergies:[], surgeries:[], medications:'', lifestyle:{smoking:false,alcohol:false,exercise:'None',diet:'Omnivore'}, family:{parents:[],siblings:[]}, insurance:'None', primaryPhysician:'', other:'', emergency:{name:'',phone:'',relation:''} }; saveState(); renderRecordsPanel(); showToast('Reset'); };
+
+    // populate uploaded files
+    const filesList = document.getElementById('recordsFilesList'); if(filesList){ const files = state.files || []; filesList.innerHTML=''; if(files.length===0) filesList.innerHTML = `<div class='small-muted'>No files uploaded</div>`; else files.forEach(f=>{ const r = document.createElement('div'); r.className='section-card'; r.style.marginBottom='8px'; r.innerHTML = `<div style='font-weight:700'>${escapeHtml(f.name)}</div><div class='small-muted'>${new Date(f.uploaded).toLocaleString()}</div>`; filesList.appendChild(r); }); }
+
+    // risk alerts
+    const riskHolder = document.getElementById('riskAlertPlaceholder'); if(riskHolder){ const risky = (state.patient.conditions||[]).some(c=> ['Diabetes','Heart Disease'].includes(c)) || (state.patient.allergies||[]).some(a=> ['Penicillin','Seafood'].includes(a)); if(risky) riskHolder.innerHTML = `<div class='risk-alert'>Risk alert: review chronic conditions or allergies with your doctor</div>`; else riskHolder.innerHTML=''; }
+
+  },50);
+
 }
 
-/* ============================
-   Sequence Memory Game
-   ============================ */
-const seqDisplay = document.getElementById('seqDisplay');
-const seqStart = document.getElementById('seqStart');
-const seqSubmit = document.getElementById('seqSubmit');
-const seqAnswer = document.getElementById('seqAnswer');
-const seqResult = document.getElementById('seqResult');
-let currentSeq = '';
-let lastSeqScore = null;
+// helper to escape simple html
+function escapeHtml(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\'/g,'&#39;'); }
 
-function randomArrow(){ const a=['↑','↓','←','→']; return a[Math.floor(Math.random()*4)]; }
-seqStart.addEventListener('click', ()=>{
-  // make sequence length 4-7
-  const len = 4 + Math.floor(Math.random()*4);
-  currentSeq = Array.from({length:len}, randomArrow).join(' ');
-  seqDisplay.innerText = currentSeq;
-  seqAnswer.value = '';
-  seqResult.innerText = 'Memorize the sequence, then press Submit and type it exactly (with spaces).';
-});
-seqSubmit.addEventListener('click', ()=>{
-  const ans = seqAnswer.value.trim();
-  if(!currentSeq){ alert('Press Start first'); return; }
-  const correct = currentSeq.trim() === ans;
-  seqResult.innerText = correct ? 'Correct — well done!' : `Incorrect. Correct: ${currentSeq}`;
-  lastSeqScore = {correct: correct ? 1 : 0, length: currentSeq.split(' ').length};
-  // save short-term to last entry preview
-  renderLatest();
-});
+function openNewRecordModal(){ if(document.getElementById('newRecordModal')) return; const root=document.body; const backdrop = createBackdrop('backdrop_newrec'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='newRecordModal'; modal.innerHTML = `<h3>New Medical Record</h3><div style='margin-top:8px'><label class='label'>Title</label><input id='recTitle' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Notes</label><textarea id='recNotes' class='input-field' style='height:120px'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='saveRecordBtn' class='btn-primary'>Save</button><button id='cancelRecordBtn' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelRecordBtn').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('saveRecordBtn').onclick = ()=>{ const title = document.getElementById('recTitle').value.trim(); const notes = document.getElementById('recNotes').value.trim(); if(!title){ showToast('Please enter a title'); return; } state.files = state.files || []; state.files.unshift({id:uid(), name:title, notes, uploaded:new Date().toISOString()}); saveState(); renderRecordsPanel(); modal.remove(); backdrop.remove(); showToast('Medical record added'); }; }
 
-/* ============================
-   Word Recall Game
-   ============================ */
-const wordListDiv = document.getElementById('wordList');
-const wordStart = document.getElementById('wordStart');
-const wordSubmit = document.getElementById('wordSubmit');
-const wordAnswer = document.getElementById('wordAnswer');
-const wordResult = document.getElementById('wordResult');
-let currentWords = [];
-let lastWordScore = null;
+// simple booking modal
+function showBookingModal(){ if(document.getElementById('bookingModal')) return; const root=document.body; const backdrop=createBackdrop('backdrop_booking'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='${state.profile.name||"Matilda"}' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('bkCancel').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('bkSave').onclick = ()=>{ const name=document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen').value; if(!when||!doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(), doctorName:doc, when:new Date(when).toISOString(), amount:25}; state.appointments = state.appointments || []; state.appointments.unshift(appt); saveState(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); renderAppointmentsPanel(); showToast('Booked — please pay to confirm'); }; }
+function showBookingModalWithDoctor(name){ showBookingModal(); setTimeout(()=>{ const input=document.getElementById('bkDoc'); if(input) input.value = name; },50); }
 
-const SAMPLE_WORDS = ['apple','river','table','purple','planet','garden','teacher','window','coffee','mirror','piano','bridge'];
+// simple consult modal
+function showConsultModal(){ if(document.getElementById('consultModal')) return; const root=document.body; const backdrop=createBackdrop('backdrop_consult'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='consultModal'; modal.innerHTML = `<h3>Start Consult</h3><div style='margin-top:8px;color:var(--muted)'>Video consult — simulated</div><div style='margin-top:12px;height:220px;background:#eaf1ff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted)'>Video preview</div><div style='margin-top:12px;display:flex;gap:8px'><button id='startCall' class='btn-primary'>Start Call</button><button id='cancelCall' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelCall').onclick = ()=>{ modal.remove(); backdrop.remove(); }; document.getElementById('startCall').onclick = ()=>{ showToast('Joining call'); setTimeout(()=>{ modal.remove(); backdrop.remove(); },600); }; }
 
-wordStart.addEventListener('click', ()=>{
-  // pick 6 random words
-  currentWords = shuffleArray(SAMPLE_WORDS).slice(0,6);
-  wordListDiv.innerText = currentWords.join(' , ');
-  wordAnswer.value = '';
-  wordResult.innerText = 'Memorize these words. When ready, press Submit and type the words you recall.';
-  // fade out after 4 sec (simulate short display)
-  setTimeout(()=> wordListDiv.innerText = 'Words hidden — recall now', 4000);
-});
-wordSubmit.addEventListener('click', ()=>{
-  const typed = wordAnswer.value.toLowerCase().split(',').map(s=>s.trim()).filter(Boolean);
-  const correct = typed.filter(t => currentWords.includes(t));
-  lastWordScore = {correct: correct.length, total: currentWords.length, correctList: correct};
-  wordResult.innerText = `You recalled ${correct.length}/${currentWords.length}. Correct: ${correct.join(', ')}`;
-  renderLatest();
-});
-function shuffleArray(a){ return a.slice().sort(()=>Math.random()-0.5); }
+// simple payment simulation
+function simulatePaymentInvoice(inv){ setTimeout(()=>{ inv.paid = true; saveState(); renderBilling(); showToast('Invoice paid'); },900); }
+function renderBilling(){ const node=document.getElementById('invoicePreview'); if(!node) return; node.innerHTML=''; (state.invoices||[]).forEach(inv=>{ const el=document.createElement('div'); el.className='invoice-item'; el.innerHTML = `<div><div style='font-weight:700'>${inv.desc}</div><div style='color:var(--muted);font-size:13px'>Amount: $${inv.amount.toFixed(2)}</div></div><div><button class='btn-primary btn-pay' data-id='${inv.id}'>Pay</button></div>`; node.appendChild(el); }); node.querySelectorAll('.btn-pay').forEach(b=> b.addEventListener('click', ()=> { const id=b.dataset.id; const inv=(state.invoices||[]).find(x=>x.id===id); if(inv) simulatePaymentInvoice(inv); })); document.getElementById('billingSummary').style.display = (state.invoices && state.invoices.length)?'block':'none'; }
 
-/* ============================
-   Reaction Time Test
-   ============================ */
-const reactArea = document.getElementById('reactArea');
-const reactLabel = document.getElementById('reactLabel');
-const bestReactSpan = document.getElementById('bestReact');
-const reactReset = document.getElementById('reactReset');
-let waitingForSignal = false;
-let startTime = null;
-let currentTimeout = null;
+// helpers
+function createBackdrop(id){ const existing=document.getElementById(id); if(existing) existing.remove(); const b=document.createElement('div'); b.id=id; b.className='backdrop-fixed'; b.addEventListener('click', ()=>{ const m=document.querySelector('.modal'); if(m) m.remove(); b.remove(); }); return b; }
 
-reactArea.addEventListener('click', ()=>{
-  if(waitingForSignal){ // user clicked early -> false start
-    reactLabel.innerText = 'Too early! Click to start again.';
-    waitingForSignal = false;
-    clearTimeout(currentTimeout);
-    return;
-  }
-  // start round: wait 800-2200ms, then change color/text to "Click!"
-  reactLabel.innerText = 'Get ready...';
-  reactArea.style.background = 'rgba(255,255,255,0.03)';
-  const delay = 800 + Math.floor(Math.random()*1400);
-  waitingForSignal = true;
-  currentTimeout = setTimeout(()=> {
-    reactLabel.innerText = 'Click now!';
-    reactArea.style.background = 'linear-gradient(90deg,#4f46e5,#1a56db)';
-    startTime = performance.now();
-    // now next click will record
-    waitingForSignal = 'signal';
-  }, delay);
-});
+// navigation
+function showSection(section){ try{ const tabs=document.querySelectorAll('.secondary-tabs .tab-btn'); tabs.forEach(b=> b.classList.toggle('active', b.dataset.section===section)); const map={'overview':'homePanel','messages':'messagesPanel','prescriptions':'prescriptionsPanel','billing':'recordsPanel','help':'recordsPanel'}; Object.values(map).forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; }); const panel = map[section] || 'homePanel'; const el=document.getElementById(panel); if(el) el.style.display='block'; if(panel==='homePanel'){ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); } if(panel==='messagesPanel') renderMessages(); if(panel==='prescriptionsPanel' && typeof renderPrescriptions === 'function') renderPrescriptions(); }catch(e){ console.error('showSection error', e); } }
+function showView(view){ document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.classList.toggle('active', b.dataset.view===view)); document.getElementById('apptPreview').style.display = (view==='appointments'||view==='home')?'block':'none'; document.getElementById('doctorsPanel').style.display = (view==='home')?'block':'none'; document.getElementById('homePanel').style.display = (view==='home')?'block':'none'; document.getElementById('appointmentsPanel').style.display = (view==='appointments')?'block':'none'; document.getElementById('recordsPanel').style.display = (view==='records')?'block':'none'; if(view==='records') renderRecordsPanel(); if(view==='appointments') renderAppointmentsPanel(); if(view==='profile'){ const apptDetails=document.getElementById('apptDetails'); if(apptDetails) apptDetails.innerHTML = `<div style='font-weight:700'>${state.profile.name||'Matilda'}</div><div style='color:var(--muted);margin-top:6px'>Editable profile — change name below</div><div style='margin-top:8px'><input id='profileName' class='input-field' value='${state.profile.name||'Matilda'}' /></div><div style='margin-top:8px'><button id='saveProfile' class='btn-primary'>Save</button></div>`; setTimeout(()=>{ const s=document.getElementById('saveProfile'); if(s) s.onclick = ()=>{ const v=document.getElementById('profileName').value.trim(); if(v) state.profile.name=v; saveState(); const pg=document.getElementById('profileGreeting'); if(pg) pg.innerText = state.profile.name||'Matilda'; showToast('Profile saved'); }; },50); } }
 
-reactArea.addEventListener('click', () => {
-  if(waitingForSignal === 'signal' && startTime){
-    const rt = Math.round(performance.now() - startTime);
-    reactLabel.innerText = `Reaction: ${rt} ms`;
-    reactArea.style.background = 'rgba(255,255,255,0.02)';
-    if(state.bestReaction === null || rt < state.bestReaction) state.bestReaction = rt;
-    bestReactSpan.innerText = state.bestReaction;
-    waitingForSignal = false;
-    startTime = null;
-    saveState();
-    renderLatest();
-  }
-});
+// wire basic interactions
+function ensureBindings(){ try{ document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section))); document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view))); const fileInput=document.getElementById('fileInput'); if(fileInput) fileInput.addEventListener('change', (e)=>{ handleFileInput(e.target.files); }); const uploadBtn=document.getElementById('uploadFileBtn'); if(uploadBtn) uploadBtn.addEventListener('click', ()=>{ const fi=document.getElementById('fileInput'); if(fi) fi.click(); }); const newRec=document.getElementById('newRecordBtn'); if(newRec) newRec.addEventListener('click', ()=> openNewRecordModal()); const qaBook=document.getElementById('qa-book'); if(qaBook) qaBook.addEventListener('click', ()=> showBookingModal()); const qaConsult=document.getElementById('qa-consult'); if(qaConsult) qaConsult.addEventListener('click', ()=> showConsultModal()); const qaUpload=document.getElementById('qa-upload'); if(qaUpload) qaUpload.addEventListener('click', ()=>{ const fi=document.getElementById('fileInput'); if(fi) fi.click(); }); const composeBtn=document.getElementById('composeBtn'); if(composeBtn) composeBtn.addEventListener('click', ()=> composeMessage()); const reschedBtn=document.getElementById('rescheduleBtn'); if(reschedBtn) reschedBtn.addEventListener('click', ()=> { const appt=(state.appointments&&state.appointments[0]); if(appt) showRescheduleModal(appt); else showToast('No appointment'); }); const joinBtn=document.getElementById('joinNowBtn'); if(joinBtn) joinBtn.addEventListener('click', ()=> { const appt=(state.appointments&&state.appointments[0]); if(appt) showView('appointments'); else showBookingModal(); }); }catch(e){ console.error('ensureBindings failed', e); } }
 
-reactReset.addEventListener('click', ()=>{
-  state.bestReaction = null; saveState(); renderLatest(); bestReactSpan.innerText='-';
-});
+// init
+load(); renderHeroCarousel(); renderMetrics(); renderDoctorsTiles(); renderAppointmentPreview(); renderAppointmentsPanel(); renderRecordsPanel(); renderBilling(); renderMessages(); renderPrescriptions && renderPrescriptions();
 
-/* ============================
-   Mini 1-back (visual letters)
-   ============================ */
-const nbackDisplay = document.getElementById('nbackDisplay');
-const nbackStart = document.getElementById('nbackStart');
-const nbackStop = document.getElementById('nbackStop');
-const nbackResult = document.getElementById('nbackResult');
-let nbackRunning=false, nbackSeq=[], nbackIndex=0, nbackCorrect=0, lastNbackScore=null;
+// lightweight missing functions to avoid errors
+function renderPrescriptions(){ const node = document.getElementById('rxList'); if(!node) return; node.innerHTML=''; const rx = state.prescriptions || []; if(rx.length===0){ node.innerHTML = `<div style="color:var(--muted)">No prescriptions</div>`; return; } rx.forEach(r=>{ const el=document.createElement('div'); el.style.marginBottom='8px'; el.innerHTML = `<div style="font-weight:700">${r.name||r.med||'Prescription'}</div><div style="color:var(--muted);font-size:13px">${r.instructions||''}</div>`; node.appendChild(el); }); }
 
-nbackStart.addEventListener('click', ()=>{
-  if(nbackRunning) return;
-  nbackSeq = []; nbackIndex=0; nbackCorrect=0;
-  nbackRunning = true;
-  nbackResult.innerText = 'Listening...';
-  const letters = 'ABCDEFGH';
-  const rounds = 12;
-  let i=0;
-  function step(){
-    if(!nbackRunning || i>=rounds){ endNback(); return; }
-    const letter = letters[Math.floor(Math.random()*letters.length)];
-    nbackSeq.push(letter);
-    nbackDisplay.innerText = letter;
-    // if i>0, check last
-    if(i>0){
-      // wait for user quick input via prompt (simple approach): user presses space to indicate match
-      // For simplicity: we will auto-evaluate by expecting no user input; instead compute hits randomly is not acceptable.
-      // So we'll simulate a passive 1-back where user clicks when current equals previous by pressing "space".
-    }
-    i++;
-    nbackIndex = i;
-    setTimeout(step, 900);
-  }
-  // capture space press
-  function onKey(e){
-    if(!nbackRunning) return;
-    if(e.code === 'Space'){
-      // check if current equals previous
-      const idx = nbackSeq.length-1;
-      if(idx >=1 && nbackSeq[idx] === nbackSeq[idx-1]) nbackCorrect++;
-    }
-  }
-  window.addEventListener('keydown', onKey);
-  step();
-  // stop handler stores listener
-  nbackStop.onclick = ()=> {
-    nbackRunning=false; window.removeEventListener('keydown', onKey); endNback();
-  };
-});
+function handleFileInput(files){ if(!files || files.length===0) return; state.files = state.files || []; Array.from(files).forEach(f=> state.files.unshift({id:uid(), name:f.name, uploaded:new Date().toISOString()})); saveState(); renderRecordsPanel(); showToast('Files uploaded'); }
 
-function endNback(){
-  nbackRunning=false;
-  const rounds = nbackIndex || 0;
-  lastNbackScore = {correct: nbackCorrect, total: rounds};
-  nbackResult.innerText = `Result: ${lastNbackScore.correct}/${lastNbackScore.total} (press Space when current equals previous)`;
-  nbackDisplay.innerText = 'Done';
-  renderLatest();
-}
+function composeMessage(){ if(document.getElementById('composeModal')) return; const root=document.body; const b=createBackdrop('backdrop_compose'); root.appendChild(b); const m=document.createElement('div'); m.className='modal'; m.id='composeModal'; m.innerHTML = `<h3>Compose Message</h3><div style='margin-top:8px'><input id='msgTo' class='input-field' placeholder='To' /></div><div style='margin-top:8px'><input id='msgSubject' class='input-field' placeholder='Subject' /></div><div style='margin-top:8px'><textarea id='msgBody' class='input-field' style='height:140px'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='sendMsg' class='btn-primary'>Send</button><button id='cancelMsg' class='btn-outline'>Cancel</button></div>`; root.appendChild(m); document.getElementById('cancelMsg').onclick = ()=>{ m.remove(); b.remove(); }; document.getElementById('sendMsg').onclick = ()=>{ const to=document.getElementById('msgTo').value.trim(); const subject=document.getElementById('msgSubject').value.trim(); const body=document.getElementById('msgBody').value.trim(); if(!subject || !body) { showToast('Please add subject and message'); return; } state.messages = state.messages || []; state.messages.unshift({id:uid(), from:state.profile.name||'You', subject, body, time:new Date().toISOString(), read:false}); saveState(); renderMessages(); m.remove(); b.remove(); showToast('Message sent'); }; }
 
-/* ============================
-   Mindful Breathing (visual)
-   ============================ */
-const breathCircle = document.getElementById('breathCircle');
-const breathStart = document.getElementById('breathStart');
-const breathStop = document.getElementById('breathStop');
-const breathStatus = document.getElementById('breathStatus');
-let breathTimer = null;
-let breathPhase = 0; // 0 inhale,1 hold,2 exhale
-let breathCount=0;
-
-breathStart.addEventListener('click', ()=> {
-  if(breathTimer) return;
-  breathStatus.innerText='Starting 60s breathing';
-  breathCount = 0;
-  const totalCycles = 6; // ~10s per cycle = 60s
-  function cycle(){
-    if(breathCount >= totalCycles){ clearInterval(breathTimer); breathTimer=null; breathStatus.innerText='Finished'; breathCircle.style.transform='scale(1)'; return; }
-    // animate: inhale (3s) -> hold (2s) -> exhale (5s)
-    breathStatus.innerText = `Cycle ${breathCount+1} — inhale`;
-    breathCircle.style.transition='transform 3s linear';
-    breathCircle.style.transform='scale(1.2)';
-    setTimeout(()=> {
-      breathStatus.innerText = `Cycle ${breathCount+1} — hold`;
-      breathCircle.style.transition='transform 2s linear';
-      breathCircle.style.transform='scale(1.25)';
-    },3000);
-    setTimeout(()=> {
-      breathStatus.innerText = `Cycle ${breathCount+1} — exhale`;
-      breathCircle.style.transition='transform 5s linear';
-      breathCircle.style.transform='scale(0.85)';
-    },5000);
-    setTimeout(()=> {
-      breathCount++;
-      if(breathCount < totalCycles) cycle();
-      else { breathStatus.innerText='Finished'; breathCircle.style.transform='scale(1)'; breathTimer=null; }
-    },10000);
-  }
-  cycle();
-});
-
-breathStop.addEventListener('click', ()=> {
-  if(breathTimer){ clearInterval(breathTimer); breathTimer=null; }
-  breathStatus.innerText='Stopped';
-  breathCircle.style.transform='scale(1)';
-});
-
-/* ============================
-   EEG CSV upload & simple plot
-   ============================ */
-const eegFile = document.getElementById('eegFile');
-const eegCanvas = document.getElementById('eegCanvas');
-let eegChart = null;
-
-eegFile.addEventListener('change', (ev)=>{
-  const f = ev.target.files[0];
-  if(!f) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    const text = reader.result;
-    const rows = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
-    const parsed = [];
-    for(const r of rows){
-      const parts = r.split(',').map(p=>p.trim());
-      if(parts.length<2) continue;
-      const t = parseFloat(parts[0]), v = parseFloat(parts[1]);
-      if(!isNaN(t) && !isNaN(v)) parsed.push({t,v});
-    }
-    if(parsed.length===0){ alert('No numeric data found. Expect CSV: time,amplitude'); return; }
-    plotEEG(parsed);
-  };
-  reader.readAsText(f);
-});
-
-function plotEEG(parsed){
-  const labels = parsed.map(p=>p.t);
-  const values = parsed.map(p=>p.v);
-  if(eegChart) eegChart.destroy();
-  eegChart = new Chart(eegCanvas.getContext('2d'), {
-    type:'line',
-    data:{labels, datasets:[{label:'EEG amplitude', data:values, borderColor:'#4f46e5', tension:0.2, pointRadius:0}]},
-    options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{color:'#9ca3af'}},x:{ticks:{color:'#9ca3af'}}},plugins:{legend:{display:false}}}
-  });
-}
-
-/* ============================
-   PDF export (honest)
-   ============================ */
-const pdfBtn = document.getElementById('pdfBtn');
-pdfBtn.addEventListener('click', async ()=>{
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({unit:'pt',format:'a4'});
-  let y=40; const margin=40;
-  doc.setFontSize(18); doc.text('NEUROASSESS PRO — Honest Report', margin, y); y+=26;
-  doc.setFontSize(10); doc.text('Note: All values in this report are derived only from user entries and game interactions. No simulated or prefilled scores.', margin, y); y+=18;
-  doc.setFontSize(12);
-  if(state.entries.length===0) { doc.text('No logged entries.', margin, y); doc.save('neuroassess_report.pdf'); return; }
-  const latest = state.entries[state.entries.length-1];
-  y+=6;
-  doc.text(`Latest entry timestamp: ${latest.datetime}`, margin, y); y+=14;
-  doc.text(`Mood: ${latest.mood} | Sleep: ${latest.sleep} | Memory clarity: ${latest.memoryClarity} | Focus: ${latest.focus}`, margin, y); y+=18;
-  doc.text('Game results (last):', margin, y); y+=12;
-  doc.text(`Sequence: ${latest.games.sequence ? JSON.stringify(latest.games.sequence) : '-'}`, margin, y); y+=12;
-  doc.text(`Word recall: ${latest.games.wordRecall ? (latest.games.wordRecall.correct + '/' + latest.games.wordRecall.total) : '-'}`, margin, y); y+=12;
-  doc.text(`Reaction best (ms): ${latest.games.reactionBest || '-'}`, margin, y); y+=12;
-  doc.text(`1-back: ${latest.games.nback ? (latest.games.nback.correct + '/' + latest.games.nback.total) : '-'}`, margin, y); y+=18;
-  doc.text('Trend summary (last entries):', margin, y); y+=12;
-  // simple averages
-  const n = state.entries.length;
-  const avgMem = (state.entries.reduce((a,b)=>a+(b.memoryClarity||0),0)/n).toFixed(2);
-  const avgFocus = (state.entries.reduce((a,b)=>a+(b.focus||0),0)/n).toFixed(2);
-  doc.text(`Avg memory clarity (all entries): ${avgMem}`, margin, y); y+=12;
-  doc.text(`Avg focus (all entries): ${avgFocus}`, margin, y); y+=18;
-  doc.save('neuroassess_report.pdf');
-});
-
-/* ============================
-   Helper rendering
-   ============================ */
-function updateLastScores(){
-  document.getElementById('lastMemory').innerText = lastWordScore ? `${lastWordScore.correct}/${lastWordScore.total}` : '-';
-  document.getElementById('lastReact').innerText = state.bestReaction || '-';
-}
-updateLastScores();
-
-/* Utility to compute simple weekly averages (truthful) */
-function computeWeeklyAverages(){
-  const arr = state.entries.slice(-7);
-  if(arr.length===0) return null;
-  const avg = {
-    memoryClarity: (arr.reduce((a,b)=>a+(b.memoryClarity||0),0)/arr.length).toFixed(2),
-    focus: (arr.reduce((a,b)=>a+(b.focus||0),0)/arr.length).toFixed(2),
-    mood: (arr.reduce((a,b)=>a+(b.mood||0),0)/arr.length).toFixed(2)
-  };
-  return avg;
-}
-
-/* ============================
-   Misc helpers & bindings
-   ============================ */
-// New session: simply starts fresh participant identity (local only)
-document.getElementById('newBtn').addEventListener('click', ()=>{
-  if(!confirm('Start a new local session? This will not erase existing saved entries but will clear inputs.')) return;
-  dateInput.valueAsDate = new Date();
-  timeInput.value = new Date().toTimeString().slice(0,5);
-  moodInput.value=''; sleepInput.value=''; memClarityInput.value=''; focusInput.value=''; notesInput.value='';
-});
-
-// save state on window unload
-window.addEventListener('beforeunload', ()=> saveState());
-
-/* update render functions that change frequently */
-function renderLatest(){ // refresh UI touches affected by games/state
-  // latest entry text
-  if(state.entries.length===0) latestEntry.innerText='No data yet';
-  else latestEntry.innerText = state.entries[state.entries.length-1].datetime + ' • mood ' + (state.entries[state.entries.length-1].mood||'-');
-  updateLastScores();
-  renderTrend();
-}
-
-/* ensure state saved after key interactions */
-setInterval(()=> saveState(), 5000);
-
-/* load saved best reaction */
-loadState();
-document.getElementById('bestReact').innerText = state.bestReaction || '-';
-renderLatest();
-renderTrend();
-
+//
+// cleanup any stray modal/backdrop from previous broken state that can block UI
+try{ document.querySelectorAll('.backdrop-fixed').forEach(el=> el.remove()); document.querySelectorAll('.modal').forEach(el=>{ if(el.id && el.id==='paymentModal'){ el.style.display='none'; } else { el.remove(); } }); }catch(e){ console.warn('cleanup failed', e); }
+// expose core functions as globals for inline onclicks
+try{ window.showSection = showSection; window.showView = showView; window.showBookingModal = showBookingModal; window.showConsultModal = showConsultModal; window.showToast = showToast; window.openNewRecordModal = openNewRecordModal; window.showBookingModalWithDoctor = showBookingModalWithDoctor; window.composeMessage = composeMessage; window.handleFileInput = handleFileInput; window.renderPrescriptions = renderPrescriptions; }catch(e){}
+ensureBindings(); try{ showView('home'); showSection('overview'); }catch(e){ console.error('init failed', e); }
 </script>
 </body>
 </html>
