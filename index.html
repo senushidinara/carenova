@@ -232,7 +232,11 @@ function showToast(msg, t=2000){ const c = document.getElementById('toastRoot') 
 
 // Simple renderers
 const HERO_ASSETS = [
-  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fa6a0ecace4204a3f8ba6076b62c0c063?format=webp&width=1200'
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fa6a0ecace4204a3f8ba6076b62c0c063?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fabf33e4dccdb4e26baa183604ef7c510?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F5b3c6344f3f6425da0bee3a5fff93cdf?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fd5860eca956b4f0c9c2ca8f1ab8838c6?format=webp&width=1200',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Fe3d58ee5b2e840129aa830c122064ea7?format=webp&width=1200'
 ];
 function renderHeroCarousel(){ const hero = document.getElementById('heroCarousel'); if(!hero) return; hero.innerHTML=''; const fallback = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420"><rect width="100%" height="100%" fill="%23eef4ff"/><text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" font-family="Arial" font-size="28" fill="%23919">Virtual HealthCare</text></svg>';
   HERO_ASSETS.forEach((src,i)=>{ const img=document.createElement('img'); img.src = src; img.className='hero-slide'+(i===0?' visible':''); img.style.objectPosition='50% 50%'; img.alt='hero'; img.onerror = ()=>{ img.src = fallback; }; hero.appendChild(img); });
