@@ -339,57 +339,176 @@ function showRescheduleModal(appt){ if(!appt) return; const root=document.body; 
 
 // Records
 function renderRecordsPanel(){ const container = document.getElementById('fileList'); if(!container) return; container.innerHTML = '';
-  // patient details form
-  state.patient = state.patient || { name: state.profile.name || '', email:'', phone:'', age:'', weight:'', height:'', bmi:'', conditions:'', allergies:'', other:'' , emergency:{name:'',phone:'',relation:''} };
-  const form = document.createElement('div'); form.className='panel patient-form'; form.innerHTML = `
-    <h4 style='margin:0 0 8px 0'>Patient Details</h4>
-    <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'>
-      <input id='pt_name' class='input-field' placeholder='Full name' value='${escapeHtml(state.patient.name||'')}' />
-      <input id='pt_email' class='input-field' placeholder='Email' value='${escapeHtml(state.patient.email||'')}' />
-      <input id='pt_phone' class='input-field' placeholder='Phone' value='${escapeHtml(state.patient.phone||'')}' />
-      <input id='pt_age' class='input-field' placeholder='Age' value='${escapeHtml(state.patient.age||'')}' />
-      <input id='pt_weight' class='input-field' placeholder='Weight (kg)' value='${escapeHtml(state.patient.weight||'')}' />
-      <input id='pt_height' class='input-field' placeholder='Height (cm)' value='${escapeHtml(state.patient.height||'')}' />
-      <input id='pt_bmi' class='input-field' placeholder='BMI' value='${escapeHtml(state.patient.bmi||'')}' />
+  // ensure patient object
+  state.patient = state.patient || { name: state.profile.name || '', email:'', phone:'', dob:'', age:'', weight:'', height:'', bmi:'', gender:'', bloodType:'O+', conditions:[], allergies:[], surgeries:[], medications:'', lifestyle:{smoking:false,alcohol:false,exercise:'None',diet:'Omnivore'}, family:{parents:[],siblings:[]}, insurance:'None', primaryPhysician:'', other:'' , emergency:{name:'',phone:'',relation:''} };
+
+  const html = `
+    <div class='patient-grid'>
+      <div class='section-card'>
+        <div class='section-title'>Personal Details</div>
+        <div class='stat-grid' style='margin-bottom:12px'>
+          <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.age||'—')}</div><div class='small-muted'>Age</div></div>
+          <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.bmi||'—')}</div><div class='small-muted'>BMI</div></div>
+          <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.weight||'—')}</div><div class='small-muted'>Weight</div></div>
+        </div>
+
+        <div class='form-row'>
+          <label class='small-muted'>Full name</label>
+          <input id='pt_name' class='input-field' value='${escapeHtml(state.patient.name||'')}' />
+        </div>
+        <div class='form-row' style='margin-top:8px'>
+          <label class='small-muted'>Date of birth</label>
+          <input id='pt_dob' type='date' class='input-field' value='${escapeHtml(state.patient.dob||'')}' />
+        </div>
+        <div style='margin-top:8px'>
+          <label class='small-muted'>Gender</label>
+          <div class='choice-grid' id='genderChoices'>
+            <div class='chip ${state.patient.gender==='Male'?'selected':''}' data-value='Male'>Male</div>
+            <div class='chip ${state.patient.gender==='Female'?'selected':''}' data-value='Female'>Female</div>
+            <div class='chip ${state.patient.gender==='Other'?'selected':''}' data-value='Other'>Other</div>
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Blood type</label>
+          <div class='choice-grid' id='bloodChoices'>
+            ${['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(bt=>`<div class='chip ${state.patient.bloodType===bt?'selected':''}' data-value='${bt}'>${bt}</div>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Height</label>
+          <div class='choice-grid' id='heightChoices'>
+            ${['<150','150-160','161-170','171-180','>180'].map(h=>`<div class='chip ${state.patient.height===h?'selected':''}' data-value='${h}'>${h.replace('-','–')} cm</div>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Weight</label>
+          <div class='choice-grid' id='weightChoices'>
+            ${['<50','50-60','61-70','71-80','>80'].map(w=>`<div class='chip ${state.patient.weight===w?'selected':''}' data-value='${w}'>${w.replace('-','–')} kg</div>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='small-muted'>Current Medications</label>
+          <input id='pt_medications' class='input-field' value='${escapeHtml(state.patient.medications||'')}' />
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Medical History</label>
+          <div class='choice-grid' id='chronicChoices'>
+            ${['Diabetes','Hypertension','Asthma','Heart Disease','None'].map(c=>`<label class='checkbox-label'><input type='checkbox' value='${c}' ${ (state.patient.conditions||[]).includes(c)?'checked':'' } /> ${c}</label>`).join('')}
+          </div>
+
+          <div style='margin-top:10px'>
+            <div class='small-muted'>Past surgeries</div>
+            <div class='choice-grid' id='surgeryChoices'>${['Appendectomy','Tonsillectomy','Other','None'].map(s=>`<label class='checkbox-label'><input type='checkbox' value='${s}' ${ (state.patient.surgeries||[]).includes(s)?'checked':'' } /> ${s}</label>`).join('')}</div>
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Allergies</label>
+          <div class='choice-grid' id='allergyChoices'>
+            ${['Penicillin','Sulfa Drugs','NSAIDs','Nuts','Dairy','Gluten','Seafood','Pollen','Dust','Animal Dander','None'].map(a=>`<label class='checkbox-label'><input type='checkbox' value='${a}' ${ (state.patient.allergies||[]).includes(a)?'checked':'' } /> ${a}</label>`).join('')}
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Lifestyle & Habits</label>
+          <div class='choice-grid'>
+            <div class='toggle-btn ${state.patient.lifestyle && state.patient.lifestyle.smoking? 'active':''}' id='smokingToggle'>Smoking</div>
+            <div class='toggle-btn ${state.patient.lifestyle && state.patient.lifestyle.alcohol? 'active':''}' id='alcoholToggle'>Alcohol</div>
+            <div class='choice-grid' id='exerciseChoices'>${['Daily','2-3x/week','Rarely','None'].map(e=>`<div class='chip ${state.patient.lifestyle && state.patient.lifestyle.exercise===e? 'selected':''}' data-value='${e}'>${e}</div>`).join('')}</div>
+            <div style='margin-top:8px'>Diet: <div class='choice-grid' id='dietChoices'>${['Vegetarian','Vegan','Omnivore','Other'].map(d=>`<div class='chip ${state.patient.lifestyle && state.patient.lifestyle.diet===d? 'selected':''}' data-value='${d}'>${d}</div>`).join('')}</div></div>
+          </div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Doctor & Insurance</label>
+          <select id='primaryPhysician' class='input-field'>
+            <option value=''>Select primary physician</option>
+          </select>
+          <div style='margin-top:8px' class='choice-grid' id='insuranceChoices'>${['Provider A','Provider B','Provider C','None'].map(i=>`<div class='chip ${state.patient.insurance===i? 'selected':''}' data-value='${i}'>${i}</div>`).join('')}</div>
+        </div>
+
+        <div style='margin-top:12px'>
+          <label class='section-title'>Notes / Recent Symptoms</label>
+          <textarea id='pt_other' class='input-field'>${escapeHtml(state.patient.other||'')}</textarea>
+        </div>
+
+        <div style='margin-top:12px;display:flex;gap:8px'>
+          <button id='savePatient' class='btn-primary'>Save</button>
+          <button id='cancelPatient' class='btn-outline'>Reset</button>
+        </div>
+      </div>
+
+      <div>
+        <div class='section-card'>
+          <div class='section-title'>Summary & Insights</div>
+          <div class='stat-grid' style='margin-bottom:12px'>
+            <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.age||'—')}</div><div class='small-muted'>Age</div></div>
+            <div class='stat-card'><div style='font-weight:700'>${escapeHtml(state.patient.bmi||'—')}</div><div class='small-muted'>BMI</div></div>
+          </div>
+          <div id='riskAlertPlaceholder'></div>
+          <div style='margin-top:12px'>
+            <div class='small-muted'>Uploaded Files</div>
+            <div id='recordsFilesList'></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div style='margin-top:8px'><textarea id='pt_conditions' class='input-field' placeholder='Medical conditions'>${escapeHtml(state.patient.conditions||'')}</textarea></div>
-    <div style='margin-top:8px'><textarea id='pt_allergies' class='input-field' placeholder='Allergies'>${escapeHtml(state.patient.allergies||'')}</textarea></div>
-    <div style='margin-top:8px'><textarea id='pt_other' class='input-field' placeholder='Other notes'>${escapeHtml(state.patient.other||'')}</textarea></div>
-    <h4 style='margin-top:12px;margin-bottom:8px'>Emergency Contact</h4>
-    <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'>
-      <input id='em_name' class='input-field' placeholder='Contact name' value='${escapeHtml((state.patient.emergency&&state.patient.emergency.name)||'')}' />
-      <input id='em_phone' class='input-field' placeholder='Contact phone' value='${escapeHtml((state.patient.emergency&&state.patient.emergency.phone)||'')}' />
-      <input id='em_relation' class='input-field' placeholder='Relation' value='${escapeHtml((state.patient.emergency&&state.patient.emergency.relation)||'')}' />
-    </div>
-    <div style='margin-top:12px;display:flex;gap:8px'><button id='savePatient' class='btn-primary'>Save Patient</button><button id='cancelPatient' class='btn-outline'>Reset</button></div>
   `;
-  container.appendChild(form);
-  // existing files list
-  const filesHeader = document.createElement('div'); filesHeader.style.marginTop = '12px'; filesHeader.innerHTML = `<h4 style='margin:0 0 8px 0'>Uploaded Files</h4>`; container.appendChild(filesHeader);
-  const files = state.files || [];
-  const list = document.createElement('div'); list.className='file-list'; if(files.length===0){ list.innerHTML = `<div style='color:var(--muted)'>No medical records uploaded</div>`; } else { files.forEach(f=>{ const row = document.createElement('div'); row.style.marginBottom='8px'; row.innerHTML = `<div style='font-weight:700'>${escapeHtml(f.name)}</div><div style='color:var(--muted);font-size:12px'>${new Date(f.uploaded).toLocaleString()}</div>`; list.appendChild(row); }); }
-  container.appendChild(list);
-  // handlers
+
+  const wrapper = document.createElement('div'); wrapper.innerHTML = html; container.appendChild(wrapper);
+
+  // populate physician select from visible doctors
   setTimeout(()=>{
-    const save = document.getElementById('savePatient'); if(save) save.onclick = ()=>{
-      state.patient.name = document.getElementById('pt_name').value.trim();
-      state.patient.email = document.getElementById('pt_email').value.trim();
-      state.patient.phone = document.getElementById('pt_phone').value.trim();
-      state.patient.age = document.getElementById('pt_age').value.trim();
-      state.patient.weight = document.getElementById('pt_weight').value.trim();
-      state.patient.height = document.getElementById('pt_height').value.trim();
-      state.patient.bmi = document.getElementById('pt_bmi').value.trim();
-      state.patient.conditions = document.getElementById('pt_conditions').value.trim();
-      state.patient.allergies = document.getElementById('pt_allergies').value.trim();
-      state.patient.other = document.getElementById('pt_other').value.trim();
-      state.patient.emergency = { name:document.getElementById('em_name').value.trim(), phone:document.getElementById('em_phone').value.trim(), relation:document.getElementById('em_relation').value.trim() };
-      saveState(); renderRecordsPanel(); showToast('Patient saved');
-    };
-    const cancel = document.getElementById('cancelPatient'); if(cancel) cancel.onclick = ()=>{
-      state.patient = { name:'', email:'', phone:'', age:'', weight:'', height:'', bmi:'', conditions:'', allergies:'', other:'', emergency:{name:'',phone:'',relation:''} };
-      saveState(); renderRecordsPanel(); showToast('Reset');
-    };
+    const sel = document.getElementById('primaryPhysician'); if(sel){ sel.innerHTML = "<option value=''>Select primary physician</option>"; document.querySelectorAll('.doctor-meta .doctor-name').forEach(dn=>{ const opt = document.createElement('option'); opt.value = dn.innerText; opt.text = dn.innerText; if(state.patient.primaryPhysician===dn.innerText) opt.selected=true; sel.appendChild(opt); }); }
+
+    // wiring chips
+    function wireChips(containerId, field){ const node = document.getElementById(containerId); if(!node) return; node.querySelectorAll('.chip').forEach(ch=> ch.addEventListener('click', ()=>{ const val = ch.dataset.value; // toggle selection single
+      node.querySelectorAll('.chip').forEach(c=> c.classList.toggle('selected', c===ch)); state.patient[field]=val; saveState(); renderRecordsPanel(); })); }
+    wireChips('genderChoices','gender'); wireChips('bloodChoices','bloodType'); wireChips('heightChoices','height'); wireChips('weightChoices','weight'); wireChips('exerciseChoices','lifestyle.exercise'); wireChips('dietChoices','lifestyle.diet');
+
+    // checkbox groups
+    function wireCheckboxes(containerId, field){ const node = document.getElementById(containerId); if(!node) return; node.querySelectorAll('input[type=checkbox]').forEach(cb=> cb.addEventListener('change', ()=>{ const vals = Array.from(node.querySelectorAll('input[type=checkbox]:checked')).map(i=> i.value); state.patient[field]=vals; saveState(); renderRecordsPanel(); })); }
+    wireCheckboxes('chronicChoices','conditions'); wireCheckboxes('surgeryChoices','surgeries'); wireCheckboxes('allergyChoices','allergies');
+
+    // toggles
+    const smoking = document.getElementById('smokingToggle'); if(smoking) smoking.addEventListener('click', ()=>{ const active = smoking.classList.toggle('active'); state.patient.lifestyle = state.patient.lifestyle || {}; state.patient.lifestyle.smoking = active; saveState(); renderRecordsPanel(); });
+    const alcohol = document.getElementById('alcoholToggle'); if(alcohol) alcohol.addEventListener('click', ()=>{ const active = alcohol.classList.toggle('active'); state.patient.lifestyle = state.patient.lifestyle || {}; state.patient.lifestyle.alcohol = active; saveState(); renderRecordsPanel(); });
+
+    // inputs
+    const inputs = ['pt_name','pt_dob','pt_medications','pt_other']; inputs.forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('change', ()=>{ state.patient[id.replace('pt_','')] = el.value; if(id==='pt_dob'){ // recalc age
+        const dob = new Date(el.value); if(!isNaN(dob)) state.patient.age = Math.max(0, new Date().getFullYear() - dob.getFullYear()); }
+      saveState(); renderRecordsPanel(); }); });
+
+    // numeric inputs for height/weight to compute BMI if numbers present
+    const hEl = document.getElementById('pt_height'); const wEl = document.getElementById('pt_weight'); if(hEl) hEl.addEventListener('change', ()=>{ state.patient.height = hEl.value; computeBMI(); saveState(); renderRecordsPanel(); }); if(wEl) wEl.addEventListener('change', ()=>{ state.patient.weight = wEl.value; computeBMI(); saveState(); renderRecordsPanel(); });
+
+    function computeBMI(){ const h = parseFloat((document.getElementById('pt_height')||{value:''}).value); const w = parseFloat((document.getElementById('pt_weight')||{value:''}).value); if(h && w){ // height in cm
+      const m = h/100; const bmi = (w/(m*m)); state.patient.bmi = Math.round(bmi*10)/10; } }
+
+    // physician select
+    const phys = document.getElementById('primaryPhysician'); if(phys) phys.addEventListener('change', ()=>{ state.patient.primaryPhysician = phys.value; saveState(); renderRecordsPanel(); });
+
+    // insurance chips
+    document.getElementById('insuranceChoices') && document.getElementById('insuranceChoices').querySelectorAll('.chip').forEach(ch=> ch.addEventListener('click', ()=>{ document.getElementById('insuranceChoices').querySelectorAll('.chip').forEach(c=> c.classList.toggle('selected', c===ch)); state.patient.insurance = ch.dataset.value; saveState(); renderRecordsPanel(); }));
+
+    // save/reset
+    const saveBtn = document.getElementById('savePatient'); if(saveBtn) saveBtn.onclick = ()=>{ // gather small inputs
+      state.patient.name = (document.getElementById('pt_name')||{value:''}).value.trim(); state.patient.dob = (document.getElementById('pt_dob')||{value:''}).value; state.patient.medications = (document.getElementById('pt_medications')||{value:''}).value.trim(); state.patient.other = (document.getElementById('pt_other')||{value:''}).value.trim(); state.patient.emergency = state.patient.emergency || {}; state.patient.emergency.name = (document.getElementById('em_name')||{value:''}).value.trim(); state.patient.emergency.phone = (document.getElementById('em_phone')||{value:''}).value.trim(); state.patient.emergency.relation = (document.getElementById('em_relation')||{value:''}).value.trim(); saveState(); showToast('Patient saved'); renderRecordsPanel(); };
+    const cancelBtn = document.getElementById('cancelPatient'); if(cancelBtn) cancelBtn.onclick = ()=>{ state.patient = { name:'', email:'', phone:'', dob:'', age:'', weight:'', height:'', bmi:'', gender:'', bloodType:'O+', conditions:[], allergies:[], surgeries:[], medications:'', lifestyle:{smoking:false,alcohol:false,exercise:'None',diet:'Omnivore'}, family:{parents:[],siblings:[]}, insurance:'None', primaryPhysician:'', other:'', emergency:{name:'',phone:'',relation:''} }; saveState(); renderRecordsPanel(); showToast('Reset'); };
+
+    // populate uploaded files
+    const filesList = document.getElementById('recordsFilesList'); if(filesList){ const files = state.files || []; filesList.innerHTML=''; if(files.length===0) filesList.innerHTML = `<div class='small-muted'>No files uploaded</div>`; else files.forEach(f=>{ const r = document.createElement('div'); r.className='section-card'; r.style.marginBottom='8px'; r.innerHTML = `<div style='font-weight:700'>${escapeHtml(f.name)}</div><div class='small-muted'>${new Date(f.uploaded).toLocaleString()}</div>`; filesList.appendChild(r); }); }
+
+    // risk alerts
+    const riskHolder = document.getElementById('riskAlertPlaceholder'); if(riskHolder){ const risky = (state.patient.conditions||[]).some(c=> ['Diabetes','Heart Disease'].includes(c)) || (state.patient.allergies||[]).some(a=> ['Penicillin','Seafood'].includes(a)); if(risky) riskHolder.innerHTML = `<div class='risk-alert'>Risk alert: review chronic conditions or allergies with your doctor</div>`; else riskHolder.innerHTML=''; }
+
   },50);
+
 }
 
 // helper to escape simple html
