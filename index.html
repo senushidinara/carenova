@@ -244,9 +244,16 @@ function renderHeroCarousel(){ const hero = document.getElementById('heroCarouse
   const pager = document.createElement('div'); pager.className='hero-pager'; hero.appendChild(pager);
 }
 
+const DOCTOR_ASSETS = [
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F382489ed7db948a7bde3fa337212b435?format=webp&width=400',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2F25ef9274ba4d4fe98a499ac831aad674?format=webp&width=400',
+  'https://cdn.builder.io/api/v1/image/assets%2Fcc8773f43a5c46e1986e144b83b3dcd4%2Feaf8d2697eeb40f7960fd0fc1f3c6e60?format=webp&width=400'
+];
 function renderDoctorsTiles(){ const list=document.getElementById('doctorsList'); if(!list) return; list.innerHTML=''; const docs = [
-  {name:'Dr. Maya Chen', spec:'General'}, {name:'Dr. Arjun Patel', spec:'Pediatrics'}, {name:'Dr. Leila Gomez', spec:'Psychiatry'}
-]; docs.forEach(d=>{ const row = document.createElement('div'); row.className='doctor-row'; row.innerHTML = `<div class="doctor-avatar"><div style="width:100%;height:100%;background:#eef4ff;border-radius:8px;display:flex;align-items:center;justify-content:center">👩‍⚕️</div></div><div class="doctor-meta"><div class="doctor-name">${d.name}</div><div class="doctor-special">${d.spec}</div></div><div><button class="btn-outline" data-doc="${d.name}">Book</button></div>`; list.appendChild(row); row.querySelector('button[data-doc]').addEventListener('click', ()=> showBookingModalWithDoctor(d.name)); }); }
+  {name:'Dr. Maya Chen', spec:'General', img:DOCTOR_ASSETS[0]},
+  {name:'Dr. Arjun Patel', spec:'Pediatrics', img:DOCTOR_ASSETS[1]},
+  {name:'Dr. Leila Gomez', spec:'Psychiatry', img:DOCTOR_ASSETS[2]}
+]; docs.forEach((d, idx)=>{ const row = document.createElement('div'); row.className='doctor-row'; const safeName = String(d.name).replace(/'/g,"\'"); row.innerHTML = `<div class="doctor-avatar"><img src="${d.img}" alt="${safeName}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\'><rect width=\'100%\' height=\'100%\' fill=\'%23eef4ff\'/><text x=\'50%\' y=\'50%\' alignment-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'18\' fill=\'%239192a6\'>Dr</text></svg>'"/></div><div class="doctor-meta"><div class="doctor-name">${safeName}</div><div class="doctor-special">${d.spec}</div></div><div><button class="btn-outline" data-doc="${safeName}">Book</button></div>`; list.appendChild(row); const btn = row.querySelector('button[data-doc]'); if(btn) btn.addEventListener('click', ()=> showBookingModalWithDoctor(d.name)); }); }
 
 function renderMetrics(){ const node = document.getElementById('metrics'); if(!node) return; node.innerHTML=''; const metrics=[{label:'Sleep',val:'7.5h'},{label:'Stress',val:'Low'},{label:'Meds',val:'On track'}]; metrics.forEach(m=>{ const el=document.createElement('div'); el.style.flex='1'; el.innerHTML = `<div style='font-weight:700'>${m.val}</div><div style='color:var(--muted)'>${m.label}</div>`; node.appendChild(el); }); }
 
