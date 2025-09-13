@@ -401,13 +401,14 @@ function showSection(section){ console.log('showSection called with', section); 
 
   // update hero title/subtitle and hero image per section for distinct feel
   const titleEl = document.querySelector('.hero-title'); const subEl = document.querySelector('.hero-sub');
-  const mapping = { overview: {title:`Welcome back, ${state.profile.name||'Matilda'}`, sub:'Your care team and upcoming consults are below.', hero:0 },
+  const mapping = { overview: {title:`Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`, sub:'Your care team and upcoming consults are below.', hero:0 },
                     messages: {title:'Messages', sub:'Secure messages with your care team — open or compose a new message.', hero:1 },
                     prescriptions: {title:'Prescriptions', sub:'View and request refills for your active medications.', hero:2 },
                     billing: {title:'Billing', sub:'View invoices and pay securely.', hero:3 },
                     help: {title:'Help & Support', sub:'Find guides or contact our support team.', hero:4 } };
-  const cfg = mapping[section] || mapping.overview; if(titleEl) titleEl.innerText = cfg.title; if(subEl) subEl.innerText = cfg.sub; setHero(cfg.hero);
-  // show related panel and render content
+  const cfg = mapping[section] || mapping.overview; if(titleEl) titleEl.innerHTML = cfg.title; if(subEl) subEl.innerText = cfg.sub; setHero(cfg.hero);
+  // ensure overview renders required panels and data
+  if(section==='overview'){ try{ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); }catch(e){ console.error('render overview parts failed', e); }
   const actionPanelEl = document.getElementById('actionPanel'); if(actionPanelEl) actionPanelEl.style.display = (section==='overview' || section==='messages' || section==='prescriptions' || section==='records') ? 'block' : 'none';
   // customize action panel per section
   if(actionPanelEl){ if(section==='overview'){ actionPanelEl.innerHTML = `<h3>Quick Actions</h3><div class='quick-actions'><div class='quick-action' id='qa-book'><i class='fa fa-calendar-plus'></i><div>Book</div></div><div class='quick-action' id='qa-consult'><i class='fa fa-video'></i><div>Consult</div></div><div class='quick-action' id='qa-upload'><i class='fa fa-file-medical'></i><div>Upload</div></div><div class='quick-action' id='qa-sos'><i class='fa fa-phone'></i><div>SOS</div></div></div>`; renderQuickButtons(); }
