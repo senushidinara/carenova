@@ -344,7 +344,7 @@ function showBookingModal(){ if(document.getElementById('bookingModal')) return;
   const modal = document.createElement('div'); modal.className='modal'; modal.id='bookingModal'; modal.innerHTML = `<h3>New Booking</h3><div style='margin-top:8px'><label class='label'>Name</label><input id='bkName' value='${state.profile.name || 'Matilda'}' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Doctor</label><input id='bkDoc' value='Dr. Maya Chen' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Date & time</label><input id='bkWhen' type='datetime-local' class='input-field' value='${new Date(Date.now()+3600000).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='bkSave' class='btn-primary'>Book</button><button id='bkCancel' class='btn-outline'>Cancel</button></div>`;
   root.appendChild(modal);
   const cancelBtn = document.getElementById('bkCancel'); if(cancelBtn) cancelBtn.addEventListener('click', ()=>{ modal.remove(); backdrop.remove(); });
-  const saveBtn = document.getElementById('bkSave'); if(saveBtn) saveBtn.addEventListener('click', ()=>{ const name=document.getElementById('bkName') && document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc') && document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen') && document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); saveState(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); renderAppointmentsPanel(); showToast('Booked — please pay to confirm'); });
+  const saveBtn = document.getElementById('bkSave'); if(saveBtn) saveBtn.addEventListener('click', ()=>{ const name=document.getElementById('bkName') && document.getElementById('bkName').value.trim(); const doc=document.getElementById('bkDoc') && document.getElementById('bkDoc').value.trim(); const when=document.getElementById('bkWhen') && document.getElementById('bkWhen').value; if(!when || !doc){ showToast('Please complete booking fields'); return; } const appt={id:uid(),doctorName:doc,when:new Date(when).toISOString(),amount:25}; state.appointments.unshift(appt); saveState(); modal.remove(); backdrop.remove(); renderAppointmentPreview(); renderAppointmentsPanel(); showToast('Booked �� please pay to confirm'); });
 }
 // helper to prefill doctor
 function showBookingModalWithDoctor(name){ try{ showBookingModal(); setTimeout(()=>{ const input = document.getElementById('bkDoc'); if(input) input.value = name; },50); }catch(err){ console.error('showBookingModalWithDoctor error', err); } }
@@ -386,71 +386,41 @@ function setHero(i){ const hero=document.getElementById('heroCarousel'); if(!her
 function changeHero(delta){ const idx = getCurrentHeroIndex(); const next = (idx + delta + HERO_ASSETS.length) % HERO_ASSETS.length; setHero(next); }
 
 // show section (secondary tabs)
-function showSection(section){ console.log('showSection called with', section); try{
-  // set active tab
-  document.querySelectorAll('.secondary-tabs .tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.section===section));
-  // hide panels safely
-  const panels = ['messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel','homePanel']; panels.forEach(p=>{ const el = document.getElementById(p); if(el) el.style.display='none'; });
+function showSection(section){
+  // simplified, defensive section switch to avoid dynamic re-render bugs
+  try{
+    console.log('showSection called with', section);
+    const tabs = document.querySelectorAll('.secondary-tabs .tab-btn'); tabs.forEach(b=> b.classList.toggle('active', b.dataset.section===section));
 
-  // per-section theme (accent colors and hero)
-  const THEMES = {
-    overview: {accent:'var(--accent)',accent2:'var(--accent-2)',hero:0},
-    messages: {accent:'#0bb5a6',accent2:'#06a58a',hero:1},
-    prescriptions: {accent:'#0b8f3b',accent2:'#2fc26b',hero:2},
-    billing: {accent:'#ff7a3d',accent2:'#ff4d6d',hero:3},
-    help: {accent:'#6c6f76',accent2:'#bdbfc4',hero:4}
-  };
-  const cfgTheme = THEMES[section] || THEMES.overview;
-  try{ document.documentElement.style.setProperty('--accent', cfgTheme.accent); document.documentElement.style.setProperty('--accent-2', cfgTheme.accent2);}catch(e){}
+    // hide all panels
+    const panels = ['homePanel','messagesPanel','prescriptionsPanel','recordsPanel','appointmentsPanel'];
+    panels.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
 
-  // update hero title/subtitle and hero image per section for distinct feel
-  const titleEl = document.querySelector('.hero-title'); const subEl = document.querySelector('.hero-sub');
-  const mapping = {
-    overview: {title:`Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`, sub:'Your care team and upcoming consults are below.', hero:0 },
-    messages: {title:'Messages', sub:'Secure messages with your care team — open or compose a new message.', hero:1 },
-    prescriptions: {title:'Prescriptions', sub:'View and request refills for your active medications.', hero:2 },
-    billing: {title:'Billing', sub:'View invoices and pay securely.', hero:3 },
-    help: {title:'Help & Support', sub:'Find guides or contact our support team.', hero:4 }
-  };
-  const cfg = mapping[section] || mapping.overview;
-  if(titleEl) titleEl.innerHTML = cfg.title;
-  if(subEl) subEl.innerText = cfg.sub;
-  try{ setHero(cfg.hero); }catch(e){ console.error('setHero failed', e); }
+    // mapping
+    const map = {
+      overview: {panel:'homePanel', hero:0, title:`Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`, sub:'Your care team and upcoming consults are below.'},
+      messages: {panel:'messagesPanel', hero:1, title:'Messages', sub:'Secure messages with your care team — open or compose a new message.'},
+      prescriptions: {panel:'prescriptionsPanel', hero:2, title:'Prescriptions', sub:'View and request refills for your active medications.'},
+      billing: {panel:'recordsPanel', hero:3, title:'Billing', sub:'View invoices and pay securely.'},
+      help: {panel:'recordsPanel', hero:4, title:'Help & Support', sub:'Find guides or contact our support team.'}
+    };
+    const cfg = map[section] || map.overview;
 
-  // ensure overview renders required panels and data
-  if(section==='overview'){
-    try{ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); }catch(e){ console.error('render overview parts failed', e); }
-  }
+    const titleEl = document.querySelector('.hero-title'); const subEl = document.querySelector('.hero-sub');
+    if(titleEl) titleEl.innerHTML = cfg.title; if(subEl) subEl.innerText = cfg.sub;
+    try{ setHero(cfg.hero); }catch(e){ console.warn('setHero failed', e); }
 
-  // action panel
-  const actionPanelEl = document.getElementById('actionPanel');
-  if(actionPanelEl){
-    try{
-      if(section==='overview'){
-        actionPanelEl.innerHTML = `<h3>Quick Actions</h3><div class='quick-actions'><div class='quick-action' id='qa-book'><i class='fa fa-calendar-plus'></i><div>Book</div></div><div class='quick-action' id='qa-consult'><i class='fa fa-video'></i><div>Consult</div></div><div class='quick-action' id='qa-upload'><i class='fa fa-file-medical'></i><div>Upload</div></div><div class='quick-action' id='qa-sos'><i class='fa fa-phone'></i><div>SOS</div></div></div>`;
-        renderQuickButtons();
-      } else if(section==='messages'){
-        actionPanelEl.innerHTML = `<h3>Messages Actions</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='composeQuick' class='btn-primary'>Compose</button><button id='markAllRead' class='btn-outline'>Mark all read</button></div>`;
-        setTimeout(()=>{ const c=document.getElementById('composeQuick'); if(c) c.onclick = ()=> composeMessage(); const m=document.getElementById('markAllRead'); if(m) m.onclick = ()=> { (state.messages||[]).forEach(x=> x.read=true); saveState(); renderMessages(); showToast('All messages marked read'); }; },40);
-      } else if(section==='prescriptions'){
-        actionPanelEl.innerHTML = `<h3>Prescriptions</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='addRxQuick' class='btn-primary'>Add Prescription</button><button id='reqRefillAll' class='btn-outline'>Request refill for all</button></div>`;
-        setTimeout(()=>{ const a=document.getElementById('addRxQuick'); if(a) a.onclick = ()=> openAddPrescriptionModal(); const r=document.getElementById('reqRefillAll'); if(r) r.onclick = ()=> { (state.prescriptions||[]).forEach(p=> refillPrescription(p.id)); saveState(); renderPrescriptions(); showToast('Refill requests sent'); }; },40);
-      } else if(section==='records'){
-        actionPanelEl.innerHTML = `<h3>Records</h3><div style='margin-top:8px;display:flex;gap:8px'><button id='uploadQuick' class='btn-primary'>Upload File</button><button id='newRecQuick' class='btn-outline'>New Record</button></div>`;
-        setTimeout(()=>{ const up=document.getElementById('uploadQuick'); if(up) up.onclick = ()=> { const f = document.getElementById('fileInput'); if(f) f.click(); }; const n=document.getElementById('newRecQuick'); if(n) n.onclick = ()=> openNewRecordModal(); },40);
-      } else { actionPanelEl.innerHTML = ''; }
-    }catch(e){ console.error('action panel render failed', e); actionPanelEl.innerHTML = '' }
-  }
+    const showEl = document.getElementById(cfg.panel); if(showEl) showEl.style.display = 'block';
 
-  // show panels and render content
-  const homePanel = document.getElementById('homePanel'); if(homePanel) homePanel.style.display = (section==='overview') ? 'block' : 'none';
-  if(section==='messages'){ const mp=document.getElementById('messagesPanel'); if(mp){ mp.style.display='block'; try{ renderMessages(); }catch(e){ console.error('renderMessages failed', e);} } }
-  if(section==='prescriptions'){ const rp=document.getElementById('prescriptionsPanel'); if(rp){ rp.style.display='block'; try{ renderPrescriptions(); }catch(e){} } }
-  if(section==='billing'){ const bp=document.getElementById('recordsPanel'); if(bp){ bp.style.display='block'; try{ renderBilling(); }catch(e){} } }
-  if(section==='help'){ const panel = document.getElementById('recordsPanel'); if(panel){ panel.style.display='block'; const h = panel.querySelector('h3'); if(h) h.innerText='Help & Support'; const p = panel.querySelector('p'); if(p) p.innerText='Contact support or view guides.'; } }
+    // lightweight per-panel rendering
+    if(cfg.panel==='homePanel'){ try{ renderAppointmentPreview(); renderMetrics(); renderDoctorsTiles(); }catch(e){ console.error('overview render failed', e); } }
+    if(cfg.panel==='messagesPanel'){ try{ renderMessages(); }catch(e){ console.error('renderMessages failed', e); } }
+    if(cfg.panel==='prescriptionsPanel'){ try{ renderPrescriptions(); }catch(e){ console.error('renderPrescriptions failed', e); } }
 
-} catch(e){ console.error('showSection fatal', e); // fallback: restore overview
-  try{ const titleEl2 = document.querySelector('.hero-title'); const subEl2 = document.querySelector('.hero-sub'); if(titleEl2) titleEl2.innerHTML = `Welcome back, <span id="profileGreeting">${state.profile.name||'Matilda'}</span>`; if(subEl2) subEl2.innerText = 'Your care team and upcoming consults are below.'; setHero(0); const ap = document.getElementById('actionPanel'); if(ap) ap.innerHTML = `<h3>Quick Actions</h3><div class='quick-actions'><div class='quick-action' id='qa-book'><i class='fa fa-calendar-plus'></i><div>Book</div></div><div class='quick-action' id='qa-consult'><i class='fa fa-video'></i><div>Consult</div></div></div>`; renderQuickButtons(); const hp = document.getElementById('homePanel'); if(hp) hp.style.display='block'; }catch(err){ console.error('showSection fallback failed', err); } }
+    // show/hide action panel (no innerHTML replacement to avoid reflows)
+    const actionPanel = document.getElementById('actionPanel'); if(actionPanel) actionPanel.style.display = (section==='overview' || section==='messages' || section==='prescriptions' || section==='records') ? 'block' : 'none';
+
+  }catch(err){ console.error('showSection error', err); }
 }
 
 // view switcher for bottom nav
