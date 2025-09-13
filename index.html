@@ -312,7 +312,7 @@ function composeMessage(){ if(document.getElementById('composeModal')) return; c
 // cleanup any stray modal/backdrop from previous broken state that can block UI
 try{ document.querySelectorAll('.backdrop-fixed').forEach(el=> el.remove()); document.querySelectorAll('.modal').forEach(el=>{ if(el.id && el.id==='paymentModal'){ el.style.display='none'; } else { el.remove(); } }); }catch(e){ console.warn('cleanup failed', e); }
 // expose core functions as globals for inline onclicks
-try{ window.showSection = showSection; window.showView = showView; window.showBookingModal = showBookingModal; window.showConsultModal = showConsultModal; window.showToast = showToast; window.openNewRecordModal = openNewRecordModal; window.showBookingModalWithDoctor = showBookingModalWithDoctor; }catch(e){}
+try{ window.showSection = showSection; window.showView = showView; window.showBookingModal = showBookingModal; window.showConsultModal = showConsultModal; window.showToast = showToast; window.openNewRecordModal = openNewRecordModal; window.showBookingModalWithDoctor = showBookingModalWithDoctor; window.composeMessage = composeMessage; window.handleFileInput = handleFileInput; window.renderPrescriptions = renderPrescriptions; }catch(e){}
 ensureBindings(); try{ showView('home'); showSection('overview'); }catch(e){ console.error('init failed', e); }
 </script>
 </body>
