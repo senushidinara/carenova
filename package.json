@@ -1,0 +1,9 @@
+{
+  "name": "neuroassess-pro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve -s . -l 3000",
+    "start": "npm run dev"
+  }
+}
