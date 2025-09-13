@@ -444,11 +444,15 @@ load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDocto
 document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view)));
 // wire secondary tabs
 const secTabBtns = document.querySelectorAll('.secondary-tabs .tab-btn'); if(secTabBtns && secTabBtns.length){ secTabBtns.forEach(b=> b.addEventListener('click', ()=> showSection(b.dataset.section))); } else { console.warn('No secondary tab buttons found at init'); }
-// also add a delegated listener as a fallback (captures clicks even if buttons are re-rendered)
+// delegated listener as a fallback (captures clicks even if buttons are re-rendered)
 document.addEventListener('click', (e)=>{
   const btn = e.target.closest && e.target.closest('.secondary-tabs .tab-btn');
   if(btn){ console.log('Secondary tab clicked (delegated):', btn.dataset.section); showSection(btn.dataset.section); }
 });
+// wire debug toolbar buttons (no inline onclick)
+const debugOverviewBtn = document.getElementById('debugOverviewBtn'); if(debugOverviewBtn) debugOverviewBtn.addEventListener('click', ()=> showSection('overview'));
+const debugMessagesBtn = document.getElementById('debugMessagesBtn'); if(debugMessagesBtn) debugMessagesBtn.addEventListener('click', ()=> showSection('messages'));
+const debugPrescriptionsBtn = document.getElementById('debugPrescriptionsBtn'); if(debugPrescriptionsBtn) debugPrescriptionsBtn.addEventListener('click', ()=> showSection('prescriptions'));
 // file input
 const fileInputEl = document.getElementById('fileInput'); if(fileInputEl) fileInputEl.addEventListener('change', (e)=> handleFileInput(e.target.files));
 const uploadFileBtnEl = document.getElementById('uploadFileBtn'); if(uploadFileBtnEl) uploadFileBtnEl.addEventListener('click', ()=> fileInputEl && fileInputEl.click());
