@@ -315,7 +315,62 @@ function renderAppointmentsPanel(){ const list = document.getElementById('appoin
 function showRescheduleModal(appt){ if(!appt) return; const root=document.body; const backdrop = createBackdrop('backdrop_reschedule'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.innerHTML = `<h3>Reschedule</h3><div style='margin-top:8px'>Doctor: <strong>${appt.doctorName}</strong></div><div style='margin-top:12px'><input id='reschedWhen' type='datetime-local' class='input-field' value='${new Date(appt.when).toISOString().slice(0,16)}' /></div><div style='margin-top:12px;display:flex;gap:8px'><button id='doResched' class='btn-primary'>Save</button><button id='cancelResched' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelResched').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('doResched').onclick = ()=>{ const when = document.getElementById('reschedWhen').value; if(!when) { showToast('Pick a valid time'); return; } appt.when = new Date(when).toISOString(); saveState(); renderAppointmentPreview(); renderAppointmentsPanel(); modal.remove(); backdrop.remove(); showToast('Rescheduled'); } }
 
 // Records
-function renderRecordsPanel(){ const node = document.getElementById('fileList'); if(!node) return; node.innerHTML=''; const files = state.files || []; if(files.length===0){ node.innerHTML = `<div style='color:var(--muted)'>No medical records. Use Upload or New Record to add.</div>`; return; } files.forEach(f=>{ const el=document.createElement('div'); el.style.marginBottom='8px'; el.innerHTML = `<div style='font-weight:700'>${f.name}</div><div style='color:var(--muted);font-size:12px'>${new Date(f.uploaded).toLocaleString()}</div>`; node.appendChild(el); }); }
+function renderRecordsPanel(){ const container = document.getElementById('fileList'); if(!container) return; container.innerHTML = '';
+  // patient details form
+  state.patient = state.patient || { name: state.profile.name || '', email:'', phone:'', age:'', weight:'', height:'', bmi:'', conditions:'', allergies:'', other:'' , emergency:{name:'',phone:'',relation:''} };
+  const form = document.createElement('div'); form.className='panel patient-form'; form.innerHTML = `
+    <h4 style='margin:0 0 8px 0'>Patient Details</h4>
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'>
+      <input id='pt_name' class='input-field' placeholder='Full name' value='${escapeHtml(state.patient.name||'')}' />
+      <input id='pt_email' class='input-field' placeholder='Email' value='${escapeHtml(state.patient.email||'')}' />
+      <input id='pt_phone' class='input-field' placeholder='Phone' value='${escapeHtml(state.patient.phone||'')}' />
+      <input id='pt_age' class='input-field' placeholder='Age' value='${escapeHtml(state.patient.age||'')}' />
+      <input id='pt_weight' class='input-field' placeholder='Weight (kg)' value='${escapeHtml(state.patient.weight||'')}' />
+      <input id='pt_height' class='input-field' placeholder='Height (cm)' value='${escapeHtml(state.patient.height||'')}' />
+      <input id='pt_bmi' class='input-field' placeholder='BMI' value='${escapeHtml(state.patient.bmi||'')}' />
+    </div>
+    <div style='margin-top:8px'><textarea id='pt_conditions' class='input-field' placeholder='Medical conditions'>${escapeHtml(state.patient.conditions||'')}</textarea></div>
+    <div style='margin-top:8px'><textarea id='pt_allergies' class='input-field' placeholder='Allergies'>${escapeHtml(state.patient.allergies||'')}</textarea></div>
+    <div style='margin-top:8px'><textarea id='pt_other' class='input-field' placeholder='Other notes'>${escapeHtml(state.patient.other||'')}</textarea></div>
+    <h4 style='margin-top:12px;margin-bottom:8px'>Emergency Contact</h4>
+    <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px'>
+      <input id='em_name' class='input-field' placeholder='Contact name' value='${escapeHtml((state.patient.emergency&&state.patient.emergency.name)||'')}' />
+      <input id='em_phone' class='input-field' placeholder='Contact phone' value='${escapeHtml((state.patient.emergency&&state.patient.emergency.phone)||'')}' />
+      <input id='em_relation' class='input-field' placeholder='Relation' value='${escapeHtml((state.patient.emergency&&state.patient.emergency.relation)||'')}' />
+    </div>
+    <div style='margin-top:12px;display:flex;gap:8px'><button id='savePatient' class='btn-primary'>Save Patient</button><button id='cancelPatient' class='btn-outline'>Reset</button></div>
+  `;
+  container.appendChild(form);
+  // existing files list
+  const filesHeader = document.createElement('div'); filesHeader.style.marginTop = '12px'; filesHeader.innerHTML = `<h4 style='margin:0 0 8px 0'>Uploaded Files</h4>`; container.appendChild(filesHeader);
+  const files = state.files || [];
+  const list = document.createElement('div'); list.className='file-list'; if(files.length===0){ list.innerHTML = `<div style='color:var(--muted)'>No medical records uploaded</div>`; } else { files.forEach(f=>{ const row = document.createElement('div'); row.style.marginBottom='8px'; row.innerHTML = `<div style='font-weight:700'>${escapeHtml(f.name)}</div><div style='color:var(--muted);font-size:12px'>${new Date(f.uploaded).toLocaleString()}</div>`; list.appendChild(row); }); }
+  container.appendChild(list);
+  // handlers
+  setTimeout(()=>{
+    const save = document.getElementById('savePatient'); if(save) save.onclick = ()=>{
+      state.patient.name = document.getElementById('pt_name').value.trim();
+      state.patient.email = document.getElementById('pt_email').value.trim();
+      state.patient.phone = document.getElementById('pt_phone').value.trim();
+      state.patient.age = document.getElementById('pt_age').value.trim();
+      state.patient.weight = document.getElementById('pt_weight').value.trim();
+      state.patient.height = document.getElementById('pt_height').value.trim();
+      state.patient.bmi = document.getElementById('pt_bmi').value.trim();
+      state.patient.conditions = document.getElementById('pt_conditions').value.trim();
+      state.patient.allergies = document.getElementById('pt_allergies').value.trim();
+      state.patient.other = document.getElementById('pt_other').value.trim();
+      state.patient.emergency = { name:document.getElementById('em_name').value.trim(), phone:document.getElementById('em_phone').value.trim(), relation:document.getElementById('em_relation').value.trim() };
+      saveState(); renderRecordsPanel(); showToast('Patient saved');
+    };
+    const cancel = document.getElementById('cancelPatient'); if(cancel) cancel.onclick = ()=>{
+      state.patient = { name:'', email:'', phone:'', age:'', weight:'', height:'', bmi:'', conditions:'', allergies:'', other:'', emergency:{name:'',phone:'',relation:''} };
+      saveState(); renderRecordsPanel(); showToast('Reset');
+    };
+  },50);
+}
+
+// helper to escape simple html
+function escapeHtml(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\'/g,'&#39;'); }
 
 function openNewRecordModal(){ if(document.getElementById('newRecordModal')) return; const root=document.body; const backdrop = createBackdrop('backdrop_newrec'); root.appendChild(backdrop); const modal=document.createElement('div'); modal.className='modal'; modal.id='newRecordModal'; modal.innerHTML = `<h3>New Medical Record</h3><div style='margin-top:8px'><label class='label'>Title</label><input id='recTitle' class='input-field' /></div><div style='margin-top:8px'><label class='label'>Notes</label><textarea id='recNotes' class='input-field' style='height:120px'></textarea></div><div style='margin-top:12px;display:flex;gap:8px'><button id='saveRecordBtn' class='btn-primary'>Save</button><button id='cancelRecordBtn' class='btn-outline'>Cancel</button></div>`; root.appendChild(modal); document.getElementById('cancelRecordBtn').onclick = ()=> { modal.remove(); backdrop.remove(); }; document.getElementById('saveRecordBtn').onclick = ()=>{ const title = document.getElementById('recTitle').value.trim(); const notes = document.getElementById('recNotes').value.trim(); if(!title){ showToast('Please enter a title'); return; } state.files = state.files || []; state.files.unshift({id:uid(), name:title, notes, uploaded:new Date().toISOString()}); saveState(); renderRecordsPanel(); modal.remove(); backdrop.remove(); showToast('Medical record added'); }; }
 
