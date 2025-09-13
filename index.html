@@ -429,6 +429,8 @@ function showView(view){ const mapping = { home:0, appointments:1, consult:2, re
 
 // init
 load(); renderHeroCarousel(); renderMetrics(); renderQuickButtons(); renderDoctorsTiles(); renderAppointmentPreview(); renderAppointmentsPanel(); renderRecordsPanel(); renderBilling(); renderMessages(); renderPrescriptions(); initContrast && initContrast();
+// ensure hero and default section
+try{ setHero(0); showView('home'); showSection('overview'); }catch(e){ console.error('init: failed to set default view', e); }
 
 // wire bottom nav
 document.querySelectorAll('.bottom-nav .nav-btn').forEach(b=> b.addEventListener('click', ()=> showView(b.dataset.view)));
